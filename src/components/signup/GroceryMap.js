@@ -15,9 +15,9 @@ const GroceryMapView = (props) => {
           defaultCenter={{ lat: props.location.latitude, lng: props.location.longitude }}
       >
         {props.places && props.places.map((place, i) =>
-          <Marker key={i} position={{ lat: place.geometry.location.lat(), lng: place.geometry.location.lng() }} />
+          <Marker key={i} title={place.name} position={{ lat: place.geometry.location.lat(), lng: place.geometry.location.lng() }} />
         )}
-        {/* {props.isMarkerShown && <Marker position={{ lat: props.location.latitude, lng: props.location.longitude }} />} */}
+        {props.isMarkerShown && <Marker position={{ lat: props.location.latitude, lng: props.location.longitude }} />}
       </GoogleMap>
     )
   }
@@ -33,35 +33,32 @@ const GroceryMap = compose(
   }),
   withScriptjs,
   withGoogleMap,
-  withState('places', 'updatePlaces', ''),
+  withState('places', 'updatePlaces', []),
   withHandlers(() => {
-      const refs = {
-        map: undefined,
-      }
+    const refs = {
+      map: undefined,
+    }
 
-      return {
-          onMapMounted: () => ref => {
-              refs.map = ref
-          },
-          fetchPlaces: ({ updatePlaces }) => {
-              let places;
-              const bounds = refs.map.getBounds();
-              const service = new window.google.maps.places.PlacesService(refs.map.context[MAP]);
-              const request = {
-                  bounds: bounds,
-                  radius: 50,
-                  type: ['grocery_or_supermarket']
-              }
-              service.nearbySearch(request, (results, status) => {
-                // console.log(results);
-                // updatePlaces(results);
-                  if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-                      console.log(results);
-                      updatePlaces(results);
-                  }
-              })
-          } 
+    return {
+      onMapMounted: () => ref => {
+        refs.map = ref
+      },
+      fetchPlaces: ({ updatePlaces }) => () => {
+        const bounds = refs.map.getBounds();
+        const service = new window.google.maps.places.PlacesService(refs.map.context[MAP]);
+        const request = {
+          bounds: bounds,
+          radius: 200,
+          type: ['grocery_or_supermarket']
+        }
+        service.nearbySearch(request, (results, status) => {
+          if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+            console.log(results);
+            updatePlaces(results);
+          }
+        })
       }
+    }
   })
 )(GroceryMapView)
 
