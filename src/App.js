@@ -3,11 +3,13 @@ import './App.css';
 import AddressMap from './components/signup/AddressMap';
 import HomeAppBar from './components/layout/HomeAppBar';
 import BottomNavigation from './components/layout/BottomNavigation';
+import RegisterForm from './components/signup/RegisterForm';
 
 function App() {
   return (
     <div>
-      {/* <HomeAppBar /> */}
+      <HomeAppBar />
+      <RegisterForm />
       <AddressMap />
       <BottomNavigation />
      
