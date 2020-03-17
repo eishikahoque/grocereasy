@@ -7,14 +7,13 @@ import RegisterForm from './components/signup/RegisterForm';
 
 function App() {
   return (
-    <div>
+    <React.Fragment>
       <HomeAppBar />
       <RegisterForm />
       <AddressMap />
       <BottomNavigation />
-     
-
-    </div>
+    </React.Fragment>
+  
   );
 }
 
