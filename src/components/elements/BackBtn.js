@@ -1,6 +1,8 @@
 import { IconButton, Typography } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { makeStyles } from '@material-ui/styles';
+import { useHistory } from 'react-router-dom'
+
 import React from 'react';
 
 const useStyles = makeStyles({
@@ -14,8 +16,10 @@ const useStyles = makeStyles({
 
 function BackBtn(props) {
   let classes = useStyles();
+  let history = useHistory();
+
   return (
-    <IconButton className={classes.backBtn}>
+    <IconButton className={classes.backBtn} onClick={() => history.goBack()}>
       <ArrowBackIosIcon />
       <Typography variant="button">
         Back
