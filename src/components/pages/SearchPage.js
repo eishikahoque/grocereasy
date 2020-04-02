@@ -3,6 +3,9 @@ import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import { withStyles } from '@material-ui/styles'
 
+import NavBar from '../layout/NavBar'
+import BottomNavBar from '../layout/BottomNavBar'
+
 const styles= () => ({
   searchIcon: {
     padding: '1rem',
@@ -35,6 +38,7 @@ class SearchPage extends Component {
     const {classes} = this.props
     return (
       <div>
+        <NavBar />
         <div className={classes.searchIcon}>
           <SearchIcon />  
         </div>  
@@ -46,7 +50,7 @@ class SearchPage extends Component {
           }}
           inputProps={{ 'aria-label': 'search'}}
         />
-
+        <BottomNavBar />
       </div>
     )
   }

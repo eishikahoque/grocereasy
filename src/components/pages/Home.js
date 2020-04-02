@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import NavBar from '../layout/NavBar'
-import BottomNavigation from '../layout/BottomNavigation'
+import BottomNavBar from '../layout/BottomNavBar'
 import { Typography } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
 
@@ -51,7 +51,7 @@ class Home extends Component {
             <ProduceBtn />
           </div>
         </div>
-        <BottomNavigation />
+        <BottomNavBar />
       </React.Fragment>
     )
   }

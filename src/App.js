@@ -71,10 +71,6 @@ function App() {
             <Route path='/search' component={SearchPage} />
 
           </Switch> 
-          {/* <HomeAppBar />
-          {/* <MenuDrawer /> */}
-          {/* <AddressMap /> */}
-          {/* <BottomNavigation />] */}
         </ThemeProvider>
       </React.Fragment>
 

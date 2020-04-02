@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/styles'
 import { Button, Typography, } from '@material-ui/core'
 
 import BackBtn from '../elements/BackBtn'
-import BottomNavigation from '../layout/BottomNavigation'
+import BottomNavBar from '../layout/BottomNavBar'
 import NavBar from '../layout/NavBar'
 import shoppingBasket from '../../assets/shoppingBasket.svg'
 
@@ -64,7 +64,7 @@ class ShoppingListPage extends Component {
             Add List
           </Button>
         </div>
-        <BottomNavigation />
+        <BottomNavBar />
       </div>
     )
   }

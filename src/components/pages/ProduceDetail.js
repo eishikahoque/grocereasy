@@ -7,7 +7,7 @@ import React, { Component } from 'react';
 import banana from '../../assets/banana.png';
 import BackBtn from '../elements/BackBtn';
 import QuantityBtn from '../elements/QuantityBtn';
-import BottomNavigation from '../layout/BottomNavigation';
+import BottomNavBar from '../layout/BottomNavBar';
 import NavBar from '../layout/NavBar';
 
 const styles = (theme) => ({
@@ -282,7 +282,7 @@ class ProduceDetail extends Component {
             </Fade>
           </Modal>
           
-        <BottomNavigation />
+        <BottomNavBar />
       </React.Fragment>
     )
   }
