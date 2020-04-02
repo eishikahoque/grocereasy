@@ -114,6 +114,10 @@ class AddressDetailForm extends Component {
         postalCode: props.addressDetail.postalCode || '',
       },
       geocoder: null,
+      coordinates: {
+        latitude: '',
+        longitude: ''
+      },
       currentLocationLoading: false,
       addressFound: false,
     }
@@ -126,18 +130,55 @@ class AddressDetailForm extends Component {
     })
   }
 
-  handleAddressAutocomplete = (value) => {
-    this.setState({
-      address: {
-        ...this.state.address,
-        ...value,
-      },
-      addressFound: true,
+  getAddressObject = (geocodeResult) => {
+    return {
+      streetNumber: geocodeResult[0].long_name,
+      streetName: geocodeResult[1].long_name,
+      unitNumber: '',
+      city: geocodeResult[2].long_name,
+      province: geocodeResult[5].long_name === 'Ontario' ? 'ON' : geocodeResult[5].long_name,
+      country: geocodeResult[6].long_name,
+      postalCode: geocodeResult[7].long_name,
+    }
+  }
+
+  handleAddressAutocomplete = (placeId) => {
+    this.state.geocoder.geocode({'placeId': placeId}, (results, status) => {
+      if (status === 'OK') {
+        if (results[0]) {
+          const address = this.getAddressObject(results[0].address_components)
+          const location = results[0].geometry.location
+          if (address && location) {
+            this.setState({
+              address,
+              coordinates: {
+                latitude: location.lat(),
+                longitude: location.lng()
+              },
+              addressFound: true,
+            })
+          }
+        }
+      }
     })
+    
   }
 
   handleBack = () => {
     this.props.onAddressBack()
+  }
+
+  handleSubmit = (values) => {
+    this.props.onAddressDetailChange({
+      streetNumber: values.streetNumber,
+      streetName: values.streetName,
+      unitNumber: values.unitNumber,
+      city: values.city,
+      province: values.province,
+      country: values.country,
+      postalCode: values.postalCode,
+      coordinates: this.state.coordinates
+    })
   }
 
   getCurrentLocation = async () => { // async is asynchronous function
@@ -147,15 +188,13 @@ class AddressDetailForm extends Component {
     if (navigator.geolocation) {
       await navigator.geolocation.getCurrentPosition( //await says to wait for response
         position => {
-          console.log(position.coords)
           this.state.geocoder.geocode({'location': {
             lat: parseFloat(position.coords.latitude), lng: parseFloat(position.coords.longitude)
           }}, (results, status) => {
             if (status === 'OK') {
-              if (results.length > 0) {
+              if (results[0]) {
                 const { address_components } = results[0]
-                if (address_components.length > 6) {
-                  this.setState({
+                this.setState({
                     address: {
                       streetNumber: address_components[0].long_name,
                       streetName: address_components[1].long_name,
@@ -165,12 +204,15 @@ class AddressDetailForm extends Component {
                       country: address_components[5].long_name,
                       postalCode: address_components[6].long_name,
                     },
+                    coordinates: {
+                      latitude: position.coords.latitude,
+                      longitude: position.coords.longitude
+                    },
                     addressFound: true,
                     currentLocationLoading: false,
                   })
                 }
               }
-            }
           })
         },
         err => console.log(err)
@@ -199,17 +241,7 @@ class AddressDetailForm extends Component {
           }
           enableReinitialize
           validationSchema={addressDetailValidationSchema}
-          onSubmit={(values) => {
-            this.props.onAddressDetailChange({
-              streetNumber: values.streetNumber,
-              streetName: values.streetName,
-              unitNumber: values.unitNumber,
-              city: values.city,
-              province: values.province,
-              country: values.country,
-              postalCode: values.postalCode,
-            })
-          }}
+          onSubmit={this.handleSubmit}
         >
           {props => (
 

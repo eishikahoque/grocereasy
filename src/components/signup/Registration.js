@@ -78,7 +78,7 @@ class Registration extends Component {
   constructor(props){
     super(props)
     this.state = {
-      step: 0,
+      step: 1,
       personalDetail: {
         name: '',
         email: '',
@@ -94,6 +94,10 @@ class Registration extends Component {
         province: '',
         country: '',
         postalCode: '',
+        coordinates: {
+          latitude: '',
+          longitude: ''
+        }
       },
       personalization: {
         dietaryPreference: '',
@@ -146,10 +150,6 @@ class Registration extends Component {
 
   navigateNext = () => {
     this.props.history.push('/grocerystores', this.state)
-    // this.props.location.push({
-    //   pathname: '/grocerystores',
-    //   state: this.state
-    // })
   }
 
   handleFormBack = () => {

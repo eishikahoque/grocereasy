@@ -19,16 +19,19 @@ const styles = () => ({
 class GroceryStoreOption extends Component {
   constructor(props) {
     super(props)
+
+    const location = this.props.history.location.state &&
+      this.props.history.location.state.addressDetail &&
+      this.props.history.location.state.addressDetail.coordinates 
   
     this.state = {
       location: {
-        latitude: 43.83,
-        longitude: -79.11,
+        latitude: (location && location.latitude) || '',
+        longitude: (location && location.longitude) || '',
       },
       stores: []
     }
     this.handleUpdatePlaces = this.handleUpdatePlaces.bind(this)
-    console.log(this.props.history.location.state)
   }
 
   handleUpdatePlaces = (places) => {
@@ -41,7 +44,6 @@ class GroceryStoreOption extends Component {
   }
   
   render() {
-    // console.log(this.state.stores)
     const { classes } = this.props;
     return (
       <div>

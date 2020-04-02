@@ -1,5 +1,5 @@
 import React from 'react';
-import { GoogleMap, Marker, withGoogleMap, withScriptjs } from 'react-google-maps';
+import { GoogleMap, Marker, withGoogleMap } from 'react-google-maps';
 import { MAP } from 'react-google-maps/lib/constants';
 import { compose, withHandlers, withProps, withState } from 'recompose';
 
@@ -30,12 +30,10 @@ const GroceryMapView = (props) => {
 
 const GroceryMap = compose(
   withProps({
-    googleMapURL: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAaGbwEvs_6LpdNoAwxXpl21TrBot3VIJ8&v=3.exp&libraries=geometry,drawing,places',
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: <div style={{ height: `400px` }} />,
     mapElement: <div style={{ height: `100%` }} />
   }),
-  withScriptjs,
   withGoogleMap,
   withState('places', 'updatePlaces', []),
   withHandlers(() => {
@@ -57,8 +55,10 @@ const GroceryMap = compose(
         }
         service.nearbySearch(request, (results, status) => {
           if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-            // console.log(results);
-            updatePlaces(results);
+            if (results.length > 0) {
+              updatePlaces(results)
+            }
+
           }
         })
       }

@@ -18,8 +18,12 @@ function BackBtn(props) {
   let classes = useStyles();
   let history = useHistory();
 
+  const handleBack = () => {
+    history.goBack()
+  }
+
   return (
-    <IconButton className={classes.backBtn} onClick={() => history.goBack()}>
+    <IconButton className={classes.backBtn} onClick={handleBack}>
       <ArrowBackIosIcon />
       <Typography variant="button">
         Back

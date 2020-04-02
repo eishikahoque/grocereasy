@@ -10,11 +10,14 @@ import ProduceBtn from '../elements/ProduceBtn'
 
 const styles = () => ({
   root: {
-    margin: '4rem 1rem',
+    margin: '4rem 0',
   },
   categories: {
     display: 'flex',
     overflowX: 'scroll',
+  },
+  header: {
+    marginLeft: '2rem',
   }
 })
 
@@ -33,7 +36,7 @@ class Home extends Component {
       <React.Fragment>
         <NavBar />
         <div className={classes.root}>
-          <Typography variant="h5">
+          <Typography variant="h5" className={classes.header}>
             Category
           </Typography>
           <div className={classes.categories}>
@@ -44,7 +47,7 @@ class Home extends Component {
           </div>
   
 
-          <Typography variant="h5">
+          <Typography variant="h5" className={classes.header}>
             Produce
           </Typography>
           <div>

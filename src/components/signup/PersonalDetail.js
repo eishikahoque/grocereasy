@@ -85,7 +85,6 @@ function PersonalDetailForm(props) {
         className={classes.textField}
         error={touched.name && !!errors.name}
         helperText={(touched.name && errors.name) || ''}
-        id="standard-basic"
         label="Name"
         name="name"
         onChange={handleChange}
@@ -97,7 +96,6 @@ function PersonalDetailForm(props) {
         className={classes.textField}
         error={touched.email && !!errors.email}
         helperText={(touched.email && errors.email) || ''}
-        id="standard-basic"
         label="Email"
         name="email"
         onBlur={handleBlur}
@@ -131,7 +129,6 @@ function PersonalDetailForm(props) {
         className={classes.textField}
         error={touched.phoneNumber && !!errors.phoneNumber}
         helperText={(touched.phoneNumber && errors.phoneNumber) || ''}
-        id="standard-basic"
         label="Phone Number"
         name="phoneNumber"
         FormHelperTextProps={{ className: classes.helperText }}

@@ -15,6 +15,7 @@ const styles= () => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    color: 'rgba(0, 0, 0, 0.23)'
   },
   inputRoot: {
     color: 'inherit',
@@ -41,15 +42,15 @@ class SearchPage extends Component {
         <NavBar />
         <div className={classes.searchIcon}>
           <SearchIcon />  
+          <InputBase
+            placeholder="Search..."
+            classes={{
+              root: classes.inputRoot,
+              input: classes.inputInput,
+            }}
+            inputProps={{ 'aria-label': 'search'}}
+          />
         </div>  
-        <InputBase
-          placeholder="Search..."
-          classes={{
-            root: classes.inputRoot,
-            input: classes.inputInput,
-          }}
-          inputProps={{ 'aria-label': 'search'}}
-        />
         <BottomNavBar />
       </div>
     )

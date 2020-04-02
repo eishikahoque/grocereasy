@@ -11,6 +11,7 @@ import Home from './components/pages/Home'
 import ProduceDetail from './components/pages/ProduceDetail'
 import ShoppingListPage from './components/pages/ShoppingListPage'
 import SearchPage from './components/pages/SearchPage'
+import Cart from './components/pages/Cart'
 
 const theme = createMuiTheme({
   palette: {
@@ -69,6 +70,7 @@ function App() {
             <Route path='/productDetail' component={ProduceDetail} />
             <Route path='/shoppingList' component={ShoppingListPage} />
             <Route path='/search' component={SearchPage} />
+            <Route path='/cart' component={Cart} />
 
           </Switch> 
         </ThemeProvider>

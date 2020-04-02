@@ -36,18 +36,8 @@ export default function GoogleMaps(props) {
   };
 
   const onOptionSelected = (_event, value) => {
-    if (value && value.types.includes('street_address')) { 
-      const { terms } = value
-      if (terms.length > 4) {
-        const address = {
-          streetNumber: terms[0].value,
-          streetName: terms[1].value,
-          city: terms[2].value,
-          province: terms[3].value,
-          country: terms[4].value,
-        }
-        props.onAddressAutocomplete(address)
-      }
+    if (value && value.place_id && value.types.includes('street_address')) {
+      props.onAddressAutocomplete(value.place_id)
     }
   }
 
