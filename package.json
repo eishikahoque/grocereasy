@@ -5,15 +5,25 @@
   "dependencies": {
     "@material-ui/core": "^4.9.5",
     "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.46",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "autosuggest-highlight": "^3.1.1",
+    "classnames": "^2.2.6",
+    "formik": "^2.1.4",
+    "google-geocode-parser": "^1.4.5",
     "node-sass": "^4.13.1",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-google-maps": "^9.4.5",
+    "react-input-mask": "^2.0.4",
+    "react-material-ui-carousel": "^1.1.1",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
-    "recompose": "^0.30.0"
+    "react-text-mask": "^5.4.3",
+    "recompose": "^0.30.0",
+    "yup": "^0.28.3"
   },
   "scripts": {
     "start": "react-scripts start",
