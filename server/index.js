@@ -12,7 +12,7 @@ app.use(bodyParser.json())
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
 app.get('/', (req, res) => {
-    res.send('hello');
+    res.send('use postman & mongoDB compass to make this work');
 })
 
 app.use('/api', userRouter)
