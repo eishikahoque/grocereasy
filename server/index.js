@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 
 const db = require('./db')
 const userRouter = require('./routes/user-router')
-const orderRouter = require('./routes/order-router')
 
 const app = express();
 
@@ -17,7 +16,6 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api', userRouter)
-app.use('/api', orderRouter)
 
 app.listen(8000, () => {
     console.log('listening on port 8000');
