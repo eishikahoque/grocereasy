@@ -15,20 +15,14 @@ const User = new Schema({
 		required: true
 	},
 	phone: {
-		type: String,
+		type: Number,
 		required: true
 	},
 	shipping: {
-		shipping_address: {type: String, required: true},
-		shipping_city:   {type: String, required: true},
-		shipping_province:  {type: String, required: true},
-		shipping_country: { type: String, required: true}
-	},
-	billing: {
-		billing_address: {type: String},
-		billing_city:   {type: String},
-		billing_province:  {type: String},
-		billing_country: { type: String}
+		address: {type: String},
+		city:   {type: String},
+		province:  {type: String},
+		country: { type: String}
 	}
 });
 
