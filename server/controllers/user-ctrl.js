@@ -63,6 +63,9 @@ updateUser = (req, res) => {
             user.phone = body.phone
         }
         if(body.shipping){
+            user.shipping.street_num = body.shipping.street_num
+            user.shipping.unit_num = body.shipping.unit_num
+            user.shipping.street_name = body.shipping.street_name
             user.shipping.address = body.shipping.address
             user.shipping.city = body.shipping.city
             user.shipping.province = body.shipping.province
