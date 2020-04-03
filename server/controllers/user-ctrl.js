@@ -50,10 +50,25 @@ updateUser = (req, res) => {
                 message: 'user not found'
             })
         }
-        user.name = body.name
-        user.email = body.email
-        user.password = body.password
-        user.phone = body.phone
+        if(body.name) {
+            user.name = body.name
+        }
+        if(body.email){
+            user.email = body.email
+        }
+        if(body.password){
+            user.password = body.password
+        }
+        if(body.phone){
+            user.phone = body.phone
+        }
+        if(body.shipping){
+            user.shipping.address = body.shipping.address
+            user.shipping.city = body.shipping.city
+            user.shipping.province = body.shipping.province
+            user.shipping.country = body.shipping.country
+        }
+        
         user
             .save()
             .then( () => {
