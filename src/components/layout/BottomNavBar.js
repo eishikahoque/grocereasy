@@ -2,7 +2,7 @@ import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import { Home, List, Search, ShoppingBasket } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import React from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 
 const CurrentViewMap = {

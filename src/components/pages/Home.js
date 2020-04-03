@@ -6,6 +6,8 @@ import { withStyles } from '@material-ui/styles'
 
 import CategoryBtn from '../elements/CategoryBtn'
 import ProduceBtn from '../elements/ProduceBtn'
+import ItemPrice from '../elements/ItemPrice'
+
 
 
 const styles = () => ({
@@ -18,6 +20,18 @@ const styles = () => ({
   },
   header: {
     marginLeft: '2rem',
+  },
+  products: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    margin: 'auto',
+    width: '90%'
+  },
+  produce: {
+    display: 'flex',
+    flexDirection: 'column',
+    textAlign: 'center',
+    margin: '1rem'
   }
 })
 
@@ -50,8 +64,42 @@ class Home extends Component {
           <Typography variant="h5" className={classes.header}>
             Produce
           </Typography>
-          <div>
-            <ProduceBtn />
+          <div className={classes.products}>
+            <div className={classes.produce}>
+              <ProduceBtn />
+              <ItemPrice />
+            </div>
+            <div className={classes.produce}>
+              <ProduceBtn />
+              <ItemPrice />
+            </div>
+            <div className={classes.produce}>
+              <ProduceBtn />
+              <ItemPrice />
+            </div>
+            <div className={classes.produce}>
+              <ProduceBtn />
+              <ItemPrice />
+            </div>
+            <div className={classes.produce}>
+              <ProduceBtn />
+              <ItemPrice />
+            </div>
+            <div className={classes.produce}>
+              <ProduceBtn />
+              <ItemPrice />
+            </div>
+            <div className={classes.produce}>
+              <ProduceBtn />
+              <ItemPrice />
+            </div>
+            <div className={classes.produce}>
+              <ProduceBtn />
+              <ItemPrice />
+            </div>
+            
+            
+
           </div>
         </div>
         <BottomNavBar />

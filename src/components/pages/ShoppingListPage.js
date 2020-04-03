@@ -51,17 +51,17 @@ class ShoppingListPage extends Component {
         <div className={classes.context}>
           <BackBtn />
           <Typography variant="h4" className={classes.title}>
-            Shopping Lists
+            Shopping List
           </Typography>
           <img src={shoppingBasket} alt="basket" className={classes.image} />
           <Typography variant="h5" className={classes.subheader} align="center">
             Your List is Empty
           </Typography>
           <Typography variant="body1" className={classes.subtitle} align="center">
-            Create lists and add them to your basket for an easier shopping experience
+            Add items to your list for an easier shopping experience
           </Typography>
           <Button variant="contained" color="primary" className={classes.addBtn}>
-            Add List
+            Add Items
           </Button>
         </div>
         <BottomNavBar />

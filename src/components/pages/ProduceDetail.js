@@ -9,6 +9,7 @@ import BackBtn from '../elements/BackBtn';
 import QuantityBtn from '../elements/QuantityBtn';
 import BottomNavBar from '../layout/BottomNavBar';
 import NavBar from '../layout/NavBar';
+import ItemPrice from '../elements/ItemPrice'
 
 const styles = (theme) => ({
   circle: {
@@ -28,10 +29,7 @@ const styles = (theme) => ({
   title: {
     display: 'flex',
     justifyContent: 'center',
-  },
-  name: {
-    marginRight: 'auto'
-  },
+  },  
   icon: {
     display: 'flex',
     alignItems: 'center',
@@ -205,14 +203,7 @@ class ProduceDetail extends Component {
           
           <div className={classes.context}>
             <div className={classes.title}>
-              <div className={classes.name}>
-                <Typography>
-                  Banana
-                </Typography>
-                <Typography>
-                  $0.99/lb
-                </Typography>
-              </div>
+             <ItemPrice />
               <IconButton onClick={this.handleAddToList}>
                 { this.state.isAddedToList ?
                   <BookmarkIcon fontSize="large" className={classes.icon} /> :
