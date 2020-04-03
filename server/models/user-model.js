@@ -19,7 +19,9 @@ const User = new Schema({
 		required: true
 	},
 	shipping: {
-		address: {type: String, required: true },
+		street_num: { type: Number, required: true },
+		unit_num: { type: Number },
+		street_name: {type: String, required: true },
 		city:   {type: String, required: true },
 		postal_code: { type: String, required: true },
 		province:  {type: String, required: true },
