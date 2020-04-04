@@ -62,7 +62,34 @@ getOrderById = async (req, res) => {
     .catch(err => console.log(err))
 }
 
-updateOrder = (req, res) => {
+getOrderByUserId = async (req, res) => {
+    await Order
+        .find({ user_id: req.params.user_id }, (err, order) => {
+            if(err) {
+                return res.status(400).json({
+                    success: false,
+                    error: err
+                })
+            }
+
+            if(!order) {
+                return res.status(404).json({
+                    success: false,
+                    error: 'no orders found'
+                })
+            }
+            return res.status(200).json({ 
+                success: true, 
+                data: order
+            })
+        })
+        .populate('user_id', 'name shipping').exec((err, user_id) => {
+            console.log(user_id);
+        })
+        .catch(err => console.log(err))
+}
+
+updateOrder = async (req, res) => {
     const body = req.body
     
     if(!body) {
@@ -72,7 +99,7 @@ updateOrder = (req, res) => {
         })
     }
 
-    Order.findOne({_id: req.params.id}, (err, order) => {
+    await Order.findOne({_id: req.params.id}, (err, order) => {
         if(err) {
             return res.status(404).json({
                 err,
@@ -80,12 +107,12 @@ updateOrder = (req, res) => {
             })
         }
 
-        if(body.delivery_date){
-            order.delivery_date = body.delivery_date
-        }
-        if(body.status){
-            order.status = body.status
-        }
+        order.status = body.status
+        order.products.total_price = 0
+        // for(var i=0; i<order.products.length; i++){
+        //     order.products.total_price[i] = 15
+        // }
+
         order
             .save()
             .then( () => {
@@ -98,7 +125,9 @@ updateOrder = (req, res) => {
             .catch(error => {
                 return res.status(404).json({
                     error,
-                    message: 'order not updated'
+                    message: 'order not updated',
+                    price: order.products.price,
+                    quantity: order.products.quantity
                 })
             })
     })
@@ -107,5 +136,6 @@ updateOrder = (req, res) => {
 module.exports = {
     createOrder,
     getOrderById,
+    getOrderByUserId,
     updateOrder
 }
