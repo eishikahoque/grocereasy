@@ -1,11 +1,14 @@
-import React, { Component } from 'react'
+import { InputBase, Typography } from '@material-ui/core/';
 import SearchIcon from '@material-ui/icons/Search';
-import { Typography, InputBase } from '@material-ui/core/';
-import { withStyles } from '@material-ui/styles'
+import { withStyles } from '@material-ui/styles';
+import axios from 'axios';
+import React, { Component } from 'react';
 
-import NavBar from '../layout/NavBar'
-import BottomNavBar from '../layout/BottomNavBar'
-import searchBasket from '../../assets/searchBasket.svg'
+import searchBasket from '../../assets/searchBasket.svg';
+import BottomNavBar from '../layout/BottomNavBar';
+import NavBar from '../layout/NavBar';
+import ProduceBtn from '../elements/ProduceBtn'
+import ItemPrice from '../elements/ItemPrice'
 
 const styles= () => ({
   search: {
@@ -27,10 +30,13 @@ const styles= () => ({
     width: '100%'
   },
   image: {
-    width: '50%',
+    width: '60%',
     margin: 'auto',
     display: 'flex',
     justifyContent: 'center',
+  },
+  searchImages: {
+    marginTop: '6rem'
   }
 
 })
@@ -40,18 +46,47 @@ class SearchPage extends Component {
   
     this.state = {
        search: '',
+       products: []
     }
   }
 
-  handleSearch = (_e, newValue) => {
+  handleSearch = (event) => {
     this.setState({
-      search: newValue
+      search: event.target.value
     })
+  }
+
+  getSearchResults = async (query) => {
+    // this.setState({
+    //   backdropOpen: true
+    // })
+    try {
+      const response = await axios.get('/food/ingredients/autocomplete', {
+        baseURL: 'https://api.spoonacular.com',
+        params: {
+          query,
+          metaInformation: true,
+          apiKey: '54c611d72e5e443cba5a8aa69c24b1c8'
+        },
+      });
+      if (response && response.data && response.status === 200) {
+        this.setState({
+          search: query,
+          products: response.data 
+        })
+        console.log(response)
+      }
+    } catch (error) {
+      // this.setState({
+      //   backdropOpen: false
+      // })
+      console.error(error);
+    }
   }
 
   handleKeyPress = (e) => {
     if(e.keyCode === 13) {
-      console.log('enter', e.target.value)
+      this.getSearchResults(e.target.value)
     }
   }
 
@@ -60,23 +95,44 @@ class SearchPage extends Component {
     return (
       <div>
         <NavBar />
-        <div className={classes.search}>
-          <SearchIcon />  
-          <InputBase
-            placeholder="Search..."
-            classes={{
-              root: classes.inputRoot,
-              input: classes.inputInput,
-            }}
-            onKeyDown={this.handleKeyPress}
-            onChange={this.handleSearch}
-            inputProps={{ 'aria-label': 'search'}}
-          />
-        </div> 
-        <img src={searchBasket} alt="search basket" className={classes.image} /> 
-        <Typography align="center">
-          Start searching for your groceries
-        </Typography>
+        <div>
+          <div className={classes.search}>
+            <SearchIcon />  
+            <InputBase
+              placeholder="Search..."
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              onKeyDown={this.handleKeyPress}
+              onChange={this.handleSearch}
+              inputProps={{ 'aria-label': 'search'}}
+            />
+          </div> 
+          {
+            this.state.products.length === 0 && 
+            <div className={classes.searchImages}>
+              <img src={searchBasket} alt="search basket" className={classes.image} /> 
+              <Typography align="center" variant="h5" style={{ fontWeight: 500,  marginTop: '2rem'}}>
+                Begin your search
+              </Typography>
+              <Typography align="center" style={{ maxWidth: '15ch', margin: 'auto' }}>
+                Start searching for your groceries
+              </Typography>
+            </div>
+          }
+          {
+            this.state.products.length > 0 &&
+            this.state.products.map((product, index) => {
+              return (
+                <div key={index} >
+                  <ProduceBtn productImage={product.image} />
+                  <ItemPrice itemName={product.name} />
+                </div>
+              )
+            })
+          }
+        </div>
         <BottomNavBar />
       </div>
     )

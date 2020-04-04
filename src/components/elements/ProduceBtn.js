@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
 import React from 'react';
 
-import banana from '../../assets/banana.png';
 
 const useStyles = makeStyles({
   category: {
@@ -32,7 +31,7 @@ function ProduceBtn(props) {
     <div>
       <Link to='/productDetail'>
         <Button variant="contained" className={classes.category} style={{ backgroundColor: color }}>
-          <img src={banana} alt="banana" className={classes.image} />
+          <img src={props.productImage} alt="banana" className={classes.image} />
         </Button>
       </Link>
     </div>

@@ -3,9 +3,7 @@ import { makeStyles } from '@material-ui/styles'
 import { Typography } from '@material-ui/core'
 
 const useStyles = makeStyles({
-  itemPrice: {
-    marginRight: 'auto',
-  },
+  
   produce: {
     fontSize: '1.5rem',
   },
@@ -15,12 +13,12 @@ const useStyles = makeStyles({
 
 });
 
-function ItemPrice() {
+function ItemPrice(props) {
   const classes = useStyles()
   return (
-    <div className={classes.itemPrice}>
+    <div>
       <Typography className={classes.produce}>
-        Banana
+        {props.itemName}
       </Typography>
       <Typography className={classes.price}>
         $0.99/lb

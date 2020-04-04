@@ -1,10 +1,22 @@
-import React, {Component} from 'react';
+import {
+  AppBar,
+  Badge,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  Toolbar,
+  Typography,
+} from '@material-ui/core/';
 import { withStyles } from '@material-ui/core/styles';
-import {Drawer, Badge, AppBar, Toolbar, List, Typography, IconButton, ListItem, ListItemText , Divider} from '@material-ui/core/';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MenuIcon from '@material-ui/icons/Menu';
-import SmsRoundedIcon from '@material-ui/icons/SmsRounded';
 import CloseIcon from '@material-ui/icons/Close';
+import MenuIcon from '@material-ui/icons/Menu';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import SmsRoundedIcon from '@material-ui/icons/SmsRounded';
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
 const styles = () => ({
   appBar: {
@@ -49,6 +61,17 @@ class NavBar extends Component {
     this.setState({
       isMenuOpen: !this.state.isMenuOpen,
     })
+  }
+
+  handleMenuText = (event) => {
+    const text = event.target.innerText
+    if(text === 'My Orders') {
+      this.props.history.push('/orders')
+    } else if(text === 'My Account') {
+      this.props.history.push('/account')
+    } else if(text === 'Logout') {
+      this.props.history.replace('/')
+    }
   }
   
   
@@ -106,7 +129,7 @@ class NavBar extends Component {
               ['My Orders', 'My Account', 'Logout'].map(
                 (text) => (
                   <React.Fragment key={text}>
-                    <ListItem button >
+                    <ListItem button  onClick={this.handleMenuText}>
                       <ListItemText primary={text} />
                     </ListItem>
                     <Divider light variant="middle" className={classes.divider} />
@@ -120,4 +143,4 @@ class NavBar extends Component {
       )
   }
 }
-export default withStyles(styles)(NavBar)
+export default withRouter(withStyles(styles)(NavBar))

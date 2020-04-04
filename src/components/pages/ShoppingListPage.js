@@ -1,15 +1,15 @@
-import React, { Component } from 'react'
-import { withStyles } from '@material-ui/styles'
-import { Button, Typography, } from '@material-ui/core'
+import { Button, Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
-import BackBtn from '../elements/BackBtn'
-import BottomNavBar from '../layout/BottomNavBar'
-import NavBar from '../layout/NavBar'
-import shoppingBasket from '../../assets/shoppingBasket.svg'
+import shoppingBasket from '../../assets/shoppingBasket.svg';
+import BottomNavBar from '../layout/BottomNavBar';
+import NavBar from '../layout/NavBar';
 
 const styles = () => ({
   context: {
-    margin: '4rem 2rem',
+    margin: '5rem 2rem',
   },
   backBtn: {
     '& MuiButtonBase-root MuiIconButton-root': {
@@ -49,7 +49,6 @@ class ShoppingListPage extends Component {
       <div>
         <NavBar />
         <div className={classes.context}>
-          <BackBtn />
           <Typography variant="h4" className={classes.title}>
             Shopping List
           </Typography>
@@ -60,9 +59,11 @@ class ShoppingListPage extends Component {
           <Typography variant="body1" className={classes.subtitle} align="center">
             Add items to your list for an easier shopping experience
           </Typography>
-          <Button variant="contained" color="primary" className={classes.addBtn}>
-            Add Items
-          </Button>
+          <Link to='/search' style={{textDecoration: 'none'}}>
+            <Button variant="contained" color="primary" className={classes.addBtn}>
+              Add Items
+            </Button>
+          </Link>
         </div>
         <BottomNavBar />
       </div>

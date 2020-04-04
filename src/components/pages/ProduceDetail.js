@@ -28,11 +28,10 @@ const styles = (theme) => ({
   },
   title: {
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   },  
   icon: {
-    display: 'flex',
-    alignItems: 'center',
+    paddingTop: 0,
     color: theme.palette.disabled.main,
   },
   context: {

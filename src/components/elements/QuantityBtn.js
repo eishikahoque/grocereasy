@@ -15,10 +15,6 @@ const styles = () => ({
   icon: {
     color: '#FFD043',
   },
-  label: {
-    fontSize: '1.5rem',
-    margin: '0 1rem',
-  }
 });
 
 class QuantityBtn extends Component {

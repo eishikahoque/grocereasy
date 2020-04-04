@@ -12,6 +12,9 @@ import ProduceDetail from './components/pages/ProduceDetail'
 import ShoppingListPage from './components/pages/ShoppingListPage'
 import SearchPage from './components/pages/SearchPage'
 import Cart from './components/pages/Cart'
+import Payment from './components/payment/Payment'
+import Account from './components/pages/Account'
+import Orders from './components/pages/Orders'
 
 const theme = createMuiTheme({
   palette: {
@@ -71,6 +74,9 @@ function App() {
             <Route path='/shoppingList' component={ShoppingListPage} />
             <Route path='/search' component={SearchPage} />
             <Route path='/cart' component={Cart} />
+            <Route path='/checkout' component={Payment} />
+            <Route path='/account' component={Account} />
+            <Route path='/orders' component={Orders} />
 
           </Switch> 
         </ThemeProvider>
