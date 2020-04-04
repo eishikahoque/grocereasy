@@ -10,23 +10,23 @@ const Order = new Schema({
             quantity: { type: Number, required: true },
             customizations: { type: String, required: true, default: 'N/A'},
             total_price: {
-                type: Number, 
-                required: true,
+                type: Schema.Types.Mixed, 
                 default: function(){
-                    const calculatePrice = this.price * this.quantity
-                    const totalPrice = calculatePrice.toFixed(2)
-                    return (totalPrice)
+                    const prod_price = this.price * this.quantity
+                    const total_price = prod_price.toFixed(2)
+                    return (total_price)
                 }
             }
-    }],
+        }],
     order_summary: { 
         subtotal: {
             type: Number,
             required: true,
             default: function(){
-                const sum = this.products.reduce((a, {total_price}) => a + total_price, 0);
-                const total = sum.toFixed(2)
-                return (total)
+                const pt_sum = this.products.reduce((a, {total_price}) => a + total_price, 0)
+                const to_num = parseFloat(pt_sum)
+                const subtotal = to_num.toFixed(2)
+                return (subtotal)
             }
         },
         delivery: {
@@ -38,7 +38,9 @@ const Order = new Schema({
             type: Number,
             required: true,
             default: function(){
-                const tax = this.order_summary.subtotal * 0.10
+                const st_tax = this.order_summary.subtotal * 0.10
+                const tax = st_tax.toFixed(2)
+
                 return(tax)
             }
         },
@@ -46,8 +48,8 @@ const Order = new Schema({
             type: Number,
             required: true,
             default: function(){
-                const calculateTotal = this.order_summary.subtotal + this.order_summary.tax + this.order_summary.delivery
-                const totalOrder = calculateTotal.toFixed(2)
+                const order_sum = this.order_summary.subtotal + this.order_summary.tax + this.order_summary.delivery
+                const totalOrder = order_sum.toFixed(2)
                 return(totalOrder)
             }        
         }
