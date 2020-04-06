@@ -31,7 +31,8 @@ const styles = () => ({
   priceQuantity: {
     display: 'flex',
     flexDirection: 'column',
-    textAlign: 'center'
+    textAlign: 'center',
+    justifyContent: 'flex-end',
   },
   price: {
     margin: 'none',
@@ -58,6 +59,19 @@ const styles = () => ({
   allPrices: {
     display: 'flex',
     justifyContent: 'space-between'
+  },
+  imageBtn: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  removeBtn: {
+    color: '#F4626C',
+    fontSize: '0.55rem',
+    borderColor: '#F4626C',
+    padding: 0,
+    maxWidth: '50%',
+    margin: 'auto',
+    marginTop: '0.25rem',
   }
 })
 
@@ -71,7 +85,10 @@ class Cart extends Component {
       totalPrice: '0.00'
     }
   }
-  
+  handleRemove = () => {
+    // delete from database
+  }
+
   render() {
     const { classes } = this.props
     return (
@@ -83,55 +100,10 @@ class Cart extends Component {
          
           <Divider />
           <div className={classes.items}>
-            <ProduceBtn />
-            <div className={classes.priceQuantity}>
-              fuisnfuidf
-              <ItemPrice className={classes.price} />
-              <QuantityBtn />
+            <div className={classes.imageBtn}>
+              <ProduceBtn />
+              <Button variant="outlined" onClick={this.handleRemove} size="small" className={classes.removeBtn}>Remove</Button>
             </div>
-          </div>
-          <div className={classes.items}>
-            <ProduceBtn />
-            <div className={classes.priceQuantity}>
-              fuisnfuidf
-              <ItemPrice className={classes.price} />
-              <QuantityBtn />
-            </div>
-          </div>
-          <div className={classes.items}>
-            <ProduceBtn />
-            <div className={classes.priceQuantity}>
-              fuisnfuidf
-              <ItemPrice className={classes.price} />
-              <QuantityBtn />
-            </div>
-          </div>
-          <div className={classes.items}>
-            <ProduceBtn />
-            <div className={classes.priceQuantity}>
-              fuisnfuidf
-              <ItemPrice className={classes.price} />
-              <QuantityBtn />
-            </div>
-          </div>
-          <div className={classes.items}>
-            <ProduceBtn />
-            <div className={classes.priceQuantity}>
-              fuisnfuidf
-              <ItemPrice className={classes.price} />
-              <QuantityBtn />
-            </div>
-          </div>
-          <div className={classes.items}>
-            <ProduceBtn />
-            <div className={classes.priceQuantity}>
-              fuisnfuidf
-              <ItemPrice className={classes.price} />
-              <QuantityBtn />
-            </div>
-          </div>
-          <div className={classes.items}>
-            <ProduceBtn />
             <div className={classes.priceQuantity}>
               fuisnfuidf
               <ItemPrice className={classes.price} />
@@ -141,8 +113,7 @@ class Cart extends Component {
         </div>
         <div className={classes.totalCalculation}>
           <div className={classes.additionalPrices}>
-            <Typography className={classes.allPrices} > Tax  <span>${this.state.tax}</span>  </Typography>
-           
+            <Typography className={classes.allPrices} > Tax (10%)  <span>${this.state.tax}</span>  </Typography>
             <Typography className={classes.allPrices} >Delivery Fee <span>${this.state.shippingFee}</span> </Typography>
             <Typography className={`${classes.totalPrice} ${classes.allPrices}`} >Total <span>${this.state.totalPrice}</span> </Typography>
           </div>

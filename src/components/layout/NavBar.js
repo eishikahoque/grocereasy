@@ -101,14 +101,14 @@ class NavBar extends Component {
                    <SmsRoundedIcon />
                  </Badge>
                </IconButton>
-               <IconButton color="inherit">
+               {/* <IconButton color="inherit">
                  <Badge 
                   color="error"
                   badgeContent={3}
                 >
                    <NotificationsIcon />
                  </Badge>
-               </IconButton>
+               </IconButton> */}
              </div>
            </Toolbar>
          </AppBar>
