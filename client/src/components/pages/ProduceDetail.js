@@ -1,15 +1,16 @@
-import { Button, Card, CardContent, Fade, IconButton, Slider, TextField, Typography, Modal, } from '@material-ui/core';
+import { Button, Card, CardContent, Fade, IconButton, Slider, Snackbar, TextField } from '@material-ui/core';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
+import MuiAlert from '@material-ui/lab/Alert';
 import { withStyles } from '@material-ui/styles';
 import React, { Component } from 'react';
 
 import banana from '../../assets/banana.png';
 import BackBtn from '../elements/BackBtn';
+import ItemPrice from '../elements/ItemPrice';
 import QuantityBtn from '../elements/QuantityBtn';
 import BottomNavBar from '../layout/BottomNavBar';
 import NavBar from '../layout/NavBar';
-import ItemPrice from '../elements/ItemPrice'
 
 const styles = (theme) => ({
   circle: {
@@ -81,6 +82,10 @@ const styles = (theme) => ({
   }
 });
 
+const Alert = (props) => {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const QualitySlider = withStyles({
   root: {
     color: '#58C9BE',
@@ -139,7 +144,7 @@ class ProduceDetail extends Component {
   
     this.state = {
       isAddedToList: false,
-      modalOpen: false,
+      open: false,
       isCustomSectionOpened: false,
       sliderValue: 6,
       comments: '',
@@ -148,29 +153,16 @@ class ProduceDetail extends Component {
     this.handleCommentChange = this.handleCommentChange.bind(this)
     this.toggleCustomBtn = this.toggleCustomBtn.bind(this)
     this.handleAddToList = this.handleAddToList.bind(this)
+    this.handleAddToCart = this.handleAddToCart.bind(this)
+    this.handleClose = this.handleClose.bind(this)
   }
 
   handleAddToList = () => {
     this.setState({
-      modalOpen: true,
+      isAddedToList: !this.state.isAddedToList
     })
-    // this.setState({
-    //   isAddedToList: !this.state.isAddedToList
-    // })
+    // Add to database
   }
-
-  // handleOpenModal = () => {
-  //   this.setState({
-  //     modalOpen: true,
-  //   })
-  // }
-
-  handleCloseModal = () => {
-    this.setState({
-      modalOpen: false
-    })
-  }
-
 
   handleSliderChange = (_event, newValue) => {
     this.setState({
@@ -187,6 +179,18 @@ class ProduceDetail extends Component {
   toggleCustomBtn = () => {
     this.setState({
       isCustomSectionOpened: !this.state.isCustomSectionOpened
+    })
+  }
+
+  handleAddToCart = () => {
+    this.setState({
+      open: true
+    })
+  }
+
+  handleClose = () => {
+    this.setState({
+      open: false
     })
   }
   
@@ -250,27 +254,21 @@ class ProduceDetail extends Component {
               </Fade>
             }
             <div className={classes.cartBtn}>
-              <Button variant="contained" color="primary">
+              <Button variant="contained" color="primary" onClick={this.handleAddToCart}>
                 Add to cart
               </Button>
             </div>
-
+            <Snackbar 
+              open={this.state.open} 
+              autoHideDuration={2000} 
+              onClose={this.handleClose}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            >
+              <Alert severity="success" style={{ backgroundColor: '#58C9BE'}} >
+                Item added to cart!
+              </Alert>
+            </Snackbar>
           </div>
-
-          <Modal
-            className={classes.modal}
-            open={this.state.modalOpen}
-            onClose={this.handleCloseModal}
-          >
-            <Fade in={this.state.modalOpen}>
-              <div className={classes.paper}>
-                <Typography variant="h4" className={classes.header}>
-                  Shopping Lists
-                </Typography>
-
-              </div>
-            </Fade>
-          </Modal>
           
         <BottomNavBar />
       </React.Fragment>
