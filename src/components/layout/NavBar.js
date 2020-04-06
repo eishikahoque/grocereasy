@@ -16,7 +16,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import SmsRoundedIcon from '@material-ui/icons/SmsRounded';
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 const styles = () => ({
   appBar: {
@@ -46,6 +46,10 @@ const styles = () => ({
   closeIcon: {
     marginLeft: 'auto',
     padding: 0,
+    color: '#fff'
+  },
+  msgIcon: {
+    color: '#fff'
   }
 })
 
@@ -93,22 +97,16 @@ class NavBar extends Component {
                grocereasy
              </Typography>
              <div className={classes.icons}>
-               <IconButton color="inherit">
-                 <Badge 
-                  color="error"
-                  badgeContent={3}
-                >
-                   <SmsRoundedIcon />
-                 </Badge>
-               </IconButton>
-               {/* <IconButton color="inherit">
-                 <Badge 
-                  color="error"
-                  badgeContent={3}
-                >
-                   <NotificationsIcon />
-                 </Badge>
-               </IconButton> */}
+               <Link to='/chat'>
+                <IconButton className={classes.msgIcon}>
+                  <Badge 
+                    color="error"
+                    badgeContent={3}
+                  >
+                    <SmsRoundedIcon />
+                  </Badge>
+                </IconButton>
+               </Link>
              </div>
            </Toolbar>
          </AppBar>
@@ -121,7 +119,7 @@ class NavBar extends Component {
             paper: classes.menu
           }}
          >
-          <IconButton color="inherit" onClick={this.toggleMenu} className={classes.closeIcon}>
+          <IconButton onClick={this.toggleMenu} className={classes.closeIcon}>
             <CloseIcon />
           </IconButton>
            <List>

@@ -16,6 +16,7 @@ import Payment from './components/payment/Payment'
 import Account from './components/pages/Account'
 import Orders from './components/pages/Orders'
 import OrderDetail from './components/pages/OrderDetail'
+import Chat from './components/pages/Chat'
 
 const theme = createMuiTheme({
   palette: {
@@ -79,6 +80,7 @@ function App() {
             <Route path='/account' component={Account} />
             <Route path='/orders' component={Orders} />
             <Route path='/orderDetail' component={OrderDetail} />
+            <Route path='/chat' component={Chat} />
 
           </Switch> 
         </ThemeProvider>
