@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 import Logo from '../../assets/logo.svg';
 import ShoppingMan from '../../assets/shoppingMan.svg';
+import mobileCar from '../../assets/mobileCar.svg'
 import LogoTitle from '../layout/LogoTitle';
 
 
@@ -66,6 +67,7 @@ const useStyles = makeStyles({
   },
   carouselImage: {
     margin: 'auto',
+    maxWidth: '100%'
   }, 
   carouselText: {
     margin: '1rem auto',
@@ -87,8 +89,8 @@ const carouselText = [
   },
   {
     id: 3,
-    image: ShoppingMan,
-    text: 'Delivered straight to your house',
+    image: mobileCar,
+    text: 'Delivered straight to your doorsteps',
   },
 ]
 

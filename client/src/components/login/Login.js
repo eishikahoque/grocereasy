@@ -8,7 +8,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import shoppingBasket from '../../assets/shoppingBasket.svg';
+import groceryBag from '../../assets/groceryBag.svg';
 import LogoTitle from '../layout/LogoTitle';
 
 
@@ -18,7 +18,7 @@ const styles = () => ({
   root: {
   },
   image: {
-    width: '40%',
+    width: '50%',
     margin: '1rem auto',
   },
   card: {
@@ -123,7 +123,7 @@ class Login extends Component {
         <LogoTitle />
       <Card className={classes.card}>
         <CardContent className={classes.cardContainer}>
-          <img src={shoppingBasket} className={classes.image} alt="basket" />
+          <img src={groceryBag} className={classes.image} alt="basket" />
           <Typography variant='h1' className={classes.title}>
             Login
           </Typography>
