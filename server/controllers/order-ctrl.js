@@ -108,10 +108,6 @@ updateOrder = async (req, res) => {
         }
 
         order.status = body.status
-        order.products.total_price = 0
-        // for(var i=0; i<order.products.length; i++){
-        //     order.products.total_price[i] = 15
-        // }
 
         order
             .save()
