@@ -64,7 +64,7 @@ class SearchPage extends Component {
   }
 
   componentDidMount = () => {
-    const personalization = localStorage.getItem('personalization')
+    const personalization = sessionStorage.getItem('personalization')
     if (personalization) {
       const parsed = JSON.parse(personalization)
       this.setState({

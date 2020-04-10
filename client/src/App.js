@@ -18,6 +18,7 @@ import Account from './components/pages/Account'
 import Orders from './components/pages/Orders'
 import OrderDetail from './components/pages/OrderDetail'
 import Chat from './components/pages/Chat'
+import ProtectedRoute from './components/login/ProtectedRoute'
 
 const theme = createMuiTheme({
   palette: {
@@ -71,18 +72,18 @@ function App() {
             <Route path='/' exact component={LoadingScreen} />
             <Route path='/signup' component={Registration} />
             <Route path='/login' component={Login} />
-            <Route path='/grocerystores' component={GroceryStoreOption} />
-            <Route path='/home' component={Home} />
-            <Route path='/productDetail' component={ProduceDetail} />
-            <Route path='/shoppingList' component={ShoppingListPage} />
-            <Route path='/search' component={SearchPage} />
-            <Route path='/cart' component={Cart} />
-            <Route path='/checkout' component={Payment} />
-            {/* <Route path='/confirmation' component={Confirmation} /> */}
-            <Route path='/account' component={Account} />
-            <Route path='/orders' component={Orders} />
-            <Route path='/orderDetail' component={OrderDetail} />
-            <Route path='/chat' component={Chat} />
+            <ProtectedRoute path='/grocerystores' component={GroceryStoreOption} />
+            <ProtectedRoute path='/home' component={Home} />
+            <ProtectedRoute path='/productDetail' component={ProduceDetail} />
+            <ProtectedRoute path='/shoppingList' component={ShoppingListPage} />
+            <ProtectedRoute path='/search' component={SearchPage} />
+            <ProtectedRoute path='/cart' component={Cart} />
+            <ProtectedRoute path='/checkout' component={Payment} />
+            {/* <ProtectedRoute path='/confirmation' component={Confirmation} /> */}
+            <ProtectedRoute path='/account' component={Account} />
+            <ProtectedRoute path='/orders' component={Orders} />
+            <ProtectedRoute path='/orderDetail' component={OrderDetail} />
+            <ProtectedRoute path='/chat' component={Chat} />
 
           </Switch> 
         </ThemeProvider>

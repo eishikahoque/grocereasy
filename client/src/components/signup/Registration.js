@@ -150,9 +150,10 @@ class Registration extends Component {
   }
 
   navigateNext = () => {
-    localStorage.setItem('personalDetail', JSON.stringify(this.state.personalDetail))
-    localStorage.setItem('addressDetail', JSON.stringify(this.state.addressDetail))
-    localStorage.setItem('personalization', JSON.stringify(this.state.personalization))
+    sessionStorage.setItem('personalDetail', JSON.stringify(this.state.personalDetail))
+    sessionStorage.setItem('addressDetail', JSON.stringify(this.state.addressDetail))
+    sessionStorage.setItem('personalization', JSON.stringify(this.state.personalization))
+    sessionStorage.setItem('isLoggedIn', true)
     this.props.history.push('/grocerystores', this.state)
   }
 
