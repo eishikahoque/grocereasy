@@ -6,15 +6,11 @@ import { Link } from 'react-router-dom';
 import groceryBag from '../../assets/groceryBag.svg';
 import BottomNavBar from '../layout/BottomNavBar';
 import NavBar from '../layout/NavBar';
+import GroupProductItem from '../elements/GroupProductItem'
 
 const styles = () => ({
   context: {
     margin: '5rem 2rem',
-  },
-  backBtn: {
-    '& MuiButtonBase-root MuiIconButton-root': {
-      marginTop: '4rem'
-    }
   },
   title: {
     fontFamily: 'Lato',
@@ -40,7 +36,7 @@ class ShoppingListPage extends Component {
     super(props)
   
     this.state = {
-       
+       products: []
     }
   }
   
@@ -55,18 +51,30 @@ class ShoppingListPage extends Component {
             Shopping List
           </Typography>
           <Divider/>
-          <img src={groceryBag} alt="basket" className={classes.image} />
-          <Typography variant="h5" className={classes.subheader} align="center">
-            Your List is Empty
-          </Typography>
-          <Typography variant="body1" className={classes.subtitle} align="center">
-            Add items to your list for an easier shopping experience
-          </Typography>
-          <Link to='/search' style={{textDecoration: 'none'}}>
-            <Button variant="contained" color="primary" className={classes.addBtn}>
-              Add Items
-            </Button>
-          </Link>
+          {
+            this.state.products.length === 0 && 
+            <div>
+              <img src={groceryBag} alt="basket" className={classes.image} />
+              <Typography variant="h5" className={classes.subheader} align="center">
+                Your List is Empty
+              </Typography>
+              <Typography variant="body1" className={classes.subtitle} align="center">
+                Add items to your list for an easier shopping experience
+              </Typography>
+              <Link to='/search' style={{textDecoration: 'none'}}>
+                <Button variant="contained" color="primary" className={classes.addBtn}>
+                  Add Items
+                </Button>
+              </Link>
+            </div>
+          }   
+          {
+            this.state.products.length > 0 &&
+            <div>
+              <GroupProductItem /> 
+              {/* when pulling information from database bring them in as props from the group product item */}
+            </div>
+          }
         </div>
         <BottomNavBar />
       </div>

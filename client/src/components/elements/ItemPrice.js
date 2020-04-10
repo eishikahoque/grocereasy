@@ -10,24 +10,37 @@ const useStyles = makeStyles({
     marginTop: '0.5rem',
   },
   produce: {
-    fontSize: '1.1rem',
     textTransform: 'capitalize'
   },
   price: {
     color: 'rgba(0, 0, 0, 0.65)',
-    fontSize: '1rem',
   }
-
 });
+
 
 function ItemPrice(props) {
   const classes = useStyles()
+
+  let variant = 'body1'
+  let variantPrice = 'body1'
+  if(window.location.pathname === '/productDetail'){
+    variant = 'h4'
+    variantPrice = 'h6'
+    classes.root = {
+      ...classes.root,
+      textAlign: 'left'
+    }
+  }
+
+
+
+
   return (
     <div className={classes.root}>
-      <Typography className={classes.produce}>
+      <Typography variant={variant} className={classes.produce}>
         {props.itemName}
       </Typography>
-      <Typography className={classes.price}>
+      <Typography variant={variantPrice} className={classes.price}>
         <NumberFormat 
           value={props.itemPrice || 4}
           displayType={'text'}

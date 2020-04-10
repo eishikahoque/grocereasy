@@ -3,6 +3,7 @@ import NavBar from '../layout/NavBar'
 import BottomNavBar from '../layout/BottomNavBar'
 import { Typography } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
+import { withRouter } from 'react-router-dom'
 
 import CategoryBtn from '../elements/CategoryBtn'
 import ProduceBtn from '../elements/ProduceBtn'
@@ -38,6 +39,10 @@ class Home extends Component {
        productList: ProductListMock.products
     }
   }
+
+  onProductSelected = (product) => {
+    this.props.history.push('/productDetail', product)
+  }
   
   render() {
     const { classes } = this.props
@@ -57,7 +62,7 @@ class Home extends Component {
                     {
                       Object.values(productCategory).map((products) => products.map((product, index) => (
                         <div className={classes.produce} key={index}>
-                          <ProduceBtn productImage={product['image']} />
+                          <ProduceBtn productImage={product['image']} productSelected={() => this.onProductSelected(product)} />
                           <ItemPrice itemName={product['name']} itemPrice={product['price']} />
                         </div>
                       )))
@@ -74,4 +79,4 @@ class Home extends Component {
     )
   }
 }
-export default withStyles(styles)(Home)
+export default withRouter(withStyles(styles)(Home))

@@ -1,10 +1,11 @@
-import { Divider, Typography } from '@material-ui/core';
-import { withStyles } from '@material-ui/styles';
-import React, { Component } from 'react';
+import { Divider, Typography } from '@material-ui/core'
+import { withStyles } from '@material-ui/styles'
+import React, { Component } from 'react'
 
-import OrderHistoryCard from '../elements/OrderHistoryCard';
-import BottomNavBar from '../layout/BottomNavBar';
-import NavBar from '../layout/NavBar';
+import OrderHistoryCard from '../elements/OrderHistoryCard'
+import BottomNavBar from '../layout/BottomNavBar'
+import NavBar from '../layout/NavBar'
+import mobileCar from '../../assets/mobileCar.svg'
 
 
 
@@ -16,10 +17,24 @@ const styles = () => ({
     fontFamily: 'Lato',
     marginBottom: '1rem',
   }, 
+  image: {
+    width: '90%',
+    height: '90%',
+    margin: '2rem auto',
+    display: 'flex',
+  }
 })
 
 
 class Orders extends Component {
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+       order: []
+    }
+  }
+  
 
   onCancel = () => {
     // delete from database
@@ -39,7 +54,26 @@ class Orders extends Component {
             Order History
           </Typography>
           <Divider />
-          <OrderHistoryCard cancel={this.onCancel} viewDetails={this.onViewDetails} />
+          {
+            this.state.order.length === 0 && 
+            <div>
+              <img src={mobileCar} alt="basket" className={classes.image} />
+              <Typography variant="h5" className={classes.subheader} align="center">
+                You don't have any order history
+              </Typography>
+              <Typography variant="body1" className={classes.subtitle} align="center">
+                Purchase groceries to view order history here
+              </Typography>
+            </div>
+          }   
+          {
+            this.state.order.length > 0 &&
+            <div>
+              <OrderHistoryCard cancel={this.onCancel} viewDetails={this.onViewDetails} />
+              
+              {/* when pulling information from database bring them in as props from the group product item */}
+            </div>
+          }
         </div>
         <BottomNavBar />
       </div>

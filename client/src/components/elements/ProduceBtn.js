@@ -1,6 +1,5 @@
 import { Button } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles'
-import { useHistory } from 'react-router-dom'
+import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
 
@@ -30,16 +29,15 @@ function ProduceBtn(props) {
   const classes = useStyles();
   // const color = colors[Math.floor(Math.random() * colors.length)]
 
-  const history = useHistory()
-  const handleRedirect = () => {
-    history.push('/productDetail')
+  const handleClick = () => {
+    props.productSelected()
   }
 
   return (
     <div className={classes.root}>
       <Button variant="contained" className={classes.category} 
         // style={{ backgroundColor: color }}
-        onClick={handleRedirect}
+        onClick={handleClick}
       >
         {
           props.productImage &&

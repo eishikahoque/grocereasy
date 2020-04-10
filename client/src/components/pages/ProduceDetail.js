@@ -4,6 +4,8 @@ import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import MuiAlert from '@material-ui/lab/Alert';
 import { withStyles } from '@material-ui/styles';
 import React, { Component } from 'react';
+import { withRouter, useHistory } from 'react-router-dom'
+
 
 import banana from '../../assets/banana.png';
 import BackBtn from '../elements/BackBtn';
@@ -24,8 +26,10 @@ const styles = (theme) => ({
     borderBottomRightRadius: '10rem',
   },
   image: {
-    maxWidth: '75%',
+    maxWidth: '90%',
+    maxHeight: '90%',
     margin: 'auto',
+    borderRadius: '12rem'
   },
   title: {
     display: 'flex',
@@ -148,7 +152,10 @@ class ProduceDetail extends Component {
       isCustomSectionOpened: false,
       sliderValue: 6,
       comments: '',
+      product: this.props.history.location.state
     }
+
+
     this.handleSliderChange = this.handleSliderChange.bind(this)
     this.handleCommentChange = this.handleCommentChange.bind(this)
     this.toggleCustomBtn = this.toggleCustomBtn.bind(this)
@@ -201,12 +208,12 @@ class ProduceDetail extends Component {
         <NavBar />
           <div className={classes.circle}>
             <BackBtn style={{color: '#fff'}} />
-            <img src={banana} alt="banana" className={classes.image} />
+            <img src={`https://spoonacular.com/cdn/ingredients_500x500/${this.state.product.image}`} alt="produce item" className={classes.image} />
           </div>
           
           <div className={classes.context}>
             <div className={classes.title}>
-             <ItemPrice />
+             <ItemPrice itemName={this.state.product['name']} itemPrice={this.state.product['price']} className={classes.name} />
               <IconButton onClick={this.handleAddToList}>
                 { this.state.isAddedToList ?
                   <BookmarkIcon fontSize="large" className={classes.icon} /> :
@@ -275,4 +282,4 @@ class ProduceDetail extends Component {
     )
   }
 }
-export default withStyles(styles)(ProduceDetail)
+export default withRouter(withStyles(styles)(ProduceDetail))
