@@ -108,13 +108,7 @@ updateOrder = async (req, res) => {
         }
 
         order.status = body.status
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> 7faf242bdb55e1b6f6d65594e2256792945450eb
-
->>>>>>> 7faf242bdb55e1b6f6d65594e2256792945450eb
+        
         order
             .save()
             .then( () => {
