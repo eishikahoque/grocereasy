@@ -1,6 +1,7 @@
 const User = require('../models/user-model')
+const bcrypt = require('bcrypt')
 
-createUser = (req, res) => {
+createUser = async (req, res) => {
     const body = req.body
 
     if (!body) {
@@ -9,12 +10,15 @@ createUser = (req, res) => {
             error: 'You must provide a user'
         })
     }
-
+    
+    const hashedPassword = await bcrypt.hash(req.body.password, 10)
     const user = new User(body)
 
     if (!user) {
         return res.status(400).json({ success: false, error: err })
     }
+
+    user.password = hashedPassword
 
     user
         .save()
@@ -43,7 +47,7 @@ updateUser = (req, res) => {
         })
     }
 
-    User.findOne({_id: req.params.id}, (err, user) => {
+    User.findOne({ _id: req.params.id}, async (err, user) => {
         if(err) {
             return res.status(404).json({
                 err,
@@ -57,6 +61,8 @@ updateUser = (req, res) => {
             user.email = body.email
         }
         if(body.password){
+            const hashedPassword = await bcrypt.hash(req.body.password, 10)
+            body.password = hashedPassword
             user.password = body.password
         }
         if(body.phone){
@@ -70,6 +76,12 @@ updateUser = (req, res) => {
             user.shipping.city = body.shipping.city
             user.shipping.province = body.shipping.province
             user.shipping.country = body.shipping.country
+        }
+        if(body.dietary_restrictions){
+            user.dietary_restrictions = body.dietary_restrictions
+        }
+        if(body.allergies){
+            user.allergies = body.allergies
         }
         
         user
@@ -90,30 +102,42 @@ updateUser = (req, res) => {
     })
 }
 
-getUser = async (req, res) => {
-    await User.findOne({ _id: req.params.id }, (err, user) => {
+loginUser = async (req, res) => {
+    await User.findOne({ email: req.params.email}, (err, user) => {
         if(err) {
             return res.status(400).json({
                 success: false,
                 error: err
             })
         }
-
+    })
+    .then( (user) => {
         if(!user) {
             return res.status(404).json({
                 success: false,
-                error: 'user not found'
+                error: 'invalid email or password'
+            })
+        } else {
+            bcrypt.compare(req.body.password, user.password, (err, result) => {
+                if(result) {
+                    return res.status(200).json({
+                        success: true,
+                        data: user
+                    })
+                } else {
+                    return res.status(400).json({
+                        success: false,
+                        error: err,
+                        message: 'no match'
+                    })
+                }
             })
         }
-        return res.status(200).json({ 
-            success: true, 
-            data: user 
-        })
     }).catch(err => console.log(err))
 }
 
 module.exports = {
     createUser,
     updateUser,
-    getUser
+    loginUser
 }

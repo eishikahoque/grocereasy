@@ -8,7 +8,8 @@ const User = new Schema({
 	},
 	email: {
 		type: String,
-		required: true
+		required: true,
+		unique: true
 	},
 	password: {
 		type: String,
@@ -16,7 +17,8 @@ const User = new Schema({
 	},
 	phone: {
 		type: Number,
-		required: true
+		required: true,
+		unique: true
 	},
 	shipping: {
 		street_num: { type: Number, required: true },
@@ -26,7 +28,9 @@ const User = new Schema({
 		postal_code: { type: String, required: true },
 		province:  {type: String, required: true },
 		country: { type: String, required: true }
-	}
+	},
+	dietary_restrictions: [{ type: String }],
+	allergies: [{type: String }]
 });
 
 module.exports = mongoose.model('users', User);
