@@ -13,6 +13,7 @@ import ShoppingListPage from './components/pages/ShoppingListPage'
 import SearchPage from './components/pages/SearchPage'
 import Cart from './components/pages/Cart'
 import Payment from './components/payment/Payment'
+// import Confirmation from './components/pages/Confirmation'
 import Account from './components/pages/Account'
 import Orders from './components/pages/Orders'
 import OrderDetail from './components/pages/OrderDetail'
@@ -77,6 +78,7 @@ function App() {
             <Route path='/search' component={SearchPage} />
             <Route path='/cart' component={Cart} />
             <Route path='/checkout' component={Payment} />
+            {/* <Route path='/confirmation' component={Confirmation} /> */}
             <Route path='/account' component={Account} />
             <Route path='/orders' component={Orders} />
             <Route path='/orderDetail' component={OrderDetail} />

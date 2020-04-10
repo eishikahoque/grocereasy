@@ -147,7 +147,9 @@ function Chat() {
   }
 
   const scrollToBottom = () => {
-    messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+    if(messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
   }
 
   return (
@@ -155,7 +157,7 @@ function Chat() {
       <NavBar/>
       <div className={classes.context}>
         <Paper elevation={3} className={classes.chat}>
-          <Typography variant="h5">Chat</Typography>
+          <Typography variant="h5">Chat with your Shopper</Typography>
           <Divider className={classes.divider} />
           {messages.map((message, index) => {
             if (message.id === yourID) {

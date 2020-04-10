@@ -5,9 +5,10 @@ import { Link } from 'react-router-dom'
 
 import NavBar from '../layout/NavBar'
 import BottomNavBar from '../layout/BottomNavBar'
-import ProduceBtn from '../elements/ProduceBtn'
-import ItemPrice from '../elements/ItemPrice'
-import QuantityBtn from '../elements/QuantityBtn'
+import GroupProductItem from '../elements/GroupProductItem'
+import shoppingBasket from '../../assets/shoppingBasket.svg';
+
+
 
 
 const styles = () => ({
@@ -22,20 +23,6 @@ const styles = () => ({
   totalPrice: {
     fontSize: '1.5rem',
     fontWeight: 600,
-  },
-  items: {
-    display: 'flex',
-    margin: '1rem 0',
-    justifyContent: 'space-between'
-  },
-  priceQuantity: {
-    display: 'flex',
-    flexDirection: 'column',
-    textAlign: 'center',
-    justifyContent: 'flex-end',
-  },
-  price: {
-    margin: 'none',
   },
   checkoutBtn: {
     display: 'flex',
@@ -59,19 +46,12 @@ const styles = () => ({
   allPrices: {
     display: 'flex',
     justifyContent: 'space-between'
-  },
-  imageBtn: {
+  }, 
+  image: {
+    width: '70%',
+    margin: '5rem auto',
     display: 'flex',
-    flexDirection: 'column',
-  },
-  removeBtn: {
-    color: '#F4626C',
-    fontSize: '0.55rem',
-    borderColor: '#F4626C',
-    padding: 0,
-    maxWidth: '50%',
-    margin: 'auto',
-    marginTop: '0.25rem',
+    height: '70%',
   }
 })
 
@@ -82,9 +62,11 @@ class Cart extends Component {
     this.state = {
       tax: '1.13',
       shippingFee: '5.00',
-      totalPrice: '0.00'
+      totalPrice: '0.00',
+      products: []
     }
   }
+  
   handleRemove = () => {
     // delete from database
   }
@@ -99,29 +81,44 @@ class Cart extends Component {
           <Typography variant="h4" className={classes.title}>Cart</Typography> 
          
           <Divider />
-          <div className={classes.items}>
-            <div className={classes.imageBtn}>
-              <ProduceBtn />
-              <Button variant="outlined" onClick={this.handleRemove} size="small" className={classes.removeBtn}>Remove</Button>
-            </div>
-            <div className={classes.priceQuantity}>
-              fuisnfuidf
-              <ItemPrice className={classes.price} />
-              <QuantityBtn />
-            </div>
-          </div>
-        </div>
-        <div className={classes.totalCalculation}>
-          <div className={classes.additionalPrices}>
-            <Typography className={classes.allPrices} > Tax (10%)  <span>${this.state.tax}</span>  </Typography>
-            <Typography className={classes.allPrices} >Delivery Fee <span>${this.state.shippingFee}</span> </Typography>
-            <Typography className={`${classes.totalPrice} ${classes.allPrices}`} >Total <span>${this.state.totalPrice}</span> </Typography>
-          </div>
-          
+          <div className={classes.groceryLayout}>
+            {
+              this.state.products.length === 0 && 
+              <div className={classes.searchImages}>
+                <img src={shoppingBasket} alt="basket" className={classes.image} /> 
+                <Typography align="center" variant="h5" style={{ fontWeight: 500,  marginTop: '2rem'}}>
+                  Your cart is empty
+                </Typography>
+                <Typography align="center" style={{ maxWidth: '15ch', margin: 'auto' }}>
+                  Start adding your groceries in now
+                </Typography>
+              </div>
+            }
+            {
+              this.state.products.length > 0 &&
+              this.state.products.map((product, index) => {
+                return (
+                  <div>
+                    <div key={index} >
+                      <GroupProductItem onRemove={this.handleRemove} />
+                    </div>
+                    <div className={classes.totalCalculation}>
+                      <div className={classes.additionalPrices}>
+                        <Typography className={classes.allPrices} > Tax (10%)  <span>${this.state.tax}</span>  </Typography>
+                        <Typography className={classes.allPrices} >Delivery Fee <span>${this.state.shippingFee}</span> </Typography>
+                        <Typography className={`${classes.totalPrice} ${classes.allPrices}`} >Total <span>${this.state.totalPrice}</span> </Typography>
+                      </div>
+                      
 
-          <Link to='/checkout' style={{ textDecoration: 'none'}}>
-            <Button variant="contained" color="primary" className={classes.checkoutBtn}>Proceed to Checkout</Button>
-          </Link>
+                      <Link to='/checkout' style={{ textDecoration: 'none'}}>
+                        <Button variant="contained" color="primary" className={classes.checkoutBtn}>Proceed to Checkout</Button>
+                      </Link>
+                    </div>
+                  </div>
+                )
+              })
+            }
+          </div> 
         </div>
         <BottomNavBar/>
       </div>

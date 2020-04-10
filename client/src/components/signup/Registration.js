@@ -34,7 +34,8 @@ const styles = () => ({
   title: {
     textAlign: 'center',
     fontSize: '3rem',
-    margin: '0.5rem auto'
+    margin: '0.5rem auto',
+    fontFamily: 'Lato',
   },
   form: {
     margin: '0 auto',
@@ -149,6 +150,9 @@ class Registration extends Component {
   }
 
   navigateNext = () => {
+    localStorage.setItem('personalDetail', JSON.stringify(this.state.personalDetail))
+    localStorage.setItem('addressDetail', JSON.stringify(this.state.addressDetail))
+    localStorage.setItem('personalization', JSON.stringify(this.state.personalization))
     this.props.history.push('/grocerystores', this.state)
   }
 

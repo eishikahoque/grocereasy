@@ -1,12 +1,13 @@
-import { InputBase, Typography } from '@material-ui/core/';
-import SearchIcon from '@material-ui/icons/Search';
-import { withStyles } from '@material-ui/styles';
-import axios from 'axios';
-import React, { Component } from 'react';
+import { InputBase, Typography, Backdrop, CircularProgress } from '@material-ui/core/'
+import SearchIcon from '@material-ui/icons/Search'
+import { withStyles } from '@material-ui/styles'
+import axios from 'axios'
+import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 
-import searchBasket from '../../assets/searchBasket.svg';
-import BottomNavBar from '../layout/BottomNavBar';
-import NavBar from '../layout/NavBar';
+import searchBasket from '../../assets/searchBasket.svg'
+import BottomNavBar from '../layout/BottomNavBar'
+import NavBar from '../layout/NavBar'
 import ProduceBtn from '../elements/ProduceBtn'
 import ItemPrice from '../elements/ItemPrice'
 
@@ -37,7 +38,15 @@ const styles= () => ({
   },
   searchImages: {
     marginTop: '6rem'
-  }
+  },
+  groceryLayout: {
+    paddingTop: '1rem',
+    paddingBottom: '6rem',
+  },
+  backdrop: {
+    zIndex: 1,
+    color: '#92C023',
+  },
 
 })
 class SearchPage extends Component {
@@ -46,7 +55,20 @@ class SearchPage extends Component {
   
     this.state = {
        search: '',
-       products: []
+       intolerances: [],
+       products: [],
+       backdropOpen: false,
+    }
+  
+  }
+
+  componentDidMount = () => {
+    const personalization = localStorage.getItem('personalization')
+    if (personalization) {
+      const parsed = JSON.parse(personalization)
+      this.setState({
+        intolerances: parsed.allergies
+      })
     }
   }
 
@@ -57,30 +79,32 @@ class SearchPage extends Component {
   }
 
   getSearchResults = async (query) => {
-    // this.setState({
-    //   backdropOpen: true
-    // })
+    this.setState({
+      backdropOpen: true
+    })
     try {
       const response = await axios.get('/food/ingredients/autocomplete', {
         baseURL: 'https://api.spoonacular.com',
         params: {
           query,
           metaInformation: true,
+          // intolerances: this.state.intolerances.join(', '),
           apiKey: '54c611d72e5e443cba5a8aa69c24b1c8'
         },
-      });
+      })
       if (response && response.data && response.status === 200) {
         this.setState({
           search: query,
-          products: response.data 
+          products: response.data,
+          backdropOpen: false
         })
         console.log(response)
       }
     } catch (error) {
-      // this.setState({
-      //   backdropOpen: false
-      // })
-      console.error(error);
+      this.setState({
+        backdropOpen: false
+      })
+      console.error(error)
     }
   }
 
@@ -109,33 +133,38 @@ class SearchPage extends Component {
               inputProps={{ 'aria-label': 'search'}}
             />
           </div> 
-          {
-            this.state.products.length === 0 && 
-            <div className={classes.searchImages}>
-              <img src={searchBasket} alt="search basket" className={classes.image} /> 
-              <Typography align="center" variant="h5" style={{ fontWeight: 500,  marginTop: '2rem'}}>
-                Begin your search
-              </Typography>
-              <Typography align="center" style={{ maxWidth: '15ch', margin: 'auto' }}>
-                Start searching for your groceries
-              </Typography>
-            </div>
-          }
-          {
-            this.state.products.length > 0 &&
-            this.state.products.map((product, index) => {
-              return (
-                <div key={index} >
-                  <ProduceBtn productImage={product.image} />
-                  <ItemPrice itemName={product.name} />
-                </div>
-              )
-            })
-          }
+          <div className={classes.groceryLayout}>
+            {
+              this.state.products.length === 0 && 
+              <div className={classes.searchImages}>
+                <img src={searchBasket} alt="search basket" className={classes.image} /> 
+                <Typography align="center" variant="h5" style={{ fontWeight: 500,  marginTop: '2rem'}}>
+                  Begin your search
+                </Typography>
+                <Typography align="center" style={{ maxWidth: '15ch', margin: 'auto' }}>
+                  Start searching for your groceries
+                </Typography>
+              </div>
+            }
+            {
+              this.state.products.length > 0 &&
+              this.state.products.map((product, index) => {
+                return (
+                  <div key={index} >
+                    <ProduceBtn productImage={product.image} />
+                    <ItemPrice itemName={product.name} />
+                  </div>
+                )
+              })
+            }
+          </div>
         </div>
         <BottomNavBar />
+        <Backdrop className={classes.backdrop} open={this.state.backdropOpen}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </div>
     )
   }
 }
-export default withStyles(styles)(SearchPage)
+export default withRouter(withStyles(styles)(SearchPage))

@@ -130,16 +130,14 @@ class Login extends Component {
           <Formik
             initialValues={{ email: '', showPassword: false, password: ''}}
             validationSchema={loginValidationSchema}
-            onSubmit={(values, actions) => {
-              setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
-                actions.setSubmitting(false);
-              }, 1000);
+            onSubmit={(values) => {
+              console.log(values)
+              this.props.history.push('/grocerystores')
             }}
           >
             {props => (
 
-              <form className={classes.form} noValidate autoComplete="off">
+              <form className={classes.form} onSubmit={props.handleSubmit}>
                 <TextField 
                   error={props.touched.email && !!props.errors.email}
                   helperText={(props.touched.email && props.errors.email) || ''}
@@ -173,7 +171,7 @@ class Login extends Component {
                     </InputAdornment>
                   }}
                 />
-                <Button variant="contained" color="primary" className={classes.btn}>
+                <Button variant="contained" color="primary" className={classes.btn} type="submit">
                   Login
                 </Button>
               </form>

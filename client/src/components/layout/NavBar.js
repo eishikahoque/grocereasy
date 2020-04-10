@@ -13,10 +13,11 @@ import {
 import { withStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import MenuIcon from '@material-ui/icons/Menu';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import SmsRoundedIcon from '@material-ui/icons/SmsRounded';
 import React, { Component } from 'react';
 import { withRouter, Link } from 'react-router-dom';
+import socketIOClient from "socket.io-client";
+
 
 const styles = () => ({
   appBar: {
@@ -57,15 +58,34 @@ class NavBar extends Component {
   constructor(props) {
     super(props)
     this.state = {
-       isMenuOpen: false
+       isMenuOpen: false,
+       count: 0,
     }
   }
+
+  // componentDidMount() {
+  //   const { endpoint } = this.state;
+  //   const socket = socketIOClient(endpoint);
+  //   socket.on("message", () => {
+  //     if (this.props.location.pathname !== "/chat") {
+  //       this.setState({
+  //         count: this.state.count + 1,
+  //       });
+  //     }
+  //   });
+  // }
 
   toggleMenu = () => {
     this.setState({
       isMenuOpen: !this.state.isMenuOpen,
     })
   }
+
+  removeMessage = () => {
+    this.setState({
+      count: 0,
+    });
+  };
 
   handleMenuText = (event) => {
     const text = event.target.innerText
@@ -93,15 +113,13 @@ class NavBar extends Component {
              >
                <MenuIcon />
              </IconButton>
-             <Typography className={classes.logoTitle}>
-               grocereasy
-             </Typography>
+             <Typography className={classes.logoTitle}>grocereasy</Typography>
              <div className={classes.icons}>
-               <Link to='/chat'>
+               <Link to='/chat' onClick={this.removeMessage}>
                 <IconButton className={classes.msgIcon}>
                   <Badge 
                     color="error"
-                    badgeContent={3}
+                    badgeContent={this.state.count}
                   >
                     <SmsRoundedIcon />
                   </Badge>

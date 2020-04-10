@@ -82,14 +82,16 @@ const MenuProps = {
 };
 
 const allergies = [
-  'Eggs',
-  'Fish',
-  'Milk',
-  'Mustard',
-  'Peanuts', 
+  'Dairy',
+  'Egg',
+  'Gluten',
+  'Grain',
+  'Peanut', 
+  'Seafood', 
   'Sesame',
   'Shellfish', 
   'Soy',
+  'Sulfite',
   'Tree Nuts',
   'Wheat',
 ]

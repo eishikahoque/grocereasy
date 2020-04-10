@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/styles'
 import CategoryBtn from '../elements/CategoryBtn'
 import ProduceBtn from '../elements/ProduceBtn'
 import ItemPrice from '../elements/ItemPrice'
-
+import ProductListMock from '../mockData/ProductListMock'
 
 
 const styles = () => ({
@@ -35,12 +35,16 @@ const styles = () => ({
   }
 })
 
+const ProductCategoryLabel = {
+  
+}
+
 class Home extends Component {
   constructor(props) {
     super(props)
   
     this.state = {
-       
+       productList: ProductListMock.products
     }
   }
   
@@ -50,58 +54,27 @@ class Home extends Component {
       <React.Fragment>
         <NavBar />
         <div className={classes.root}>
-          <Typography variant="h5" className={classes.header}>
-            Category
-          </Typography>
-          <div className={classes.categories}>
-            <CategoryBtn />
-            <CategoryBtn />
-            <CategoryBtn />
-            <CategoryBtn />
-          </div>
-  
-
-          <Typography variant="h5" className={classes.header}>
-            Produce
-          </Typography>
-          <div className={classes.products}>
-            <div className={classes.produce}>
-              <ProduceBtn />
-              <ItemPrice />
-            </div>
-            <div className={classes.produce}>
-              <ProduceBtn />
-              <ItemPrice />
-            </div>
-            <div className={classes.produce}>
-              <ProduceBtn />
-              <ItemPrice />
-            </div>
-            <div className={classes.produce}>
-              <ProduceBtn />
-              <ItemPrice />
-            </div>
-            <div className={classes.produce}>
-              <ProduceBtn />
-              <ItemPrice />
-            </div>
-            <div className={classes.produce}>
-              <ProduceBtn />
-              <ItemPrice />
-            </div>
-            <div className={classes.produce}>
-              <ProduceBtn />
-              <ItemPrice />
-            </div>
-            <div className={classes.produce}>
-              <ProduceBtn />
-              <ItemPrice />
-            </div>
-            
-            
-
-          </div>
+          {
+            this.state.productList &&
+            this.state.productList.length > 0 &&
+            this.state.productList.map((productCategory, index) => (
+                <div className={classes.products} key={index}>
+                  <Typography variant="h5" className={classes.header}>
+                    {Object.keys(productCategory)[0]}
+                  </Typography>
+                  {
+                    Object.values(productCategory).map((products) => products.map((product, index) => (
+                      <div className={classes.produce} key={index}>
+                        <ProduceBtn productImage={product['image']} />
+                        <ItemPrice itemName={product['name']} itemPrice={product['price']} />
+                      </div>
+                    )))
+                  }
+                </div>
+            ))
+          }
         </div>
+
         <BottomNavBar />
       </React.Fragment>
     )

@@ -1,9 +1,9 @@
-import { Button, Typography } from '@material-ui/core';
+import { Button, Typography, Divider } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import shoppingBasket from '../../assets/shoppingBasket.svg';
+import groceryBag from '../../assets/groceryBag.svg';
 import BottomNavBar from '../layout/BottomNavBar';
 import NavBar from '../layout/NavBar';
 
@@ -18,11 +18,13 @@ const styles = () => ({
   },
   title: {
     fontFamily: 'Lato',
+    marginBottom: '1rem'
   }, 
   image: {
-    width: '60%',
+    width: '80%',
+    height: '80%',
     display: 'flex',
-    margin: '5rem auto',
+    margin: '2rem auto',
   },
   subheader: {
     fontWeight: 500
@@ -52,7 +54,8 @@ class ShoppingListPage extends Component {
           <Typography variant="h4" className={classes.title}>
             Shopping List
           </Typography>
-          <img src={shoppingBasket} alt="basket" className={classes.image} />
+          <Divider/>
+          <img src={groceryBag} alt="basket" className={classes.image} />
           <Typography variant="h5" className={classes.subheader} align="center">
             Your List is Empty
           </Typography>
