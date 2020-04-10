@@ -51,8 +51,8 @@ getOrderById = async (req, res) => {
                 error: 'order not found'
             })
         }
-        return res.status(200).json({ 
-            success: true, 
+        return res.status(200).json({
+            success: true,
             data: order
         })
     })
@@ -78,8 +78,8 @@ getOrderByUserId = async (req, res) => {
                     error: 'no orders found'
                 })
             }
-            return res.status(200).json({ 
-                success: true, 
+            return res.status(200).json({
+                success: true,
                 data: order
             })
         })
@@ -91,7 +91,7 @@ getOrderByUserId = async (req, res) => {
 
 updateOrder = async (req, res) => {
     const body = req.body
-    
+
     if(!body) {
         return res.status(400).json({
             success: false,
@@ -110,8 +110,7 @@ updateOrder = async (req, res) => {
         order.status = body.status
 <<<<<<< HEAD
 <<<<<<< HEAD
- 
-=======
+
 =======
 >>>>>>> 7faf242bdb55e1b6f6d65594e2256792945450eb
 
