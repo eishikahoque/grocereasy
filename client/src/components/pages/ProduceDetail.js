@@ -200,7 +200,7 @@ class ProduceDetail extends Component {
       <React.Fragment>
         <NavBar />
           <div className={classes.circle}>
-            <BackBtn iconColor={'#fff'} />
+            <BackBtn style={{color: '#fff'}} />
             <img src={banana} alt="banana" className={classes.image} />
           </div>
           

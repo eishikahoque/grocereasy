@@ -14,24 +14,15 @@ const styles = () => ({
   root: {
     margin: '4rem 0',
   },
-  categories: {
+  header: {
+    margin: '1rem 2rem',
+    textTransform: 'capitalize'
+  },
+  productRow: {
     display: 'flex',
     overflowX: 'scroll',
-  },
-  header: {
-    marginLeft: '2rem',
-  },
-  products: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    margin: 'auto',
-    width: '90%'
-  },
-  produce: {
-    display: 'flex',
-    flexDirection: 'column',
-    textAlign: 'center',
-    margin: '1rem'
+    scrollBehaviour: 'smooth',
+    margin: '0 4px',
   }
 })
 
@@ -62,14 +53,17 @@ class Home extends Component {
                   <Typography variant="h5" className={classes.header}>
                     {Object.keys(productCategory)[0]}
                   </Typography>
-                  {
-                    Object.values(productCategory).map((products) => products.map((product, index) => (
-                      <div className={classes.produce} key={index}>
-                        <ProduceBtn productImage={product['image']} />
-                        <ItemPrice itemName={product['name']} itemPrice={product['price']} />
-                      </div>
-                    )))
-                  }
+                  <div className={classes.productRow}>
+                    {
+                      Object.values(productCategory).map((products) => products.map((product, index) => (
+                        <div className={classes.produce} key={index}>
+                          <ProduceBtn productImage={product['image']} />
+                          <ItemPrice itemName={product['name']} itemPrice={product['price']} />
+                        </div>
+                      )))
+                    }
+
+                  </div>
                 </div>
             ))
           }

@@ -5,17 +5,20 @@ import React from 'react';
 
 
 const useStyles = makeStyles({
+  root: { 
+    margin: '0 0.5rem'
+  },
   category: {
     borderRadius: '1rem',
     backgroundColor: '#fff',
-    maxWidth: '80%',
-    height: '80%',
     display: 'flex',
     margin: 'auto',
   },
   image: {
-    width: '32vw',
-    height: '10vh',
+    // width: '30vw',
+    // height: '12vh',
+    width: '8rem',
+    height: '6rem',
   }
 })
 
@@ -33,7 +36,7 @@ function ProduceBtn(props) {
   }
 
   return (
-    <div>
+    <div className={classes.root}>
       <Button variant="contained" className={classes.category} 
         // style={{ backgroundColor: color }}
         onClick={handleRedirect}

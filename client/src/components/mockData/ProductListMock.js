@@ -105,7 +105,7 @@ const ProductListMock = {
           price: 6.99,
         },
         {
-          name: 'juice and zest of 1 lemon',
+          name: 'lemon',
           image: 'lemon.png',
           id: 9150,
           price: 0.30,
@@ -232,154 +232,6 @@ const ProductListMock = {
       ]
     },
     {
-      dairy: [
-        {
-          name: 'milk',
-          image: 'milk.png',
-          id: 1077,
-          price: 3.99,
-        },
-        {
-          name: 'yogurt',
-          image: 'plain-yogurt.jpg',
-          id: 1116,
-          price: 3.99,
-        },
-        {
-          name: 'butter',
-          image: 'butter-sliced.jpg',
-          id: 1001,
-          price: 7.99,
-        },
-        {
-          name: 'buttermilk',
-          image: 'buttermilk.jpg',
-          id: 1230,
-          price: 4.99,
-        },
-        {
-          name: 'egg',
-          image: 'egg.png',
-          id: 1123,
-          price: 3.99,
-        },
-        {
-          name: 'almond drink',
-          image: 'almond-milk.png',
-          id: 93607,
-          price: 7.99,
-        },
-        {
-          name: 'cheese',
-          image: 'cheddar-cheese.png',
-          id: 1041009,
-          price: 6.99,
-        },
-        {
-          name: 'cheese curd',
-          image: 'cheese-curds.png',
-          id: 98921,
-          price: 6.99,
-        },
-        {
-          name: 'margarine',
-          image: 'butter-sliced.jpg',
-          id: 4073,
-          price: 3.99,
-        },
-        {
-          name: 'cheese sticks',
-          image: 'string-cheese.png',
-          id: 98970,
-          price: 3.99,
-        },
-        {
-          name: 'frozen yogurt',
-          image: 'frozen-yogurt.png',
-          id: 93629,
-          price: 3.99,
-        },
-        {
-          name: 'soymilk',
-          image: 'soy-milk.jpg',
-          id: 16223,
-          price: 5.99,
-        }
-
-      ]
-    },
-    {
-      pastaRice: [
-        {
-          name: 'brown rice',
-          image: 'uncooked-brown-rice.png',
-          id: 20040,
-          price: 9.00,
-        },
-        {
-          name: 'pasta',
-          image: 'fusilli.jpg',
-          id: 20420,
-          price: 5.00,
-        },
-        {
-          name: 'rice',
-          image: 'uncooked-white-rice.png',
-          id: 20444,
-          price: 9.00,
-        },
-        {
-          name: 'rice flour',
-          image: 'white-powder.jpg',
-          id: 20061,
-          price: 9.00,
-        },
-        {
-          name: 'millet',
-          image: 'millet.png',
-          id: 20031,
-          price: 9.00,
-        },
-        {
-          name: 'pasta shells',
-          image: 'shell-pasta.jpg',
-          id: 11020420,
-          price: 5.00,
-        },
-        {
-          name: 'pasta ribbons',
-          image: 'tagliatelle.jpg',
-          id: 11920420,
-          price: 5.00,
-        },
-        {
-          name: 'gluten-free lasagna noodles',
-          image: 'lasagna-noodles.jpg',
-          id: 99052,
-          price: 5.00,
-        },
-        {
-          name: 'egg noodles',
-          image: 'egg-noodles.jpg',
-          id: 20409,
-          price: 5.00,
-        },
-        {
-          name: 'cheese ravioli',
-          image: 'ravioli.png',
-          id: 93832,
-          price: 5.00,
-        },
-        {
-          name: 'cheese tortellini',
-          image: 'tortellini-isolated.jpg',
-          id: 10093727,
-          price: 5.00,
-        }
-
-      ]
-    },
-    {
       bakery: [
         {
           name: 'egg bread',
@@ -452,6 +304,76 @@ const ProductListMock = {
           image: 'buttermilk-biscuits.jpg',
           id: 18009,
           price: 1.89,
+        }
+      ]
+    },
+    {
+      spices: [
+        {
+          name: 'cayenne',
+          image: 'chili-powder.jpg',
+          id: 2031,
+          price: 3.00,
+        },
+        {
+          name: 'anise',
+          image: 'aniseed-or-anise.jpg',
+          id: 2002,
+          price: 3.00,
+        },
+        {
+          name: 'basil',
+          image: 'basil.jpg',
+          id: 2044,
+          price: 3.00,
+        },
+        {
+          name: 'bay leaf',
+          image: 'bay-leaves.jpg',
+          id: 2004,
+          price: 3.00,
+        },
+        {
+          name: 'oregano',
+          image: 'oregano.jpg',
+          id: 2027,
+          price: 3.00,
+        },
+        {
+          name: 'mace',
+          image: 'ground-coriander.jpg',
+          id: 2022,
+          price: 3.00,
+        },
+        {
+          name: 'sumac',
+          image: 'dried-sumac.jpg',
+          id: 10211111,
+          price: 3.00,
+        },
+        {
+          name: 'chipotle pepper flakes',
+          image: 'red-pepper-flakes.jpg',
+          id: 1082009,
+          price: 3.00,
+        },
+        {
+          name: 'cumin',
+          image: 'ground-cumin.jpg',
+          id: 1002014,
+          price: 3.00,
+        },
+        {
+          name: 'turmeric',
+          image: 'turmeric.jpg',
+          id: 2043,
+          price: 3.00,
+        },
+        {
+          name: 'coriander',
+          image: 'ground-coriander.jpg',
+          id: 2012,          
+          price: 3.00,
         }
       ]
     },
@@ -635,77 +557,125 @@ const ProductListMock = {
           image: 'caramel-sauce.jpg',
           id: 19085,
           price: 4.99,
-        }
+        },
+        {
+          name: 'brown rice',
+          image: 'uncooked-brown-rice.png',
+          id: 20040,
+          price: 9.00,
+        },
+        {
+          name: 'rice',
+          image: 'uncooked-white-rice.png',
+          id: 20444,
+          price: 9.00,
+        },
+        {
+          name: 'rice flour',
+          image: 'white-powder.jpg',
+          id: 20061,
+          price: 9.00,
+        },
       ]
     },
     {
-      spices: [
+      seafood: [
         {
-          name: 'cayenne',
-          image: 'chili-powder.jpg',
-          id: 2031,
-          price: 3.00,
+          name: "shrimp",
+          image: "shrimp.png",
+          id: 15152,
+          price: 18.99,
         },
         {
-          name: 'anise',
-          image: 'aniseed-or-anise.jpg',
-          id: 2002,
-          price: 3.00,
+          name: 'manila clams',
+          image: 'littleneck-clams.jpg',
+          id: 10015157,
+          price: 21.00,
         },
         {
-          name: 'basil',
-          image: 'basil.jpg',
-          id: 2044,
-          price: 3.00,
+          name: 'grouper',
+          image: 'grouper-fresh.jpg',
+          id: 15031,
+          price: 15.00,
         },
         {
-          name: 'bay leaf',
-          image: 'bay-leaves.jpg',
-          id: 2004,
-          price: 3.00,
+          name: 'fillet of herring',
+          image: 'herring-fillets.png',
+          id: 10015039,
+          price: 15.00,
         },
         {
-          name: 'oregano',
-          image: 'oregano.jpg',
-          id: 2027,
-          price: 3.00,
+          name: 'mackerel',
+          image: 'mackerel-fresh.jpg',
+          id: 15050,
+          price: 19.00,
         },
         {
-          name: 'mace',
-          image: 'ground-coriander.jpg',
-          id: 2022,
-          price: 3.00,
+          name: "dried shrimp",
+          image: "shrimp-dried.jpg",
+          id: 10093657,
+          price: 11.99,
         },
         {
-          name: 'sumac',
-          image: 'dried-sumac.jpg',
-          id: 10211111,
-          price: 3.00,
-        },
-        {
-          name: 'chipotle pepper flakes',
-          image: 'red-pepper-flakes.jpg',
-          id: 1082009,
-          price: 3.00,
-        },
-        {
-          name: 'cumin',
-          image: 'ground-cumin.jpg',
-          id: 1002014,
-          price: 3.00,
-        },
-        {
-          name: 'turmeric',
-          image: 'turmeric.jpg',
-          id: 2043,
-          price: 3.00,
-        },
-        {
-          name: 'coriander',
-          image: 'ground-coriander.jpg',
-          id: 2012,          
-          price: 3.00,
+          name: "mussels",
+          image: "mussels.jpg",
+          id: 15164,
+          price: 25.99,
         }
+        
+      ]
+    },
+    {
+      pasta: [
+        {
+          name: 'pasta',
+          image: 'fusilli.jpg',
+          id: 20420,
+          price: 5.00,
+        },
+        {
+          name: 'millet',
+          image: 'millet.png',
+          id: 20031,
+          price: 9.00,
+        },
+        {
+          name: 'pasta shells',
+          image: 'shell-pasta.jpg',
+          id: 11020420,
+          price: 5.00,
+        },
+        {
+          name: 'pasta ribbons',
+          image: 'tagliatelle.jpg',
+          id: 11920420,
+          price: 5.00,
+        },
+        {
+          name: 'gluten-free lasagna noodles',
+          image: 'lasagna-noodles.jpg',
+          id: 99052,
+          price: 5.00,
+        },
+        {
+          name: 'egg noodles',
+          image: 'egg-noodles.jpg',
+          id: 20409,
+          price: 5.00,
+        },
+        {
+          name: 'cheese ravioli',
+          image: 'ravioli.png',
+          id: 93832,
+          price: 5.00,
+        },
+        {
+          name: 'cheese tortellini',
+          image: 'tortellini-isolated.jpg',
+          id: 10093727,
+          price: 5.00,
+        }
+
       ]
     },
     {
@@ -791,13 +761,83 @@ const ProductListMock = {
       ]
     },
     {
-      meatSeafood: [
+      dairy: [
         {
-          name: 'manila clams',
-          image: 'littleneck-clams.jpg',
-          id: 10015157,
-          price: 21.00,
+          name: 'milk',
+          image: 'milk.png',
+          id: 1077,
+          price: 3.99,
         },
+        {
+          name: 'yogurt',
+          image: 'plain-yogurt.jpg',
+          id: 1116,
+          price: 3.99,
+        },
+        {
+          name: 'butter',
+          image: 'butter-sliced.jpg',
+          id: 1001,
+          price: 7.99,
+        },
+        {
+          name: 'buttermilk',
+          image: 'buttermilk.jpg',
+          id: 1230,
+          price: 4.99,
+        },
+        {
+          name: 'egg',
+          image: 'egg.png',
+          id: 1123,
+          price: 3.99,
+        },
+        {
+          name: 'almond drink',
+          image: 'almond-milk.png',
+          id: 93607,
+          price: 7.99,
+        },
+        {
+          name: 'cheese',
+          image: 'cheddar-cheese.png',
+          id: 1041009,
+          price: 6.99,
+        },
+        {
+          name: 'cheese curd',
+          image: 'cheese-curds.png',
+          id: 98921,
+          price: 6.99,
+        },
+        {
+          name: 'margarine',
+          image: 'butter-sliced.jpg',
+          id: 4073,
+          price: 3.99,
+        },
+        {
+          name: 'cheese sticks',
+          image: 'string-cheese.png',
+          id: 98970,
+          price: 3.99,
+        },
+        {
+          name: 'frozen yogurt',
+          image: 'frozen-yogurt.png',
+          id: 93629,
+          price: 3.99,
+        },
+        {
+          name: 'soymilk',
+          image: 'soy-milk.jpg',
+          id: 16223,
+          price: 5.99,
+        }
+      ]
+    },
+    {
+      meat: [
         {
           name: 'steak',
           image: 'ribeye-raw.jpg',
@@ -809,6 +849,12 @@ const ProductListMock = {
           image: 'beef-cubes-raw.png',
           id: 23572,
           price: 8.00,
+        },
+        {
+          name: "veal chops",
+          image: "lamb-rib-chops.jpg",
+          id: 17104,
+          price: 7.99
         },
         {
           name: 'boar',
@@ -823,28 +869,16 @@ const ProductListMock = {
           price: 16.00,
         },
         {
-          name: 'grouper',
-          image: 'grouper-fresh.jpg',
-          id: 15031,
-          price: 15.00,
-        },
-        {
-          name: 'fillet of herring',
-          image: 'herring-fillets.png',
-          id: 10015039,
-          price: 15.00,
-        },
-        {
-          name: 'mackerel',
-          image: 'mackerel-fresh.jpg',
-          id: 15050,
-          price: 19.00,
-        },
-        {
           name: 'chicken meat',
           image: 'chicken-breasts.png',
           id: 1015006,
           price: 10.00,
+        },
+        {
+          name: "veal cutlets",
+          image: "veal.jpg",
+          id: 17094,
+          price: 9.99
         }
       ]
     },
@@ -867,42 +901,30 @@ const ProductListMock = {
           image: 'milk-chocolate.jpg',
           id: 19081,
           price: 2.00,
-        
         },
         {
           name: 'candy cane',
           image: 'candy-canes.jpg',
           id: 93759,
           price: 1.00,
-        
-        },
-        {
-          name: 'candy coated chocolate pieces',
-          image: 'candy-coated-chocolate-pieces-or-M&Ms.jpg',
-          id: 19157,
-          price: 4.00,
-        
         },
         {
           name: 'toffee candy bar',
           image: 'heath-bar.png',
           id: 98978,
           price: 2.00,
-        
         },
         {
           name: 'cheese tortilla chips',
           image: 'cheesy-tortilla-chips.jpg',
           id: 19057,
           price: 5.00,
-        
         },
         {
           name: 'pita chips',
           image: 'pita-chips.jpg',
           id: 25037,
           price: 5.00,
-        
         },
         {
           name: 'corn chips',

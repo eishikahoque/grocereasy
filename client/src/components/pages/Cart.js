@@ -48,10 +48,10 @@ const styles = () => ({
     justifyContent: 'space-between'
   }, 
   image: {
-    width: '70%',
+    width: '40%',
     margin: '5rem auto',
     display: 'flex',
-    height: '70%',
+    height: '40%',
   }
 })
 

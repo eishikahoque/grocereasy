@@ -31,13 +31,14 @@ const styles= () => ({
     width: '100%'
   },
   image: {
-    width: '60%',
+    width: '40%',
+    height: '40%',
     margin: 'auto',
     display: 'flex',
     justifyContent: 'center',
   },
   searchImages: {
-    marginTop: '6rem'
+    marginTop: '1rem'
   },
   groceryLayout: {
     paddingTop: '1rem',

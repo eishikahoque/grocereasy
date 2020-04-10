@@ -21,8 +21,8 @@ const styles = () => ({
     marginBottom: '1rem'
   }, 
   image: {
-    width: '80%',
-    height: '80%',
+    width: '40%',
+    height: '40%',
     display: 'flex',
     margin: '2rem auto',
   },
