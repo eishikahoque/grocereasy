@@ -6,6 +6,8 @@ import BottomNavBar from '../layout/BottomNavBar';
 import NavBar from '../layout/NavBar';
 import ShippingDetailForm from './ShippingDetail';
 
+import { PayPalButton } from 'react-paypal-button-v2'
+
 
 const styles = () => ({
   card: {
@@ -175,7 +177,14 @@ class Payment extends Component {
               </Stepper>
             </ThemeProvider>
 
-            {
+            <PayPalButton 
+              amount = "0.02"
+              onSuccess = {(details, data) => {
+                alert("Transaction completed by " + details.payer.name.given_name)
+              }}
+            />
+
+            {/* {
               this.state.step === 0 &&
                 <ShippingDetailForm shippingDetail={this.state.shippingDetail} onShippingDetailChange={this.handleShippingDetailComplete} onBack={this.goBack}/>
             }
@@ -183,7 +192,7 @@ class Payment extends Component {
             {   
               this.state.step === 1 &&
                 <ShippingDetailForm addressDetail={this.state.billingDetail} onBillingDetailChange={this.handleBillingDetailComplete} onBillingBack={this.handleFormBack} />
-            }
+            } */}
   {/* 
             {
               this.state.step === 2 &&

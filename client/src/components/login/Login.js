@@ -133,7 +133,7 @@ class Login extends Component {
           password: data.password,
           phoneNumber: data.phone
         }))
-        sessionStorage.setItem('addressDetail', JSON.stringify(data.shipping))
+        sessionStorage.setItem('addressDetail', JSON.stringify(data.location))
         sessionStorage.setItem('allergies', data.allergies)
         sessionStorage.setItem('userId', data._id)
 

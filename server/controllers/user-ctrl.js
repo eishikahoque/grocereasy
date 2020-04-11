@@ -82,14 +82,14 @@ updateUser = (req, res) => {
         if(body.phone){
             user.phone = body.phone
         }
-        if(body.shipping){
-            user.shipping.street_num = body.shipping.street_num
-            user.shipping.unit_num = body.shipping.unit_num
-            user.shipping.street_name = body.shipping.street_name
-            user.shipping.address = body.shipping.address
-            user.shipping.city = body.shipping.city
-            user.shipping.province = body.shipping.province
-            user.shipping.country = body.shipping.country
+        if(body.location){
+            user.location.street_num = body.location.street_num
+            user.location.unit_num = body.location.unit_num
+            user.location.street_name = body.location.street_name
+            user.location.address = body.location.address
+            user.location.city = body.location.city
+            user.location.province = body.location.province
+            user.location.country = body.location.country
         }
         if(body.dietary_restrictions){
             user.dietary_restrictions = body.dietary_restrictions

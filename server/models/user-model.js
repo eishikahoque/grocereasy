@@ -20,7 +20,7 @@ const User = new Schema({
 		type: Number,
 		required: true
 	},
-	shipping: {
+	location: {
 		streetNumber: { type: Number, required: true },
 		unitNumber: { type: Number },
 		streetName: {type: String, required: true },

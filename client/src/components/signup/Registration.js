@@ -154,7 +154,7 @@ class Registration extends Component {
     axios.post('/api/user', {
       name: this.state.personalDetail.name,
       phone: this.state.personalDetail.phoneNumber.replace(/[^0-9]/g, ''),
-      shipping: this.state.addressDetail,
+      location: this.state.addressDetail,
       dietary_restriction: this.state.personalization.dietaryPreference,
       allergies: this.state.personalization.allergies
     }, {
