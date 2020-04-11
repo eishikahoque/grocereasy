@@ -1,12 +1,13 @@
-import { Card, CardContent, Step, StepLabel, Stepper, Typography } from '@material-ui/core';
-import { createMuiTheme, ThemeProvider, withStyles } from '@material-ui/core/styles';
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Card, CardContent, Step, StepLabel, Stepper, Typography } from '@material-ui/core'
+import { createMuiTheme, ThemeProvider, withStyles } from '@material-ui/core/styles'
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import axios from 'axios'
 
-import LogoTitle from '../layout/LogoTitle';
-import AddressDetailForm from './AddressDetail';
-import PersonalDetailForm from './PersonalDetail';
-import PersonalizationForm from './Personalization';
+import LogoTitle from '../layout/LogoTitle'
+import AddressDetailForm from './AddressDetail'
+import PersonalDetailForm from './PersonalDetail'
+import PersonalizationForm from './Personalization'
 
 
 const styles = () => ({
@@ -146,15 +147,39 @@ class Registration extends Component {
   handlePersonalizationComplete = (personalization) => {
     this.setState({
       personalization
-    }, this.navigateNext)
+    }, this.registerUser)
   }
 
-  navigateNext = () => {
-    sessionStorage.setItem('personalDetail', JSON.stringify(this.state.personalDetail))
-    sessionStorage.setItem('addressDetail', JSON.stringify(this.state.addressDetail))
-    sessionStorage.setItem('personalization', JSON.stringify(this.state.personalization))
-    sessionStorage.setItem('isLoggedIn', true)
-    this.props.history.push('/grocerystores', this.state)
+  registerUser = () => {
+    axios.post('/api/user', {
+      name: this.state.personalDetail.name,
+      email: this.state.personalDetail.email,
+      password: this.state.personalDetail.password,
+      phone: this.state.personalDetail.phoneNumber.replace(/[^0-9]/g, ''),
+      shipping: {
+        street_num: this.state.addressDetail.streetNumber,
+        unit_num: this.state.addressDetail.unitNumber,
+        street_name: this.state.addressDetail.streetName,
+        city: this.state.addressDetail.city,
+        postal_code: this.state.addressDetail.city,
+        province: this.state.addressDetail.province,
+        country: this.state.addressDetail.country
+      },
+      dietary_restriction: this.state.personalization.dietaryPreference,
+      allergies: this.state.personalization.allergies
+    }, {
+      baseURL: 'http://localhost:8000',
+      auth: {
+        username: this.state.personalDetail.email,
+        password: this.state.personalDetail.password
+      },
+    }).then((response) => {
+      sessionStorage.setItem('personalDetail', JSON.stringify(this.state.personalDetail))
+      sessionStorage.setItem('addressDetail', JSON.stringify(this.state.addressDetail))
+      sessionStorage.setItem('personalization', JSON.stringify(this.state.personalization))
+      sessionStorage.setItem('userId', response.id)
+      this.props.history.push('/grocerystores', this.state)
+    }).catch((err) => console.log(err))
   }
 
   handleFormBack = () => {

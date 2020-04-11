@@ -20,9 +20,8 @@ class GroceryStoreOption extends Component {
   constructor(props) {
     super(props)
 
-    const location = this.props.history.location.state &&
-      this.props.history.location.state.addressDetail &&
-      this.props.history.location.state.addressDetail.coordinates 
+    const addressDetail = sessionStorage.getItem('addressDetail')
+    const location = addressDetail && addressDetail.coordinates
   
     this.state = {
       location: {

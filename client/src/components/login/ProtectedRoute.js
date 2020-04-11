@@ -5,7 +5,7 @@ class ProtectedRoute extends Component {
 
   render() {
     const Component = this.props.component
-    // const isAuthenticated = !!sessionStorage.getItem('isLoggedIn')
+    // const isAuthenticated = !!sessionStorage.getItem('userId')
     const isAuthenticated = true
     return isAuthenticated ? (
       <Component />

@@ -18,8 +18,7 @@ const User = new Schema({
 	},
 	phone: {
 		type: Number,
-		required: true,
-		unique: true
+		required: true
 	},
 	shipping: {
 		street_num: { type: Number, required: true },
@@ -30,7 +29,7 @@ const User = new Schema({
 		province:  {type: String, required: true },
 		country: { type: String, required: true }
 	},
-	dietary_restrictions: [{ type: String }],
+	dietary_restriction: { type: String },
 	allergies: [{type: String }]
 });
 
