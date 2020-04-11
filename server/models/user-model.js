@@ -13,7 +13,8 @@ const User = new Schema({
 	},
 	password: {
 		type: String,
-		required: true
+		required: true,
+		min: 8
 	},
 	phone: {
 		type: Number,
