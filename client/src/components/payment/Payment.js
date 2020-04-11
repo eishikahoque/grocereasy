@@ -1,13 +1,10 @@
 import { Card, CardContent, Step, StepLabel, Stepper, Typography } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider, withStyles } from '@material-ui/core/styles';
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
-import ShippingDetailForm from './ShippingDetail';
-import PaymentDetailForm from './PaymentDetail';
-import ReviewOrder from './ReviewOrder';
-import NavBar from '../layout/NavBar'
 import BottomNavBar from '../layout/BottomNavBar';
+import NavBar from '../layout/NavBar';
+import ShippingDetailForm from './ShippingDetail';
 
 
 const styles = () => ({

@@ -1,14 +1,13 @@
-import React, { Component } from 'react'
-import NavBar from '../layout/NavBar'
-import BottomNavBar from '../layout/BottomNavBar'
-import { Typography } from '@material-ui/core'
-import { withStyles } from '@material-ui/styles'
-import { withRouter } from 'react-router-dom'
+import { Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
-import CategoryBtn from '../elements/CategoryBtn'
-import ProduceBtn from '../elements/ProduceBtn'
-import ItemPrice from '../elements/ItemPrice'
-import ProductListMock from '../mockData/ProductListMock'
+import ItemPrice from '../elements/ItemPrice';
+import ProduceBtn from '../elements/ProduceBtn';
+import BottomNavBar from '../layout/BottomNavBar';
+import NavBar from '../layout/NavBar';
+import ProductListMock from '../mockData/ProductListMock';
 
 
 const styles = () => ({
@@ -26,10 +25,6 @@ const styles = () => ({
     margin: '0 4px',
   }
 })
-
-const ProductCategoryLabel = {
-  
-}
 
 class Home extends Component {
   constructor(props) {

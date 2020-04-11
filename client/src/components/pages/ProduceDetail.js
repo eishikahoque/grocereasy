@@ -4,10 +4,9 @@ import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import MuiAlert from '@material-ui/lab/Alert';
 import { withStyles } from '@material-ui/styles';
 import React, { Component } from 'react';
-import { withRouter, useHistory } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 
-import banana from '../../assets/banana.png';
 import BackBtn from '../elements/BackBtn';
 import ItemPrice from '../elements/ItemPrice';
 import QuantityBtn from '../elements/QuantityBtn';
