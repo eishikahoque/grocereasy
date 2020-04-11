@@ -20,7 +20,7 @@ class GroceryStoreOption extends Component {
   constructor(props) {
     super(props)
 
-    const addressDetail = sessionStorage.getItem('addressDetail')
+    const addressDetail = JSON.parse(sessionStorage.getItem('addressDetail'))
     const location = addressDetail && addressDetail.coordinates
   
     this.state = {

@@ -6,6 +6,7 @@ import { Formik } from 'formik';
 import React, { Component } from 'react';
 import MaskedInput from 'react-text-mask';
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
+import axios from 'axios'
 
 import * as Yup from 'yup';
 
@@ -204,12 +205,63 @@ class Account extends Component {
   }
 
   componentDidMount = () => {
-    // TODO: Add api call to get account data
+    const personalDetail = JSON.parse(sessionStorage.getItem('personalDetail'))
+    const addressDetail = JSON.parse(sessionStorage.getItem('addressDetail'))
+    const personalization = JSON.parse(sessionStorage.getItem('personalization'))
+    if(personalDetail && addressDetail && personalization) {
+      this.setState({
+        name: personalDetail.name,
+        email: personalDetail.email,
+        password: personalDetail.password,
+        phoneNumber: personalDetail.phoneNumber,
+        streetNumber: addressDetail.streetNumber,
+        streetName: addressDetail.streetName,
+        unitNumber: addressDetail.unitNumber,
+        city: addressDetail.city,
+        province: addressDetail.province,
+        country: addressDetail.country,
+        postalCode: addressDetail.postalCode,
+        dietaryPreference: personalization.dietaryPreference,
+        allergies: personalization.allergies
+      })
+    }
+  }
+
+  updateUser = () => {
+    const userId = sessionStorage.getItem('userId')
+    if (userId) {
+      axios.put(`/api/user/${userId}`, {
+        name: this.state.name,
+        email: this.state.email,
+        password: this.state.password,
+        phone: this.state.phoneNumber.replace(/[^0-9]/g, ''),
+        shipping: {
+          street_num: this.state.streetNumber,
+          unit_num: this.state.unitNumber,
+          street_name: this.state.streetName,
+          city: this.state.city,
+          postal_code: this.state.city,
+          province: this.state.province,
+          country: this.state.country
+        },
+        dietary_restriction: this.state.dietaryPreference,
+        allergies: this.state.allergies
+      }, {
+        baseURL: 'http://localhost:8000',
+        auth: {
+          username: this.state.email,
+          password: this.state.password
+        },
+      }).then((response) => {
+        if (response && response.data && response.status === 200) {
+          sessionStorage.setItem('userId', response.data.id)
+        }
+      }).catch((err) => console.log(err))
+    }
   }
 
   handleFormSubmit = (values) => {
-    this.setState({ ...values })
-    console.log(this.state)
+    this.setState({ ...values }, this.updateUser)
   }
   
   render() {
@@ -284,16 +336,17 @@ class Account extends Component {
                   onBlur={props.handleBlur}
                   onChange={props.handleChange}
                   FormHelperTextProps={{ className: classes.helperText }}
-                  InputProps={{
-                    endAdornment: <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={() => props.setFieldValue('showPassword', !props.values.showPassword, false)}
-                      >
-                        {props.values.showPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  }}
+                  disabled
+                  // InputProps={{
+                  //   endAdornment: <InputAdornment position="end">
+                  //     <IconButton
+                  //       aria-label="toggle password visibility"
+                  //       onClick={() => props.setFieldValue('showPassword', !props.values.showPassword, false)}
+                  //     >
+                  //       {props.values.showPassword ? <Visibility /> : <VisibilityOff />}
+                  //     </IconButton>
+                  //   </InputAdornment>
+                  // }}
                 />
                 <TextField
                   className={classes.textField}

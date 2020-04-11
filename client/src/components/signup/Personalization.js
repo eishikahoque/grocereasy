@@ -106,7 +106,7 @@ function PersonalizationForm(props) {
 
     onSubmit(values) {
       props.onPersonalizationChange({
-        dietaryPreferences: values.dietaryPreferences,
+        dietaryPreferences: values.dietaryPreferences || 'none',
         allergies: values.allergies,
       })
     }

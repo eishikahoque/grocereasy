@@ -174,11 +174,13 @@ class Registration extends Component {
         password: this.state.personalDetail.password
       },
     }).then((response) => {
-      sessionStorage.setItem('personalDetail', JSON.stringify(this.state.personalDetail))
-      sessionStorage.setItem('addressDetail', JSON.stringify(this.state.addressDetail))
-      sessionStorage.setItem('personalization', JSON.stringify(this.state.personalization))
-      sessionStorage.setItem('userId', response.id)
-      this.props.history.push('/grocerystores', this.state)
+      if (response && response.data && response.status === 201) {
+        sessionStorage.setItem('personalDetail', JSON.stringify(this.state.personalDetail))
+        sessionStorage.setItem('addressDetail', JSON.stringify(this.state.addressDetail))
+        sessionStorage.setItem('personalization', JSON.stringify(this.state.personalization))
+        sessionStorage.setItem('userId', response.data.id)
+        this.props.history.push('/grocerystores', this.state)
+      }
     }).catch((err) => console.log(err))
   }
 
