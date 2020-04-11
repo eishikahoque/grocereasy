@@ -119,7 +119,7 @@ class AddressDetailForm extends Component {
         longitude: ''
       },
       currentLocationLoading: false,
-      addressFound: false,
+      addressFound: !!props.addressDetail.streetNumber,
     }
     this.handleAddressAutocomplete = this.handleAddressAutocomplete.bind(this)
   }

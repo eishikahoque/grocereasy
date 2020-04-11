@@ -2,7 +2,9 @@ const User = require('../models/user-model')
 const bcrypt = require('bcrypt')
 
 createUser = async (req, res) => {
-    const body = req.body
+    let body = req.body
+
+    const auth = req.headers['authorization']
 
     if (!body) {
         return res.status(400).json({
@@ -10,8 +12,20 @@ createUser = async (req, res) => {
             error: 'You must provide a user'
         })
     }
+
+    // extract email and password from Authorization header
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
+    const [email, password] = Buffer.from(b64auth, 'base64').toString().split(':')
     
-    const hashedPassword = await bcrypt.hash(req.body.password, 10)
+    body = {
+        ...body,
+        email,
+        password
+    }
+
+
+    
+    const hashedPassword = await bcrypt.hash(body.password, 10)
     const user = new User(body)
 
     if (!user) {
@@ -103,7 +117,11 @@ updateUser = (req, res) => {
 }
 
 loginUser = async (req, res) => {
-    await User.findOne({ email: req.params.email}, (err, user) => {
+    // extract email and password from Authorization header
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
+    const [email, password] = Buffer.from(b64auth, 'base64').toString().split(':')
+
+    await User.findOne({ email }, (err) => {
         if(err) {
             return res.status(400).json({
                 success: false,
@@ -118,7 +136,7 @@ loginUser = async (req, res) => {
                 error: 'invalid email or password'
             })
         } else {
-            bcrypt.compare(req.body.password, user.password, (err, result) => {
+            bcrypt.compare(password, user.password, (err, result) => {
                 if(result) {
                     return res.status(200).json({
                         success: true,

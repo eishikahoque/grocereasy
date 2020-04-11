@@ -25,8 +25,8 @@ class GroceryStoreOption extends Component {
   
     this.state = {
       location: {
-        latitude: (location && location.latitude) || '',
-        longitude: (location && location.longitude) || '',
+        latitude: (location && parseFloat(location.latitude)) || '',
+        longitude: (location && parseFloat(location.longitude)) || '',
       },
       stores: []
     }

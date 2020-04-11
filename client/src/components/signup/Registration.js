@@ -153,18 +153,8 @@ class Registration extends Component {
   registerUser = () => {
     axios.post('/api/user', {
       name: this.state.personalDetail.name,
-      email: this.state.personalDetail.email,
-      password: this.state.personalDetail.password,
       phone: this.state.personalDetail.phoneNumber.replace(/[^0-9]/g, ''),
-      shipping: {
-        street_num: this.state.addressDetail.streetNumber,
-        unit_num: this.state.addressDetail.unitNumber,
-        street_name: this.state.addressDetail.streetName,
-        city: this.state.addressDetail.city,
-        postal_code: this.state.addressDetail.city,
-        province: this.state.addressDetail.province,
-        country: this.state.addressDetail.country
-      },
+      shipping: this.state.addressDetail,
       dietary_restriction: this.state.personalization.dietaryPreference,
       allergies: this.state.personalization.allergies
     }, {
@@ -175,10 +165,15 @@ class Registration extends Component {
       },
     }).then((response) => {
       if (response && response.data && response.status === 201) {
-        sessionStorage.setItem('personalDetail', JSON.stringify(this.state.personalDetail))
+        sessionStorage.setItem('personalDetail', JSON.stringify({
+          name: this.state.personalDetail.name,
+          email: this.state.personalDetail.email,
+          phoneNumber: this.state.personalDetail.phone
+        }))
         sessionStorage.setItem('addressDetail', JSON.stringify(this.state.addressDetail))
-        sessionStorage.setItem('personalization', JSON.stringify(this.state.personalization))
+        sessionStorage.setItem('allergies', this.state.personalization.allergies)
         sessionStorage.setItem('userId', response.data.id)
+
         this.props.history.push('/grocerystores', this.state)
       }
     }).catch((err) => console.log(err))

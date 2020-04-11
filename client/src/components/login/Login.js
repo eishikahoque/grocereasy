@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import axios from 'axios';
 import { Formik } from 'formik';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
@@ -116,6 +117,31 @@ class Login extends Component {
     event.preventDefault();
   };
 
+  loginUser = () => {
+    axios.get('/api/login', {
+      baseURL: 'http://localhost:8000',
+      auth: {
+        username: this.state.email,
+        password: this.state.password
+      },
+    }).then((response) => {
+      if (response && response.data && response.status === 200) {
+        const { data } = response.data
+        sessionStorage.setItem('personalDetail', JSON.stringify({
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          phoneNumber: data.phone
+        }))
+        sessionStorage.setItem('addressDetail', JSON.stringify(data.shipping))
+        sessionStorage.setItem('allergies', data.allergies)
+        sessionStorage.setItem('userId', data._id)
+
+        this.props.history.push('/grocerystores')
+      }
+    }).catch((err) => console.log(err))
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -128,11 +154,17 @@ class Login extends Component {
             Login
           </Typography>
           <Formik
-            initialValues={{ email: '', showPassword: false, password: ''}}
+            initialValues={{
+              email: this.state.email,
+              showPassword: this.state.showPassword,
+              password: this.state.password
+            }}
             validationSchema={loginValidationSchema}
             onSubmit={(values) => {
-              console.log(values)
-              this.props.history.push('/grocerystores')
+              this.setState({
+                ...values
+              })
+              this.loginUser()
             }}
           >
             {props => (

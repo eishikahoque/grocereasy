@@ -64,11 +64,10 @@ class SearchPage extends Component {
   }
 
   componentDidMount = () => {
-    const personalization = sessionStorage.getItem('personalization')
-    if (personalization) {
-      const parsed = JSON.parse(personalization)
+    const allergies = sessionStorage.getItem('allergies')
+    if (allergies && allergies.length > 0) {
       this.setState({
-        intolerances: parsed.allergies
+        intolerances: allergies
       })
     }
   }

@@ -21,13 +21,17 @@ const User = new Schema({
 		required: true
 	},
 	shipping: {
-		street_num: { type: Number, required: true },
-		unit_num: { type: Number },
-		street_name: {type: String, required: true },
-		city:   {type: String, required: true },
-		postal_code: { type: String, required: true },
+		streetNumber: { type: Number, required: true },
+		unitNumber: { type: Number },
+		streetName: {type: String, required: true },
+		city: {type: String, required: true },
+		postalCode: { type: String, required: true },
 		province:  {type: String, required: true },
-		country: { type: String, required: true }
+		country: { type: String, required: true },
+		coordinates: {
+			latitude: { type: String, required: true },
+			longitude: { type: String, required: true }
+		}
 	},
 	dietary_restriction: { type: String },
 	allergies: [{type: String }]

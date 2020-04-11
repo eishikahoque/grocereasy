@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const bodyParser = require('body-parser')
 const http = require('http')
 const socket = require('socket.io')
@@ -14,6 +15,8 @@ const listRouter = require('./routes/list-router')
 
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
+
+app.use(cors())
 
 app.get('/', function(req, res){
   res.send('working');

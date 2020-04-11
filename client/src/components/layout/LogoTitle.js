@@ -11,7 +11,7 @@ const styles = () => ({
     textAlign: 'center',
     backgroundColor: '#FFD043',
     padding: '2rem',
-    paddingBottom: '5rem'
+    paddingBottom: '10rem'
   },
 })
 

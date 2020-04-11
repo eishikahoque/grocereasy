@@ -9,7 +9,9 @@ import {
   Select,
   TextField,
   Typography,
+  Snackbar, 
 } from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert'
 import { withStyles } from '@material-ui/core/styles';
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
 import axios from 'axios';
@@ -125,17 +127,23 @@ const MenuProps = {
       width: 250,
     },
   },
-};
+}
 
-const allergies = [
-  'Eggs',
-  'Fish',
-  'Milk',
-  'Mustard',
-  'Peanuts', 
+const Alert = (props) => {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+const allergyOptions = [
+  'Dairy',
+  'Egg',
+  'Gluten',
+  'Grain',
+  'Peanut', 
+  'Seafood', 
   'Sesame',
   'Shellfish', 
   'Soy',
+  'Sulfite',
   'Tree Nuts',
   'Wheat',
 ]
@@ -147,9 +155,6 @@ const accountDetailValidationSchema = Yup.object().shape({
   email: Yup.string()
     .email('Enter a valid email')
     .required('Email is required'),
-  password: Yup.string()
-    .min(8, 'Password must contain atleast 8 characters')
-    .required('Enter your password'),
   phoneNumber: Yup.string()
     .required('Enter your phone number'),
   streetNumber: Yup.string()
@@ -195,43 +200,36 @@ class Account extends Component {
     super(props)
 
     this.state = {
-      name: '',
-      email: '',
-      password: '',
-      showPassword: false,
-      phoneNumber: '',
-      streetNumber: '',
-      streetName: '',
-      unitNumber: '',
-      city: '',
-      province: '',
-      country: '',
-      postalCode: '',
-      dietaryPreference: '',
+      personalDetail: {
+        name: '',
+        email: '',
+        password: '',
+        phoneNumber: '',
+      },
+      addressDetail: {
+        streetNumber: '',
+        streetName: '',
+        unitNumber: '',
+        city: '',
+        province: '',
+        country: '',
+        postalCode: '',
+      },
       allergies: [],
+      open: false
     }
   }
 
   componentDidMount = () => {
     const personalDetail = JSON.parse(sessionStorage.getItem('personalDetail'))
     const addressDetail = JSON.parse(sessionStorage.getItem('addressDetail'))
-    const personalization = JSON.parse(sessionStorage.getItem('personalization'))
-    if(personalDetail && addressDetail && personalization) {
+    const allergyList = sessionStorage.getItem('allergies')
+    if(personalDetail && addressDetail && allergyList) {
       this.setState({
-        name: personalDetail.name,
-        email: personalDetail.email,
-        password: personalDetail.password,
-        phoneNumber: personalDetail.phoneNumber,
-        streetNumber: addressDetail.streetNumber,
-        streetName: addressDetail.streetName,
-        unitNumber: addressDetail.unitNumber,
-        city: addressDetail.city,
-        province: addressDetail.province,
-        country: addressDetail.country,
-        postalCode: addressDetail.postalCode,
-        dietaryPreference: personalization.dietaryPreference,
-        allergies: personalization.allergies
-      })
+        personalDetail,
+        addressDetail,
+        allergies: allergyList.split(',')
+      }, () => console.log(this.state))
     }
   }
 
@@ -239,29 +237,21 @@ class Account extends Component {
     const userId = sessionStorage.getItem('userId')
     if (userId) {
       axios.put(`/api/user/${userId}`, {
-        name: this.state.name,
-        email: this.state.email,
-        password: this.state.password,
-        phone: this.state.phoneNumber.replace(/[^0-9]/g, ''),
-        shipping: {
-          street_num: this.state.streetNumber,
-          unit_num: this.state.unitNumber,
-          street_name: this.state.streetName,
-          city: this.state.city,
-          postal_code: this.state.city,
-          province: this.state.province,
-          country: this.state.country
-        },
-        dietary_restriction: this.state.dietaryPreference,
+        name: this.state.personalDetail.name,
+        phone: this.state.personalDetail.phoneNumber.replace(/[^0-9]/g, ''),
+        shipping: this.state.addressDetail,
         allergies: this.state.allergies
       }, {
         baseURL: 'http://localhost:8000',
         auth: {
-          username: this.state.email,
-          password: this.state.password
+          username: this.state.personalDetail.email,
+          password: this.state.personalDetail.password
         },
       }).then((response) => {
         if (response && response.data && response.status === 200) {
+          this.setState({
+            open: true
+          })
           sessionStorage.setItem('userId', response.data.id)
         }
       }).catch((err) => console.log(err))
@@ -269,7 +259,13 @@ class Account extends Component {
   }
 
   handleFormSubmit = (values) => {
-    this.setState({ ...values }, this.updateUser)
+    this.setState({ ...values}, this.updateUser)
+  }
+
+  handleClose = () => {
+    this.setState({
+      open: false
+    })
   }
   
   render() {
@@ -285,19 +281,16 @@ class Account extends Component {
           <Formik 
             initialValues={
               {
-                name: this.state.name,
-                email: this.state.email,
-                password: this.state.password,
-                showPassword: this.state.showPassword,
-                phoneNumber: this.state.phoneNumber,
-                streetNumber: this.state.streetNumber,
-                streetName: this.state.streetName,
-                unitNumber: this.state.unitNumber,
-                city: this.state.city,
-                province: this.state.province,
-                country: this.state.country,
-                postalCode: this.state.postalCode,
-                dietaryPreference: this.state.dietaryPreference || 'none', 
+                name: this.state.personalDetail.name,
+                email: this.state.personalDetail.email,
+                phoneNumber: this.state.personalDetail.phoneNumber,
+                streetNumber: this.state.addressDetail.streetNumber,
+                streetName: this.state.addressDetail.streetName,
+                unitNumber: this.state.addressDetail.unitNumber,
+                city: this.state.addressDetail.city,
+                province: this.state.addressDetail.province,
+                country: this.state.addressDetail.country,
+                postalCode: this.state.addressDetail.postalCode,
                 allergies: this.state.allergies
               }
             }
@@ -331,30 +324,6 @@ class Account extends Component {
                   onChange={props.handleChange}
                   value={props.values.email}
                   FormHelperTextProps={{ className: classes.helperText }}
-                />
-                <TextField
-                  className={classes.textField}
-                  error={props.touched.password && !!props.errors.password}
-                  helperText={(props.touched.password && props.errors.password) || ''}
-                  name="password"
-                  label="Password"
-                  fullWidth
-                  type={props.values.showPassword ? 'text' : 'password'}
-                  value={props.values.password}
-                  onBlur={props.handleBlur}
-                  onChange={props.handleChange}
-                  FormHelperTextProps={{ className: classes.helperText }}
-                  disabled
-                  // InputProps={{
-                  //   endAdornment: <InputAdornment position="end">
-                  //     <IconButton
-                  //       aria-label="toggle password visibility"
-                  //       onClick={() => props.setFieldValue('showPassword', !props.values.showPassword, false)}
-                  //     >
-                  //       {props.values.showPassword ? <Visibility /> : <VisibilityOff />}
-                  //     </IconButton>
-                  //   </InputAdornment>
-                  // }}
                 />
                 <TextField
                   className={classes.textField}
@@ -488,20 +457,6 @@ class Account extends Component {
                   />
                 </div>
                 <Typography variant="body1" className={classes.label}>
-                  Any dietary preferences?
-                </Typography>
-                <ToggleButtonGroup size="large" name="dietaryPreference" value={props.values.dietaryPreference} onChange={(_event, value) => props.setFieldValue("dietaryPreference", value)} className={classes.toggleBtnGroup} exclusive>
-                  <ToggleButton value="none" className={classes.toggleBtn}>
-                    None
-                  </ToggleButton>
-                  <ToggleButton value="vegetarian" className={classes.toggleBtn}>
-                    Vegetarian
-                  </ToggleButton>
-                  <ToggleButton value="vegan" className={classes.toggleBtn}>
-                    Vegan
-                  </ToggleButton>
-                </ToggleButtonGroup>
-                <Typography variant="body1" className={classes.label}>
                   Any Allergies?
                 </Typography>
                 <FormControl className={classes.chipComponent}>
@@ -521,7 +476,7 @@ class Account extends Component {
                     )}
                     MenuProps={MenuProps}
                   >
-                    {allergies.map(allergies => (
+                    {allergyOptions.map(allergies => (
                       <MenuItem key={allergies} value={allergies} className={classes.menu}>
                         {allergies}
                       </MenuItem>
@@ -531,6 +486,16 @@ class Account extends Component {
                 <Button variant="contained" color="primary" className={classes.btn} type="submit">
                   Save Changes
                 </Button>
+                <Snackbar 
+                  open={this.state.open} 
+                  autoHideDuration={2000}
+                  onClose={this.handleClose}
+                  anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                >
+                  <Alert severity="success" style={{ backgroundColor: '#58C9BE'}} >
+                      Changes saved!
+                  </Alert>
+                </Snackbar>
               </form>
             )}
           </Formik>
