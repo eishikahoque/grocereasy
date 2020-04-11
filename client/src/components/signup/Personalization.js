@@ -98,7 +98,7 @@ const allergies = [
 
 function PersonalizationForm(props) {
   const classes = useStyles();
-  const { handleSubmit, handleChange, handleBlur, setFieldValue, values, touched, errors } = useFormik({
+  const { handleSubmit, setFieldValue, values } = useFormik({
     initialValues: {
       dietaryPreferences: 'none',
       allergies: props.personalization.allergies,

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import io from "socket.io-client";
 import { makeStyles } from '@material-ui/styles'
-import { TextField, Button, Paper, Divider, Typography} from '@material-ui/core'
+import { TextField, Button, Paper, Divider, Typography, Avatar} from '@material-ui/core'
 
 import NavBar from '../layout/NavBar'
 import BottomNavBar from '../layout/BottomNavBar'
@@ -85,9 +85,17 @@ const useStyles = makeStyles({
     borderRadius: '0.375rem',
     boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2)',
     wordBreak: 'break-word'
-  }
-
-
+  },
+  chatTitleRow: {
+    display: 'flex'
+  },
+  chatAvatar: {
+    marginRight: '1rem',
+    fontSize: '2rem',
+    backgroundColor: '#58C9BE',
+    width: '4.375rem',
+    height: '4.375rem'
+  },
 })
 
 function Chat() {
@@ -157,7 +165,10 @@ function Chat() {
       <NavBar/>
       <div className={classes.context}>
         <Paper elevation={3} className={classes.chat}>
-          <Typography variant="h5">Chat with your Shopper</Typography>
+          <div className={classes.chatTitleRow}>
+            <Avatar className={classes.chatAvatar}>S</Avatar>
+            <Typography variant="h5">Chat with your Shopper</Typography>
+          </div>
           <Divider className={classes.divider} />
           {messages.map((message, index) => {
             if (message.id === yourID) {

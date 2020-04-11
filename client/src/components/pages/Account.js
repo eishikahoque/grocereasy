@@ -1,13 +1,21 @@
-import { Button, IconButton, InputAdornment, TextField, Typography, FormControl, InputLabel, MenuItem, Select, FormHelperText, Chip , Input} from '@material-ui/core';
+import {
+  Button,
+  Chip,
+  FormControl,
+  FormHelperText,
+  Input,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
+import axios from 'axios';
 import { Formik } from 'formik';
 import React, { Component } from 'react';
 import MaskedInput from 'react-text-mask';
-import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
-import axios from 'axios'
-
 import * as Yup from 'yup';
 
 import BottomNavBar from '../layout/BottomNavBar';
