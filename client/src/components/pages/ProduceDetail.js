@@ -62,11 +62,10 @@ const styles = (theme) => ({
     padding: '2rem',
   },
   textArea: {
-    width: '25ch',
     marginTop: '1rem',
   },
   textLabel: {
-    fontSize: '14px'
+    fontSize: '0.875rem'
   },
   modal: {
     display: 'flex',
@@ -75,7 +74,7 @@ const styles = (theme) => ({
   },
   paper: {
     backgroundColor: '#fff',
-    borderRadius: '10px',
+    borderRadius: '0.625rem',
     padding: '3rem',
     margin: 'auto',
     textAlign: 'center',
