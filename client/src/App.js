@@ -13,7 +13,7 @@ import ShoppingListPage from './components/pages/ShoppingListPage'
 import SearchPage from './components/pages/SearchPage'
 import Cart from './components/pages/Cart'
 import Payment from './components/payment/Payment'
-// import Confirmation from './components/pages/Confirmation'
+import Confirmation from './components/pages/Confirmation'
 import Account from './components/pages/Account'
 import Orders from './components/pages/Orders'
 import OrderDetail from './components/pages/OrderDetail'
@@ -79,7 +79,7 @@ function App() {
             <ProtectedRoute path='/search' component={SearchPage} />
             <ProtectedRoute path='/cart' component={Cart} />
             <ProtectedRoute path='/checkout' component={Payment} />
-            {/* <ProtectedRoute path='/confirmation' component={Confirmation} /> */}
+            <ProtectedRoute path='/confirmation' component={Confirmation} />
             <ProtectedRoute path='/account' component={Account} />
             <ProtectedRoute path='/orders' component={Orders} />
             <ProtectedRoute path='/orderDetail' component={OrderDetail} />

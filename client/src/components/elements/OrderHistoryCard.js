@@ -31,6 +31,7 @@ const useStyles = makeStyles({
 })
 
 const statusColorMap = {
+  'Processing' : '#58C9BE',
   'In Transit' : '#58C9BE',
   'Delivered' : '#92C023',
   'Cancelled' : '#F4626C'
@@ -53,9 +54,11 @@ function OrderHistoryCard(props) {
         <CardContent>
           <div className={classes.heading}>
             <Typography variant="h6">Order #</Typography>
-            <Typography
-            // style={{color: statusColorMap['Delivered']}}
-            >In Transit</Typography>
+            <Typography variant="h6"
+            style={{color: statusColorMap['Processing']}}
+            >
+              In Transit
+            </Typography>
           </div>
           <div className={classes.textRow}>
             <Typography className={classes.boldHeader}>Date Ordered:</Typography>
