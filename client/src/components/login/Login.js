@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, IconButton, InputAdornment, Typography } from '@material-ui/core';
+import { Button, Card, CardContent, IconButton, InputAdornment, Typography,  Backdrop, CircularProgress} from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/Visibility';
@@ -11,9 +11,6 @@ import * as Yup from 'yup';
 
 import groceryBag from '../../assets/groceryBag.svg';
 import LogoTitle from '../layout/LogoTitle';
-
-
-
 
 const styles = () => ({
   root: {
@@ -69,7 +66,11 @@ const styles = () => ({
   signupLink: {
     color: '#58C9BE',
     fontWeight: '700',
-  }
+  },
+  backdrop: {
+    zIndex: 1,
+    color: '#92C023',
+  },
 })
 
 const loginValidationSchema = Yup.object().shape({
@@ -88,6 +89,7 @@ class Login extends Component {
       email: '',
       password: '',
       showPassword: false,
+      changeLoading: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleMouseDownPassword = this.handleMouseDownPassword.bind(this)
@@ -133,13 +135,19 @@ class Login extends Component {
           password: data.password,
           phoneNumber: data.phone
         }))
+        this.setState({
+          changeLoading: false
+        })
         sessionStorage.setItem('addressDetail', JSON.stringify(data.location))
         sessionStorage.setItem('allergies', data.allergies)
         sessionStorage.setItem('userId', data._id)
 
         this.props.history.push('/grocerystores')
       }
-    }).catch((err) => console.log(err))
+    }).catch((err) => {
+      this.setState({ changeLoading: false })
+      console.log(err)
+    })
   }
 
   render() {
@@ -162,7 +170,8 @@ class Login extends Component {
             validationSchema={loginValidationSchema}
             onSubmit={(values) => {
               this.setState({
-                ...values
+                ...values,
+                changeLoading:true
               })
               this.loginUser()
             }}
@@ -216,6 +225,9 @@ class Login extends Component {
           </Link>
         </CardContent>
       </Card>
+      <Backdrop className={classes.backdrop} open={this.state.changeLoading}>
+        <CircularProgress color="inherit" />
+      </Backdrop> 
       </div>
     )
   }

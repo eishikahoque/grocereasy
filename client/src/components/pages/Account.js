@@ -10,6 +10,8 @@ import {
   TextField,
   Typography,
   Snackbar, 
+  Backdrop,
+  CircularProgress
 } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert'
 import { withStyles } from '@material-ui/core/styles';
@@ -109,7 +111,11 @@ const styles = () => ({
     '&.MuiListItem-root.Mui-selected:hover': {
       backgroundColor: '#92C023',
     }
-  }
+  },
+  backdrop: {
+    zIndex: 1,
+    color: '#92C023',
+  },
 
 })
 
@@ -216,7 +222,8 @@ class Account extends Component {
         postalCode: '',
       },
       allergies: [],
-      open: false
+      open: false,
+      changeLoading: false
     }
   }
 
@@ -238,8 +245,8 @@ class Account extends Component {
     if (userId) {
       axios.put(`/api/user/${userId}`, {
         name: this.state.personalDetail.name,
-        phone: this.state.personalDetail.phoneNumber.replace(/[^0-9]/g, ''),
-        shipping: this.state.addressDetail,
+        phone: this.state.personalDetail.phoneNumber,
+        location: this.state.addressDetail,
         allergies: this.state.allergies
       }, {
         baseURL: 'http://localhost:8000',
@@ -250,16 +257,20 @@ class Account extends Component {
       }).then((response) => {
         if (response && response.data && response.status === 200) {
           this.setState({
-            open: true
+            open: true,
+            changeLoading: false
           })
           sessionStorage.setItem('userId', response.data.id)
         }
-      }).catch((err) => console.log(err))
+      }).catch((err) => {
+        this.setState({ changeLoading: false })
+        console.log(err)
+      })
     }
   }
 
   handleFormSubmit = (values) => {
-    this.setState({ ...values}, this.updateUser)
+    this.setState({ ...values, changeLoading:true}, this.updateUser)
   }
 
   handleClose = () => {
@@ -286,7 +297,7 @@ class Account extends Component {
                 phoneNumber: this.state.personalDetail.phoneNumber,
                 streetNumber: this.state.addressDetail.streetNumber,
                 streetName: this.state.addressDetail.streetName,
-                unitNumber: this.state.addressDetail.unitNumber,
+                unitNumber: this.state.addressDetail.unitNumber || '',
                 city: this.state.addressDetail.city,
                 province: this.state.addressDetail.province,
                 country: this.state.addressDetail.country,
@@ -499,6 +510,9 @@ class Account extends Component {
               </form>
             )}
           </Formik>
+          <Backdrop className={classes.backdrop} open={this.state.changeLoading}>
+            <CircularProgress color="inherit" />
+          </Backdrop>
         </div>
         <BottomNavBar />
       </div>

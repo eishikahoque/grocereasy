@@ -1,4 +1,4 @@
-import { Card, CardContent, Step, StepLabel, Stepper, Typography } from '@material-ui/core'
+import { Card, CardContent, Step, StepLabel, Stepper, Typography, Backdrop, CircularProgress } from '@material-ui/core'
 import { createMuiTheme, ThemeProvider, withStyles } from '@material-ui/core/styles'
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
@@ -58,6 +58,10 @@ const styles = () => ({
     color: '#58C9BE',
     fontWeight: '700',
   },
+  backdrop: {
+    zIndex: 1,
+    color: '#92C023',
+  },
 })
 
 const steps = [
@@ -105,7 +109,8 @@ class Registration extends Component {
         dietaryPreference: '',
         isSelected: false,
         allergies: [],
-      }
+      },
+      changeLoading: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleClickShowPassword = this.handleClickShowPassword.bind(this)
@@ -146,7 +151,8 @@ class Registration extends Component {
 
   handlePersonalizationComplete = (personalization) => {
     this.setState({
-      personalization
+      personalization,
+      changeLoading:true
     }, this.registerUser)
   }
 
@@ -168,15 +174,21 @@ class Registration extends Component {
         sessionStorage.setItem('personalDetail', JSON.stringify({
           name: this.state.personalDetail.name,
           email: this.state.personalDetail.email,
-          phoneNumber: this.state.personalDetail.phone
+          phoneNumber: this.state.personalDetail.phoneNumber
         }))
+        this.setState({
+          changeLoading: false
+        })
         sessionStorage.setItem('addressDetail', JSON.stringify(this.state.addressDetail))
         sessionStorage.setItem('allergies', this.state.personalization.allergies)
         sessionStorage.setItem('userId', response.data.id)
 
         this.props.history.push('/grocerystores', this.state)
       }
-    }).catch((err) => console.log(err))
+    }).catch((err) => {
+      this.setState({ changeLoading: false })
+      console.log(err)
+    })
   }
 
   handleFormBack = () => {
@@ -236,6 +248,9 @@ class Registration extends Component {
           </Link>
         </CardContent>
       </Card>
+      <Backdrop className={classes.backdrop} open={this.state.changeLoading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
       </div>
     )
   }
