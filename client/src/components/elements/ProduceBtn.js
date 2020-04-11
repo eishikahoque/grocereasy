@@ -14,8 +14,6 @@ const useStyles = makeStyles({
     margin: 'auto',
   },
   image: {
-    // width: '30vw',
-    // height: '12vh',
     width: '8rem',
     height: '6rem',
   }

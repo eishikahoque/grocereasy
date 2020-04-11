@@ -98,7 +98,6 @@ class SearchPage extends Component {
           products: response.data,
           backdropOpen: false
         })
-        console.log(response)
       }
     } catch (error) {
       this.setState({
@@ -112,6 +111,10 @@ class SearchPage extends Component {
     if(e.keyCode === 13) {
       this.getSearchResults(e.target.value)
     }
+  }
+
+  onProductSelected = (product) => {
+    this.props.history.push('/productDetail', product)
   }
 
   render() {
@@ -151,7 +154,7 @@ class SearchPage extends Component {
               this.state.products.map((product, index) => {
                 return (
                   <div key={index} >
-                    <ProduceBtn productImage={product.image} />
+                    <ProduceBtn productImage={product.image} productSelected={() => this.onProductSelected(product)} />
                     <ItemPrice itemName={product.name} />
                   </div>
                 )

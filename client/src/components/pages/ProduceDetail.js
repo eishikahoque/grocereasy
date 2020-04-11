@@ -153,7 +153,6 @@ class ProduceDetail extends Component {
       product: this.props.history.location.state
     }
 
-
     this.handleSliderChange = this.handleSliderChange.bind(this)
     this.handleCommentChange = this.handleCommentChange.bind(this)
     this.toggleCustomBtn = this.toggleCustomBtn.bind(this)
