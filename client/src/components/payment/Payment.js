@@ -1,11 +1,13 @@
 import { Card, CardContent, Typography } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider, withStyles } from '@material-ui/core/styles';
 import React, { Component } from 'react';
-import axios from 'axios'
+import { withRouter } from 'react-router-dom';
+import axios from 'axios';
+
 
 import BottomNavBar from '../layout/BottomNavBar';
 import NavBar from '../layout/NavBar';
-import PayPalBtn from '../elements/PayPalBtn'
+import PayPalBtn from '../elements/PayPalBtn';
 
 const styles = () => ({
   card: {
@@ -105,7 +107,7 @@ class Payment extends Component {
       payment_id: this.state.payment_id
     }).then((response) => {
       if (response && response.data && response.status === 201) {
-        // this.props.history.push('/confirmation', this.state) //NEEDS TO BE FIXED
+        this.props.history.push('/confirmation', this.state) //NEEDS TO BE FIXED
       }
     }).catch((err) => {
       console.log(err)
@@ -153,4 +155,4 @@ class Payment extends Component {
     )
   }
 }
-export default withStyles(styles)(Payment)
+export default withRouter(withStyles(styles)(Payment))
