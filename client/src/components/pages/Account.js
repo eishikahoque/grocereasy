@@ -228,16 +228,12 @@ class Account extends Component {
   }
 
   componentDidMount = () => {
-    const personalDetail = JSON.parse(sessionStorage.getItem('personalDetail'))
-    const addressDetail = JSON.parse(sessionStorage.getItem('addressDetail'))
     const allergyList = sessionStorage.getItem('allergies')
-    if(personalDetail && addressDetail && allergyList) {
-      this.setState({
-        personalDetail,
-        addressDetail,
-        allergies: allergyList.split(',')
-      }, () => console.log(this.state))
-    }
+    this.setState({
+      personalDetail: JSON.parse(sessionStorage.getItem('personalDetail')),
+      addressDetail: JSON.parse(sessionStorage.getItem('addressDetail')),
+      allergies: allergyList && allergyList.length > 0 ? allergyList.split(',') : []
+    }, () => console.log(this.state))
   }
 
   updateUser = () => {
