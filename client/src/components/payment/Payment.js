@@ -14,7 +14,7 @@ const styles = () => ({
     position: 'fixed',
     bottom: '0',
     width: '100%',
-    height: '85%',
+    height: '80%',
     borderRadius: '2.75rem 2.75rem 0 0',
   },
   cardContainer: {
