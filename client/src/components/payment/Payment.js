@@ -1,13 +1,11 @@
-import { Card, CardContent, Step, StepLabel, Stepper, Typography } from '@material-ui/core';
+import { Card, CardContent, Typography } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider, withStyles } from '@material-ui/core/styles';
 import React, { Component } from 'react';
+import axios from 'axios'
 
 import BottomNavBar from '../layout/BottomNavBar';
 import NavBar from '../layout/NavBar';
-import ShippingDetailForm from './ShippingDetail';
-
-import { PayPalButton } from 'react-paypal-button-v2'
-
+import PayPalBtn from '../elements/PayPalBtn'
 
 const styles = () => ({
   card: {
@@ -49,30 +47,13 @@ const styles = () => ({
   }, 
 })
 
-const steps = [
-  'Shipping Details',
-  'Billing Details',
-  'Payment Details',
-  'Review Order'
-]
-
-const stepperTheme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#58C9BE',
-      contrastText: '#fff'
-    },
-  }
-});
-
 
 class Payment extends Component {
   constructor(props){
     super(props)
     this.state = {
-      step: 0,
+      name: '',
       shippingDetail: {
-        name: '',
         streetNumber: '',
         streetName: '',
         unitNumber: '',
@@ -81,25 +62,7 @@ class Payment extends Component {
         country: '',
         postalCode: '',
       },
-      billingDetail: {
-        streetNumber: '',
-        streetName: '',
-        unitNumber: '',
-        city: '',
-        province: '',
-        country: '',
-        postalCode: '',
-      },
-      paymentDetail: {
-        fname: '',
-        lname: '',
-        cardNumber: '',
-        cvv: '',
-        expiration: {
-          month: '',
-          year: '',
-        }
-      }
+      payment_id: ''
     }
     this.handleChange = this.handleChange.bind(this)
   }
@@ -110,51 +73,56 @@ class Payment extends Component {
     })
   }; 
 
-  handleChange(event) {
-    const {name, value} = event.target
+  // goBack = () => {
+  //   this.props.history.goBack()
+  // }
+
+  getShipping = () => {
+    let addressDetail = JSON.parse(sessionStorage.getItem('addressDetail'))
+    let personalDetail = JSON.parse(sessionStorage.getItem('personalDetail'))
+
     this.setState({
-      [name]: value
+      name: personalDetail.name,
+      shippingDetail: {
+        streetNumber: addressDetail.streetNumber,
+        streetName: addressDetail.streetName,
+        unitNumber: addressDetail.unitNumber,
+        city: addressDetail.city,
+        province: addressDetail.province,
+        country: addressDetail.country,
+        postalCode: addressDetail.postalCode,
+      }
     })
   }
 
-  goBack = () => {
-    this.props.history.goBack()
+  paymentHandler = (details, data) => {
+    const user_id = sessionStorage.getItem('userId')
+    this.setState({
+      payment_id: details.id
+    })
+    axios.post(`/api/user/${user_id}/order`, {
+      baseURL: 'http://localhost:8000',
+      payment_id: this.state.payment_id
+    }).then((response) => {
+      if (response && response.data && response.status === 201) {
+        // this.props.history.push('/confirmation', this.state) //NEEDS TO BE FIXED
+      }
+    }).catch((err) => {
+      console.log(err)
+    })
   }
+
+  // getProducts = () => {}
   
-  handleShippingDetailComplete = (values) => {
-    this.setState({
-      shippingDetail: values,
-      step: this.state.step + 1
-    })
+  componentDidMount(){
+    this.getShipping()
+    //this.getProducts() //for getting product info from cart
   }
-
-  handleBillingDetailComplete = (billingDetail) => {
-    this.setState({
-      billingDetail,
-      step: this.state.step + 1
-    })
-  }
-
-  handlePaymentDetailComplete = (paymentDetail) => {
-    this.setState({
-      paymentDetail
-    }, this.navigateNext)
-  }
-
-  navigateNext = () => {
-    this.props.history.push('/confirmation', this.state)
-  }
-
-  handleFormBack = () => {
-    this.setState({
-      step: this.state.step - 1
-    })
-  }
-  
-
 
   render() {
     const { classes } = this.props;
+    const shipping = this.state.shippingDetail
+
     return (
       <div className={classes.root}>
         <NavBar />
@@ -163,45 +131,20 @@ class Payment extends Component {
         </Typography>
         <Card className={classes.card}>
           <CardContent className={classes.cardContainer}>
-            <ThemeProvider theme={stepperTheme}>
-              <Stepper activeStep={this.state.step}>
-                {
-                  steps.map((label) => {
-                    return (
-                      <Step key={label} >
-                        <StepLabel></StepLabel>
-                      </Step>
-                    )
-                  })
-                }
-              </Stepper>
-            </ThemeProvider>
-
-            <PayPalButton 
-              amount = "0.02"
-              onSuccess = {(details, data) => {
-                alert("Transaction completed by " + details.payer.name.given_name)
-              }}
+            <Typography varaint ="h3"> Your Order Will Be Shipped To </Typography>
+            <Typography>
+                {this.state.name}
+                <br />
+                {' ' + shipping.streetNumber} 
+                {' ' + shipping.streetName} 
+                { shipping.unitNumber ? ' #' + shipping.unitNumber : '' }
+                <br />
+                {shipping.city}, {shipping.province} {' ' + shipping.postalCode} {' ' + shipping.country}
+              </Typography>
+            <PayPalBtn
+              amount = {200}
+              onSuccess = {this.paymentHandler}
             />
-
-            {/* {
-              this.state.step === 0 &&
-                <ShippingDetailForm shippingDetail={this.state.shippingDetail} onShippingDetailChange={this.handleShippingDetailComplete} onBack={this.goBack}/>
-            }
-
-            {   
-              this.state.step === 1 &&
-                <ShippingDetailForm addressDetail={this.state.billingDetail} onBillingDetailChange={this.handleBillingDetailComplete} onBillingBack={this.handleFormBack} />
-            } */}
-  {/* 
-            {
-              this.state.step === 2 &&
-                <PaymentDetailForm paymentDetail={this.state.paymentDetail} onPaymentDetailChange={this.handlePaymentDetailComplete} onPaymentBack={this.handleFormBack} />
-            }
-            {
-              this.state.step === 3 &&
-                <ReviewOrder reviewDetail={this.state} onReviewChange={this.handleReviewDetailComplete} onReviewBack={this.handleFormBack} />
-            } */}
           
           </CardContent>
         </Card>

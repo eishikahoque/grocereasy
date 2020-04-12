@@ -56,7 +56,7 @@ getOrderById = async (req, res) => {
             data: order
         })
     })
-    .populate('user_id', 'name').exec((err, user_id) => {
+    .populate('user_id', 'name, location').exec((err, user_id) => {
         console.log(user_id);
     })
     .catch(err => console.log(err))
@@ -83,7 +83,7 @@ getOrderByUserId = async (req, res) => {
                 data: order
             })
         })
-        .populate('user_id', 'name').exec((err, user_id) => {
+        .populate('user_id', 'name, location').exec((err, user_id) => {
             console.log(user_id);
         })
         .catch(err => console.log(err))

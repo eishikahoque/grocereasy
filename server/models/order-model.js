@@ -70,24 +70,9 @@ const Order = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'users'
     },
-    payment: {
-        credit_card: {
-            fname: {type: String, required: true},
-            lname: {type: String, required: true},
-            card_number: {type: Number, required: true},
-            cvv: {type: Number, required: true},
-            expiration: {
-                month: {type: Number, required: true},
-                year: {type: Number, required: true}
-            }
-        },
-        billing: {
-            address: {type: String, required: true},
-            city: {type: String, required: true},
-            postal_code: {type: String, required: true},
-            province: {type: String, required: true},
-            country: {type: String, required: true}
-        }
+    payment_id: {
+        type: String,
+        required: true
     }
 });
 
