@@ -11,8 +11,8 @@ class PayPalBtn extends React.Component {
                 shippingPreference = "NO_SHIPPING"
                 options={{
                     clientId: "AYrQuXWMuKYNRamhfN-1szhge0OvXZtefjae2-7BfMM5htDAYBUobsAnRPEjJEcUaaG8I9DDDkq3DgY4",
-                    currency:"CAD",
-                    disableFunding: "credit,card"
+                    currency:"CAD"
+                    //disableFunding: "credit,card"
                 }}
             />
         )
