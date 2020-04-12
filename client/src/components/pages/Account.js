@@ -266,7 +266,24 @@ class Account extends Component {
   }
 
   handleFormSubmit = (values) => {
-    this.setState({ ...values, changeLoading:true}, this.updateUser)
+    this.setState({
+      personalDetail: {
+        name: values.name,
+        email: values.email,
+        phoneNumber: values.phoneNumber
+      },
+      addressDetail: {
+        streetNumber: values.streetNumber,
+        streetName: values.streetName,
+        unitNumber: values.unitNumber || '',
+        city: values.city,
+        province: values.province,
+        country: values.country,
+        postalCode: values.postalCode,
+      },
+      allergies: values.allergies,
+      changeLoading:true
+    }, this.updateUser)
   }
 
   handleClose = () => {
