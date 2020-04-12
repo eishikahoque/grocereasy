@@ -44,17 +44,20 @@ function GroupProductItem(props) {
   const handleRemove = () => {
     props.onRemove()
   }
-  
+
+  const onProductSelected = () => {
+    props.productSelected()
+  }
 
   return (
     <div className={classes.items}>
       <div className={classes.imageBtn}>
-        <ProduceBtn />
+        <ProduceBtn productImage={props.item['image']} productSelected={onProductSelected} />
         <Button variant="outlined" onClick={handleRemove} size="small" className={classes.removeBtn}>Remove</Button>
       </div>
       <div className={classes.priceQuantity}>
-        <ItemPrice className={classes.price} />
-        <QuantityBtn />
+        <ItemPrice className={classes.price} itemName={props.item['name']} itemPrice={props.item['price']} />
+        <QuantityBtn quantity={props.item['quantity']} hideIcon />
       </div>
     </div>
   

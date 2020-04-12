@@ -3,15 +3,16 @@ import BookmarkIcon from '@material-ui/icons/Bookmark';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import MuiAlert from '@material-ui/lab/Alert';
 import { withStyles } from '@material-ui/styles';
+import axios from 'axios';
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom'
-
+import { withRouter } from 'react-router-dom';
 
 import BackBtn from '../elements/BackBtn';
 import ItemPrice from '../elements/ItemPrice';
 import QuantityBtn from '../elements/QuantityBtn';
 import BottomNavBar from '../layout/BottomNavBar';
 import NavBar from '../layout/NavBar';
+
 
 const styles = (theme) => ({
   circle: {
@@ -149,8 +150,10 @@ class ProduceDetail extends Component {
       open: false,
       isCustomSectionOpened: false,
       sliderValue: 6,
+      quantity: 1,
       comments: '',
-      product: this.props.history.location.state
+      product: this.props.history.location.state,
+      productList: []
     }
 
     this.handleSliderChange = this.handleSliderChange.bind(this)
@@ -161,16 +164,55 @@ class ProduceDetail extends Component {
     this.handleClose = this.handleClose.bind(this)
   }
 
+  componentDidMount = () => {
+    const productList = JSON.parse(sessionStorage.getItem('productList'))
+    if(productList && productList.length > 0) {
+      const isAddedToList = productList.some((p) => p.name === this.state.product.name)
+      this.setState({ productList, isAddedToList })
+    }
+  }
+
   handleAddToList = () => {
-    this.setState({
-      isAddedToList: !this.state.isAddedToList
-    })
-    // Add to database
+    if (this.state.isAddedToList) {
+      this.state.productList = this.state.productList
+        .filter((p) => p.name !== this.state.product.name)
+    } else {
+      const product = {
+        ...this.state.product,
+        price: this.state.product.price || 4,
+        quantity: this.state.quantity,
+        customizations: this.sliderValue
+      }
+      this.state.productList.push(product)
+    }
+    sessionStorage.setItem('productList', JSON.stringify(this.state.productList))
+    this.updateList()
+  }
+
+  updateList = () => {
+    axios.put('/api/user/list/update', {
+      user_id: sessionStorage.getItem('userId'),
+      products: this.state.productList
+    }, {
+      baseURL: 'http://localhost:8000'
+    }).then((response) => {
+      if (response && response.data && response.status === 200) {
+        this.setState({
+          isAddedToList: !this.state.isAddedToList
+        })
+      }
+    }).catch((err) => console.log(err))
   }
 
   handleSliderChange = (_event, newValue) => {
     this.setState({
       sliderValue: newValue
+    })
+  }
+
+  handleQuantityUpdated = (value) => {
+    this.setState({
+      quantity: value
     })
   }
 
@@ -219,7 +261,7 @@ class ProduceDetail extends Component {
               </IconButton>
             </div>
             <div className={classes.btnRow}>
-              <QuantityBtn />
+              <QuantityBtn quantity={this.state.quantity} quantityUpdated={this.handleQuantityUpdated} />
               <Button variant="outlined" color="secondary" className={classes.customBtn} onClick={this.toggleCustomBtn}>
                 { this.state.isCustomSectionOpened ? 'Hide' : 'Customize' }
               </Button>

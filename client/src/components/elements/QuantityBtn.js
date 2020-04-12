@@ -27,40 +27,58 @@ class QuantityBtn extends Component {
     super(props)
   
     this.state = {
-       quantity: 1,
+       quantity: props.quantity,
+       hideIcons: props.hideIcon || false,
     }
     this.handleAddQuantity = this.handleAddQuantity.bind(this)
     this.handleRemoveQuantity = this.handleRemoveQuantity.bind(this)
   }
-  handleAddQuantity(){
+  handleAddQuantity = () => {
     this.setState({
       quantity: this.state.quantity + 1
-    })
+    }, this.updateQuantity)
   }
 
-  handleRemoveQuantity(){
+  handleRemoveQuantity = () => {
     this.setState({
       quantity: this.state.quantity > 1 ? this.state.quantity - 1 : this.state.quantity 
-    })
+    }, this.updateQuantity)
   }
+
+  updateQuantity = () => {
+    this.props.quantityUpdated(this.state.quantity)
+  }
+
+  
 
   render() {
     const { classes } = this.props
     return (
-      <div className={classes.root} >
-        <IconButton
-          onClick={this.handleRemoveQuantity}
-        >
-          <RemoveCircleIcon className={classes.icon} />
-        </IconButton>
-        <Typography className={classes.label}>
-          {this.state.quantity}
-        </Typography>
-        <IconButton
-          onClick={this.handleAddQuantity}
-        >
-          <AddCircleIcon className={classes.icon} />
-        </IconButton>
+      <div className={classes.root}>
+        {
+          this.state.hideIcons && 
+            <Typography className={classes.label}>
+              {this.state.quantity}
+            </Typography>
+        }
+        {
+          !this.state.hideIcons &&
+            <React.Fragment>
+              <IconButton
+                onClick={this.handleRemoveQuantity}
+              >
+                <RemoveCircleIcon className={classes.icon} />
+              </IconButton>
+              <Typography className={classes.label}>
+                {this.state.quantity}
+              </Typography>
+              <IconButton
+                onClick={this.handleAddQuantity}
+              >
+                <AddCircleIcon className={classes.icon} />
+              </IconButton>
+            </React.Fragment>
+        }
       </div>
     )
   }

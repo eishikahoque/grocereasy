@@ -119,6 +119,23 @@ class Login extends Component {
     event.preventDefault();
   };
 
+  getList = () => {
+    axios.get(`/api/list/${sessionStorage.getItem('userId')}`, {
+      baseURL: 'http://localhost:8000'
+    }).then((response) => {
+      if (response && response.data && response.status === 200) {
+        sessionStorage.setItem('productList', JSON.stringify(response.data.products))
+        this.setState({
+          changeLoading: false
+        })
+        this.props.history.push('/grocerystores')
+      }
+    }).catch((err) => {
+      this.setState({ changeLoading: false })
+      console.log(err)
+    })
+  }
+
   loginUser = () => {
     axios.get('/api/login', {
       baseURL: 'http://localhost:8000',
@@ -135,14 +152,10 @@ class Login extends Component {
           password: data.password,
           phoneNumber: data.phone
         }))
-        this.setState({
-          changeLoading: false
-        })
         sessionStorage.setItem('addressDetail', JSON.stringify(data.location))
         sessionStorage.setItem('allergies', data.allergies)
         sessionStorage.setItem('userId', data._id)
-
-        this.props.history.push('/grocerystores')
+        this.getList()
       }
     }).catch((err) => {
       this.setState({ changeLoading: false })

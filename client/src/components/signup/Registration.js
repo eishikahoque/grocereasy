@@ -156,6 +156,25 @@ class Registration extends Component {
     }, this.registerUser)
   }
 
+  createList = () => {
+    axios.post('/api/user/list', {
+      user_id: sessionStorage.getItem('userId')
+    }, {
+      baseURL: 'http://localhost:8000'
+    }).then((response) => {
+      if (response && response.data && response.status === 201) {
+        sessionStorage.setItem('productList', JSON.stringify(response.data.products))
+        this.setState({
+          changeLoading: false
+        })
+        this.props.history.push('/grocerystores', this.state)
+      }
+    }).catch((err) => {
+      this.setState({ changeLoading: false })
+      console.log(err)
+    })
+  }
+
   registerUser = () => {
     axios.post('/api/user', {
       name: this.state.personalDetail.name,
@@ -176,14 +195,10 @@ class Registration extends Component {
           email: this.state.personalDetail.email,
           phoneNumber: this.state.personalDetail.phoneNumber
         }))
-        this.setState({
-          changeLoading: false
-        })
         sessionStorage.setItem('addressDetail', JSON.stringify(this.state.addressDetail))
         sessionStorage.setItem('allergies', this.state.personalization.allergies)
         sessionStorage.setItem('userId', response.data.id)
-
-        this.props.history.push('/grocerystores', this.state)
+        this.createList()
       }
     }).catch((err) => {
       this.setState({ changeLoading: false })

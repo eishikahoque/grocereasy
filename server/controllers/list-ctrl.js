@@ -11,7 +11,7 @@ createList = (req, res) => {
     }
 
     const list = new List(body)
-    list.user_id = req.params.user_id
+    list.user_id = body.user_id
 
     if(!list){
         return res.status(400).json({success: false, error: err})
@@ -23,7 +23,8 @@ createList = (req, res) => {
             return res.status(201).json({
                 success: true,
                 id: list._id,
-                user_id: req.params.user_id,
+                user_id: body.user_id,
+                products: list.products,
                 message: 'List created!'
             })
         })
@@ -35,126 +36,78 @@ createList = (req, res) => {
         })
 }
 
-insertListItem = async (req, res) => {
+updateList = async (req, res) => {
     const body = req.body
 
     if(!body) {
         return res.status(400).json({
             success: false,
-            error: 'You must provide a product to add'
+            error: 'You must provide a list item'
         })
     }
 
-    await List.findOne({user_id: req.params.user_id}, (err, list) => {
-        if(err){
+
+    await List.findOne({user_id: body.user_id}, (err, list) => {
+        if(err) {
             return res.status(404).json({
                 err,
                 message: 'list not found'
             })
         }
 
-        const newProduct = body
-        const productsList = list.products
-        productsList.push(newProduct)
-
+        list.products = body.products
         list
             .save()
             .then( () => {
                 return res.status(200).json({
                     success: true,
-                    message: 'item added'
+                    message: 'list updated'
                 })
             })
             .catch(error => {
                 return res.status(404).json({
                     error,
-                    message: 'item not added'
+                    message: 'list not updated'
                 })
             })
     })
 }
 
-updateListItem = async (req, res) => {
-    await List.findOne({user_id: req.params.user_id}, (err, list) => {
-        const body = req.body
 
-        if(!body) {
+getList = async (req, res) => {
+
+    if(!req.params.userId) {
+        return res.status(400).json({
+            success: false,
+            error: 'You must provide a user Id'
+        })
+    }
+
+    await List.findOne({user_id: req.params.userId}, (err) => {
+        if(err) {
             return res.status(400).json({
                 success: false,
-                error: 'You must provide an item to update'
+                error: err
             })
         }
-
-        if(err){
+    }).then((list) => {
+        if(!list) {
             return res.status(404).json({
-                err,
-                message: 'list not found'
+                success: false,
+                error: 'list not found'
+            })
+        } else {
+            return res.status(200).json({
+                success: true,
+                products: list.products
             })
         }
 
-        const productsList = list.products
-        const obj = productsList.find(product => product._id == req.params._id);
-
-        const index = productsList.indexOf(obj)
-        
-        productsList[index].quantity = body.quantity
-
-        list
-            .save()
-            .then( () => {
-                return res.status(200).json({
-                    success: true,
-                    message: 'item updated'
-                })  
-            })
-    })
-    .catch(error => {
-        return res.status(404).json({
-            error,
-            message: 'item not updated'
-        })
-    })  
-}
-
-deleteListItem = async (req, res) => {
-
-    await List.findOne({user_id: req.params.user_id}, (err, list) => {
-        if(err){
-            return res.status(404).json({
-                err,
-                message: 'list not found'
-            })
-        }
-
-        const productsList = list.products
-        const obj = productsList.find(product => product._id == req.params._id);
-
-        const index = productsList.indexOf(obj)
-        if (index > -1) {
-            productsList.splice(index, 1);
-        }
-        
-        list
-            .save()
-            .then( () => {
-                return res.status(200).json({
-                    success: true,
-                    message: 'item deleted'
-                })  
-            })
-    })
-    .catch(error => {
-        return res.status(404).json({
-            error,
-            message: 'item not deleted'
-        })
-    })
-
+    }).catch(err => console.log(err))
 }
 
 module.exports = {
     createList,
-    insertListItem,
-    updateListItem,
-    deleteListItem
+    updateList,
+    getList
 }

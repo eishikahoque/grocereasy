@@ -1,12 +1,14 @@
-import { Button, Typography, Divider } from '@material-ui/core';
+import { Button, Divider, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
+import axios from 'axios';
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import groceryBag from '../../assets/groceryBag.svg';
+import GroupProductItem from '../elements/GroupProductItem';
 import BottomNavBar from '../layout/BottomNavBar';
 import NavBar from '../layout/NavBar';
-import GroupProductItem from '../elements/GroupProductItem'
+
 
 const styles = () => ({
   context: {
@@ -36,9 +38,40 @@ class ShoppingListPage extends Component {
     super(props)
   
     this.state = {
-       products: []
+       products: JSON.parse(sessionStorage.getItem('productList')) || []
     }
   }
+
+  handleRedirect = () => {
+    this.props.history.push('/search')
+  }
+
+  handleProductSelected = (product) => {
+    this.props.history.push('/productDetail', product)
+  } 
+  
+  handleRemove = (product) => {
+    this.state.products = this.state.products
+      .filter((p) => p.name !== product.name)
+    this.updateList()
+  }
+
+  updateList = () => {
+    axios.put('/api/user/list/update', {
+      user_id: sessionStorage.getItem('userId'),
+      products: this.state.products
+    }, {
+      baseURL: 'http://localhost:8000'
+    }).then((response) => {
+      if (response && response.data && response.status === 200) {
+        sessionStorage.setItem('productList', JSON.stringify(this.state.products))
+        this.setState({
+          products: this.state.products
+        })
+      }
+    }).catch((err) => console.log(err))
+  }
+  
   
   render() {
     const { classes } = this.props
@@ -61,19 +94,22 @@ class ShoppingListPage extends Component {
               <Typography variant="body1" className={classes.subtitle} align="center">
                 Add items to your list for an easier shopping experience
               </Typography>
-              <Link to='/search' style={{textDecoration: 'none'}}>
-                <Button variant="contained" color="primary" className={classes.addBtn}>
-                  Add Items
-                </Button>
-              </Link>
+              <Button variant="contained" color="primary" className={classes.addBtn} onClick={this.handleRedirect}>
+                Add Items
+              </Button>
             </div>
           }   
           {
             this.state.products.length > 0 &&
-            <div>
-              <GroupProductItem /> 
-              {/* when pulling information from database bring them in as props from the group product item */}
-            </div>
+              this.state.products.map((product, index) => (
+                <div key={index}>
+                  <GroupProductItem 
+                    item={product} 
+                    onRemove={() => this.handleRemove(product)}
+                    productSelected={() => this.handleProductSelected(product)}
+                  /> 
+                </div>
+              ))
           }
         </div>
         <BottomNavBar />
@@ -82,4 +118,4 @@ class ShoppingListPage extends Component {
   }
 }
 
-export default withStyles(styles)(ShoppingListPage)
+export default withRouter(withStyles(styles)(ShoppingListPage))
