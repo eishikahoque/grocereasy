@@ -81,10 +81,10 @@ updateUser = (req, res) => {
             user.phone = body.phone
         }
         if(body.location){
-            user.location.street_num = body.location.street_num
-            user.location.unit_num = body.location.unit_num
-            user.location.street_name = body.location.street_name
-            user.location.address = body.location.address
+            user.location.streetNumber = body.location.streetNumber
+            user.location.unitNumber = body.location.unitNumber
+            user.location.streetName = body.location.streetName
+            user.location.postalCode = body.location.postalCode
             user.location.city = body.location.city
             user.location.province = body.location.province
             user.location.country = body.location.country
