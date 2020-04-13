@@ -241,7 +241,7 @@ class Account extends Component {
     if (userId) {
       axios.put(`/api/user/${userId}`, {
         name: this.state.personalDetail.name,
-        phone: this.state.personalDetail.phoneNumber,
+        phone: this.state.personalDetail.phoneNumber.replace(/[^0-9]/g, ''),
         location: this.state.addressDetail,
         allergies: this.state.allergies
       }, {
