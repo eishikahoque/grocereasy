@@ -56,6 +56,8 @@ const statusColorMap = {
   'Cancelled' : '#F4626C'
 }
 
+
+
 function OrderDetail(props) {
   
   const onCancel = () => {
@@ -63,6 +65,7 @@ function OrderDetail(props) {
   }
 
   const classes = useStyles()
+
   return (
     <div>
       <NavBar />
@@ -87,7 +90,7 @@ function OrderDetail(props) {
           <Typography className={classes.boldHeader}>Delivery Date:</Typography>
           <Typography> {moment(props.item.delivery_date).format("ddd MMMM DD YYYY - h:mA")} </Typography>
         </div>
-        <Card style={{marginTop: '1rem'}}>
+        {/* <Card style={{marginTop: '1rem'}}>
           <CardContent>
             <div className={classes.items}>
               <ProduceBtn />
@@ -98,8 +101,7 @@ function OrderDetail(props) {
               </div>
             </div>
           </CardContent>
-        </Card>
-
+        </Card> */}
         <Button variant="outlined" className={classes.cancelBtn} onClick={onCancel} size="small">Cancel Order</Button>
       </div>
       <BottomNavBar />

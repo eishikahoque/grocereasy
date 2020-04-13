@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/styles'
 import React, { Component } from 'react'
 import axios from 'axios'
 import moment from 'moment'
-import { withRouter } from 'react-router-dom';
+import { withRouter, useHistory } from 'react-router-dom';
 
 
 import OrderHistoryCard from '../elements/OrderHistoryCard'
@@ -101,7 +101,7 @@ class Orders extends Component {
                 <div key={index}>
                   <OrderHistoryCard
                     cancel={this.onCancel} 
-                    viewDetails={this.onViewDetails}
+                    viewDetails={() => this.onViewDetails(order)}
                     item={order}
                   />
                 </div>

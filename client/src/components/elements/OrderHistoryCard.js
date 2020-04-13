@@ -75,7 +75,12 @@ function OrderHistoryCard(props) {
             <Typography> ${props.item.order_summary.total} </Typography>
           </div>
           <div className={classes.btnRow}>
+            { props.item.status != 'Cancelled' &&
             <Button variant="outlined" className={classes.cancelBtn} onClick={handleCancel} size="small">Cancel Order</Button>
+            }
+            { props.item.status === 'Cancelled' &&
+            <Button variant="outlined" className={classes.cancelBtn} onClick={handleCancel} size="small" disabled>Cancelled</Button>
+            }
             <Button variant="contained" color="primary" size="small" onClick={handleViewDetails}>View Details</Button>
           </div>
         </CardContent>
