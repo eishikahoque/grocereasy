@@ -126,7 +126,8 @@ class Payment extends Component {
 
   handleChange = date => {
     this.setState({
-      startDate: date
+      startDate: date,
+      dateSelected: true
     });
   };
 
