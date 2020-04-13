@@ -56,12 +56,10 @@ const statusColorMap = {
   'Cancelled' : '#F4626C'
 }
 
-
-
 function OrderDetail(props) {
   
   const onCancel = () => {
-    props.cancel(props.item._id)
+    props.cancel(props.order._id)
   }
 
   const classes = useStyles()
@@ -73,22 +71,22 @@ function OrderDetail(props) {
       <BackBtn />
         <div className={classes.title} >
           <Typography variant="h6">
-            Order #{props.item._id}
+            Order #{props.order._id}
           </Typography>
           <Typography 
-          style={{color: statusColorMap[props.item.status]}}
+          style={{color: statusColorMap[props.order.status]}}
           >
-            {props.item.status}
+            {props.order.status}
           </Typography>
         </div>
         <Divider />
         <div className={classes.textRow} style={{marginTop: '1rem'}}>
           <Typography className={classes.boldHeader}>Date Ordered:</Typography>
-          <Typography> {moment(props.item.order_date).format("ddd MMMM DD YYYY")} </Typography>
+          <Typography> {moment(props.order.order_date).format("ddd MMMM DD YYYY")} </Typography>
         </div>
         <div className={classes.textRow}>
           <Typography className={classes.boldHeader}>Delivery Date:</Typography>
-          <Typography> {moment(props.item.delivery_date).format("ddd MMMM DD YYYY - h:mA")} </Typography>
+          <Typography> {moment(props.order.delivery_date).format("ddd MMMM DD YYYY - h:mA")} </Typography>
         </div>
         {/* <Card style={{marginTop: '1rem'}}>
           <CardContent>

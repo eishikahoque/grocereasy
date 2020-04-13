@@ -39,14 +39,18 @@ const statusColorMap = {
 }
 
 function OrderHistoryCard(props) {
+
   const classes = useStyles()
 
   const handleCancel = () => {
-    props.cancel(props.item._id)
+    props.cancel(props.order._id)
   }
 
   const handleViewDetails = () => {
-    props.viewDetails()
+    props.viewDetails(props.order._id)
+    // this.state({
+    //   order: this.props.history.location.state
+    // })
   }
 
   return (
@@ -54,31 +58,31 @@ function OrderHistoryCard(props) {
       <Card className={classes.root}>
         <CardContent>
           <div className={classes.heading}>
-            <Typography variant="h6">Order #{props.item._id} </Typography>
+            <Typography variant="h6">Order #{props.order._id} </Typography>
             <Typography variant="h6"
-            style={{color: statusColorMap[props.item.status]}}
+            style={{color: statusColorMap[props.order.status]}}
             >
-              {props.item.status}
+              {props.order.status}
             </Typography>
           </div>
           <div className={classes.textRow}>
             <Typography className={classes.boldHeader}>Date Ordered:</Typography>
-            <Typography> {moment(props.item.order_date).format("ddd MMMM DD YYYY")} </Typography>
+            <Typography> {moment(props.order.order_date).format("ddd MMMM DD YYYY")} </Typography>
 
           </div>
           <div className={classes.textRow}>
             <Typography className={classes.boldHeader}>Delivery Date:</Typography>
-            <Typography> {moment(props.item.delivery_date).format("ddd MMMM DD YYYY - h:mA")} </Typography>
+            <Typography> {moment(props.order.delivery_date).format("ddd MMMM DD YYYY - h:mA")} </Typography>
           </div>
           <div className={classes.textRow}>
             <Typography className={classes.boldHeader}>Total:  </Typography>
-            <Typography> ${props.item.order_summary.total} </Typography>
+            <Typography> ${props.order.order_summary.total} </Typography>
           </div>
           <div className={classes.btnRow}>
-            { props.item.status != 'Cancelled' &&
+            { props.order.status != 'Cancelled' &&
             <Button variant="outlined" className={classes.cancelBtn} onClick={handleCancel} size="small">Cancel Order</Button>
             }
-            { props.item.status === 'Cancelled' &&
+            { props.order.status === 'Cancelled' &&
             <Button variant="outlined" className={classes.cancelBtn} onClick={handleCancel} size="small" disabled>Cancelled</Button>
             }
             <Button variant="contained" color="primary" size="small" onClick={handleViewDetails}>View Details</Button>

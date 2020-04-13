@@ -49,7 +49,6 @@ class Confirmation extends Component {
   }
 
   onCancel = (props) => {
-    const orderId = this.state.order._id
     axios.put(`/api/order/${props}`, {
       status: 'Cancelled'
     }, {
@@ -77,7 +76,7 @@ class Confirmation extends Component {
           <Typography variant="h4" className={classes.title}>Order Confirmed</Typography>
           <Divider />
           <OrderHistoryCard 
-            item={this.state.order}
+            order={this.state.order}
             cancel={this.onCancel}
             view={this.onViewDetails}
           />
