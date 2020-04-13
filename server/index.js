@@ -6,7 +6,7 @@ const socket = require('socket.io')
 
 const app = express()
 const server = http.createServer(app)
-const io = socket(server)
+const io = socket.listen(server)
 
 const db = require('./db')
 const userRouter = require('./routes/user-router')
@@ -16,7 +16,7 @@ const listRouter = require('./routes/list-router')
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
-app.use(cors())
+app.use(cors({ credentials: true }))
 
 app.get('/', function(req, res){
   res.send('working');
@@ -28,6 +28,7 @@ app.use('/api', userRouter)
 app.use('/api', orderRouter)
 app.use('/api', listRouter)
 
+io.set('origins', '*:*')
 io.on('connection', (socket) => {
   socket.emit('your id', socket.id)
   socket.on('send message', (body) => {
@@ -35,6 +36,6 @@ io.on('connection', (socket) => {
   })
 })
 
-app.listen(8000, () => {
-    console.log('listening on port 8000');
+server.listen(8000, () => {
+  console.log('listening on port 8000')
 })

@@ -60,20 +60,21 @@ class NavBar extends Component {
     this.state = {
        isMenuOpen: false,
        count: 0,
+       endpoint: '//localhost:8000/',
     }
   }
 
-  // componentDidMount() {
-  //   const { endpoint } = this.state;
-  //   const socket = socketIOClient(endpoint);
-  //   socket.on("message", () => {
-  //     if (this.props.location.pathname !== "/chat") {
-  //       this.setState({
-  //         count: this.state.count + 1,
-  //       });
-  //     }
-  //   });
-  // }
+  componentDidMount() {
+    const { endpoint } = this.state;
+    const socket = socketIOClient(endpoint);
+    socket.on("message", () => {
+      if (this.props.location.pathname !== "/chat") {
+        this.setState({
+          count: this.state.count + 1,
+        });
+      }
+    });
+  }
 
   toggleMenu = () => {
     this.setState({

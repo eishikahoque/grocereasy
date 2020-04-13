@@ -71,6 +71,10 @@ const styles = () => ({
     zIndex: 1,
     color: '#92C023',
   },
+  errorMsg: {
+    lineHeight: 1.2,
+    marginTop: '1rem'
+  }
 })
 
 const loginValidationSchema = Yup.object().shape({
@@ -89,7 +93,8 @@ class Login extends Component {
       email: '',
       password: '',
       showPassword: false,
-      changeLoading: false
+      changeLoading: false,
+      loginError: false,
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleMouseDownPassword = this.handleMouseDownPassword.bind(this)
@@ -131,7 +136,7 @@ class Login extends Component {
         this.props.history.push('/grocerystores')
       }
     }).catch((err) => {
-      this.setState({ changeLoading: false })
+      this.setState({ changeLoading: false, loginError: true })
       console.log(err)
     })
   }
@@ -158,7 +163,7 @@ class Login extends Component {
         this.getList()
       }
     }).catch((err) => {
-      this.setState({ changeLoading: false })
+      this.setState({ changeLoading: false, loginError: true })
       console.log(err)
     })
   }
@@ -225,6 +230,11 @@ class Login extends Component {
                     </InputAdornment>
                   }}
                 />
+                {
+                  this.state.loginError && 
+
+                  <Typography color="error" variant="caption" className={classes.errorMsg}>Sorry, your credentials don't match our database.</Typography>
+                }
                 <Button variant="contained" color="primary" className={classes.btn} type="submit">
                   Login
                 </Button>

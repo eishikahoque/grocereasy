@@ -344,6 +344,7 @@ class Account extends Component {
                   label="Email"
                   name="email"
                   fullWidth
+                  disabled
                   onBlur={props.handleBlur}
                   onChange={props.handleChange}
                   value={props.values.email}
