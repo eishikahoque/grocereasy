@@ -1,9 +1,10 @@
-import { Card, CardContent, Typography } from '@material-ui/core';
+import { Card, CardContent, Typography, TextField } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider, withStyles } from '@material-ui/core/styles';
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
-
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 import BottomNavBar from '../layout/BottomNavBar';
 import NavBar from '../layout/NavBar';
@@ -46,7 +47,7 @@ const styles = () => ({
   },
   textField: {
     marginTop: '1rem',
-  }, 
+  }
 })
 
 
@@ -54,7 +55,11 @@ class Payment extends Component {
   constructor(props){
     super(props)
     this.state = {
+      dateSelected: false,
+      isProcessing: false,
+      startDate: new Date(),
       name: '',
+      payment_id: '',
       shippingDetail: {
         streetNumber: '',
         streetName: '',
@@ -64,16 +69,19 @@ class Payment extends Component {
         country: '',
         postalCode: '',
       },
-      payment_id: ''
+      orderDetail: {
+        total_price: '',
+        products:[],
+      }
     }
-    this.handleChange = this.handleChange.bind(this)
+    // this.handleChange = this.handleChange.bind(this)
   }
 
-  handleChange = prop => event => {
-    this.setState({
-      [prop]: event.target.value
-    })
-  }; 
+  // handleChange = prop => event => {
+  //   this.setState({
+  //     [prop]: event.target.value
+  //   })
+  // }; 
 
   // goBack = () => {
   //   this.props.history.goBack()
@@ -100,11 +108,13 @@ class Payment extends Component {
   paymentHandler = (details, data) => {
     const user_id = sessionStorage.getItem('userId')
     this.setState({
-      payment_id: details.id
+      payment_id: details.id,
+      isProcessing: true
     })
     axios.post(`/api/user/${user_id}/order`, {
       baseURL: 'http://localhost:8000',
-      payment_id: this.state.payment_id
+      payment_id: this.state.payment_id,
+      delivery_date: this.state.startDate
     }).then((response) => {
       if (response && response.data && response.status === 201) {
         this.props.history.push('/confirmation', this.state) //NEEDS TO BE FIXED
@@ -114,7 +124,21 @@ class Payment extends Component {
     })
   }
 
-  // getProducts = () => {}
+  handleChange = date => {
+    this.setState({
+      startDate: date
+    });
+  };
+
+  // getProducts = () => {
+    // const user_id = sessionStorage.getItem('userId')
+    // axios.get(`api/cart/${user_id}`, {
+    //   baseURL: 'http://localhost:8000',
+
+    // }).catch((err) => {
+    //   console.log(err)
+    // })
+  //}
   
   componentDidMount(){
     this.getShipping()
@@ -124,6 +148,7 @@ class Payment extends Component {
   render() {
     const { classes } = this.props;
     const shipping = this.state.shippingDetail
+    console.log(this.state.isProcessing)
 
     return (
       <div className={classes.root}>
@@ -132,23 +157,49 @@ class Payment extends Component {
           Checkout
         </Typography>
         <Card className={classes.card}>
-          <CardContent className={classes.cardContainer}>
-            <Typography varaint ="h3"> Your Order Will Be Shipped To </Typography>
-            <Typography>
-                {this.state.name}
-                <br />
-                {' ' + shipping.streetNumber} 
-                {' ' + shipping.streetName} 
-                { shipping.unitNumber ? ' #' + shipping.unitNumber : '' }
-                <br />
-                {shipping.city}, {shipping.province} {' ' + shipping.postalCode} {' ' + shipping.country}
-              </Typography>
-            <PayPalBtn
-              amount = {200}
-              onSuccess = {this.paymentHandler}
-            />
           
-          </CardContent>
+          { this.state.isProcessing === true && 
+            <CardContent className={classes.cardContainer}>
+              <Typography varaint ="h3"> Your Order is Processing </Typography>
+              <Typography> Please don't leave this page while your order is processing </Typography>
+            </CardContent>
+          }
+          { this.state.isProcessing === false &&
+            <CardContent className={classes.cardContainer}>
+              <Typography>
+                  Your Order Will Be Shipped To
+                  {this.state.name}
+                  <br />
+                  {' ' + shipping.streetNumber} 
+                  {' ' + shipping.streetName} 
+                  { shipping.unitNumber ? ' #' + shipping.unitNumber : '' }
+                  <br />
+                  {shipping.city}, {shipping.province} {' ' + shipping.postalCode} {' ' + shipping.country}
+              </Typography>
+              <Typography> Select a Delivery Date </Typography>
+              <DatePicker
+                className = "DatePicker"
+                selected={this.state.startDate}
+                onChange={this.handleChange}
+                showTimeSelect
+                timeFormat="HH:mm"
+                timeIntervals={30}
+                timeCaption="Time"
+                minDate={new Date()}
+                dateFormat="MMMM d, yyyy h:mm aa"
+                calendarClassName = "DatePicker"
+              />
+              { this.state.dateSelected === false &&
+                ""
+              }
+              { this.state.dateSelected === true &&
+                <PayPalBtn
+                amount = {200}
+                onSuccess = {this.paymentHandler}
+              />
+              }
+            </CardContent>
+          }
         </Card>
         <BottomNavBar />
       </div>
