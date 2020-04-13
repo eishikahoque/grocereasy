@@ -1,6 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/styles'
 import { Typography, Divider, Card, CardContent, Button } from '@material-ui/core'
+import moment from 'moment'
 
 import NavBar from '../layout/NavBar'
 import BottomNavBar from '../layout/BottomNavBar'
@@ -49,15 +50,16 @@ const useStyles = makeStyles({
 })
 
 const statusColorMap = {
+  'Processing' : '#58C9BE',
   'In Transit' : '#58C9BE',
   'Delivered' : '#92C023',
   'Cancelled' : '#F4626C'
 }
 
-function OrderDetail() {
+function OrderDetail(props) {
   
   const onCancel = () => {
-    // delete from database
+    props.cancel(props.item._id)
   }
 
   const classes = useStyles()
@@ -68,18 +70,22 @@ function OrderDetail() {
       <BackBtn />
         <div className={classes.title} >
           <Typography variant="h6">
-            Order #14329463824
+            Order #{props.item._id}
           </Typography>
-          <Typography >In Transit</Typography>
+          <Typography 
+          style={{color: statusColorMap[props.item.status]}}
+          >
+            {props.item.status}
+          </Typography>
         </div>
         <Divider />
         <div className={classes.textRow} style={{marginTop: '1rem'}}>
           <Typography className={classes.boldHeader}>Date Ordered:</Typography>
-          <Typography> 3675286 </Typography>
+          <Typography> {moment(props.item.order_date).format("ddd MMMM DD YYYY")} </Typography>
         </div>
         <div className={classes.textRow}>
           <Typography className={classes.boldHeader}>Delivery Date:</Typography>
-          <Typography>3675286 </Typography>
+          <Typography> {moment(props.item.delivery_date).format("ddd MMMM DD YYYY - h:mA")} </Typography>
         </div>
         <Card style={{marginTop: '1rem'}}>
           <CardContent>

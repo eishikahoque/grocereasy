@@ -1,6 +1,10 @@
 import { Divider, Typography } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
 import React, { Component } from 'react'
+import axios from 'axios'
+import moment from 'moment'
+import { withRouter } from 'react-router-dom';
+
 
 import OrderHistoryCard from '../elements/OrderHistoryCard'
 import BottomNavBar from '../layout/BottomNavBar'
@@ -29,19 +33,44 @@ const styles = () => ({
 class Orders extends Component {
   constructor(props) {
     super(props)
-  
     this.state = {
-       order: []
+       orders: []
     }
   }
-  
 
-  onCancel = () => {
-    // delete from database
+  getOrders = () => {
+    const userId = sessionStorage.getItem('userId')
+    axios.get(`/api/user/${userId}/orders`, {
+      baseURL: 'http://localhost:8000'
+    }).then((response) => {
+      const { data } = response.data
+      this.setState({
+        orders: data
+      })
+    })
+  }
+  
+  componentDidMount(){
+    this.getOrders()
   }
 
-  onViewDetails = () => {
-    this.props.history.push('/orderDetail')
+  onCancel = (props) => {
+    axios.put(`/api/order/${props}`, {
+      status: 'Cancelled'
+    }, {
+      baseURL: 'http://localhost:8000'
+    }).then((response) => {
+      if(response && response.data && response.status === 200){
+        this.setState({
+          orders: this.state.orders,
+          status: 'Cancelled'
+        })
+      }
+    }).catch((err) => console.log(err))
+  }
+
+  onViewDetails = (order) => {
+    this.props.history.push('/orderDetail', order)
   }
 
   render() {
@@ -55,7 +84,7 @@ class Orders extends Component {
           </Typography>
           <Divider />
           {
-            this.state.order.length === 0 && 
+            this.state.orders.length === 0 && 
             <div>
               <img src={mobileCar} alt="basket" className={classes.image} />
               <Typography variant="h5" className={classes.subheader} align="center">
@@ -67,12 +96,16 @@ class Orders extends Component {
             </div>
           }   
           {
-            this.state.order.length > 0 &&
-            <div>
-              <OrderHistoryCard cancel={this.onCancel} viewDetails={this.onViewDetails} />
-              
-              {/* when pulling information from database bring them in as props from the group product item */}
-            </div>
+            this.state.orders.length > 0 &&
+              this.state.orders.map((order, index) => (
+                <div key={index}>
+                  <OrderHistoryCard
+                    cancel={this.onCancel} 
+                    viewDetails={this.onViewDetails}
+                    item={order}
+                  />
+                </div>
+              ))
           }
         </div>
         <BottomNavBar />
@@ -81,4 +114,4 @@ class Orders extends Component {
   }
 }
 
-export default withStyles(styles)(Orders)
+export default withRouter(withStyles(styles)(Orders))

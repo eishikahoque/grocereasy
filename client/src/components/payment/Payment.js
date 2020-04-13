@@ -57,6 +57,7 @@ class Payment extends Component {
     this.state = {
       dateSelected: false,
       isProcessing: false,
+      data: {},
       startDate: new Date(),
       name: '',
       payment_id: '',
@@ -72,6 +73,15 @@ class Payment extends Component {
       orderDetail: {
         total_price: '',
         products:[],
+      },
+      recentOrder: {
+        _id: '',
+        status: '',
+        order_date: '',
+        delivery_date: '',
+        order_summary: {
+          total: ''
+        }
       }
     }
     // this.handleChange = this.handleChange.bind(this)
@@ -105,7 +115,7 @@ class Payment extends Component {
     })
   }
 
-  paymentHandler = (details, data) => {
+  paymentHandler = (details) => {
     const user_id = sessionStorage.getItem('userId')
     this.setState({
       payment_id: details.id,
@@ -117,7 +127,19 @@ class Payment extends Component {
       delivery_date: this.state.startDate
     }).then((response) => {
       if (response && response.data && response.status === 201) {
-        this.props.history.push('/confirmation', this.state) //NEEDS TO BE FIXED
+        this.setState({
+          recentOrder: {
+            _id: response.data.id,
+            status: response.data.status,
+            order_date: response.data.order_date,
+            delivery_date: response.data.delivery_date,
+            order_summary: {
+              total: response.data.total
+            }
+          }
+        })
+        sessionStorage.setItem('recentOrder', JSON.stringify(this.state.recentOrder))
+        this.props.history.push('/confirmation', this.state)
       }
     }).catch((err) => {
       console.log(err)
@@ -149,7 +171,6 @@ class Payment extends Component {
   render() {
     const { classes } = this.props;
     const shipping = this.state.shippingDetail
-    console.log(this.state.isProcessing)
 
     return (
       <div className={classes.root}>

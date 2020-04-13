@@ -1,6 +1,7 @@
 import React from 'react'
 import { Card, CardContent, Button, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
+import moment from 'moment'
 
 const useStyles = makeStyles({
   root: {
@@ -41,7 +42,7 @@ function OrderHistoryCard(props) {
   const classes = useStyles()
 
   const handleCancel = () => {
-    props.cancel()
+    props.cancel(props.item._id)
   }
 
   const handleViewDetails = () => {
@@ -53,24 +54,25 @@ function OrderHistoryCard(props) {
       <Card className={classes.root}>
         <CardContent>
           <div className={classes.heading}>
-            <Typography variant="h6">Order #</Typography>
+            <Typography variant="h6">Order #{props.item._id} </Typography>
             <Typography variant="h6"
-            style={{color: statusColorMap['Processing']}}
+            style={{color: statusColorMap[props.item.status]}}
             >
-              In Transit
+              {props.item.status}
             </Typography>
           </div>
           <div className={classes.textRow}>
             <Typography className={classes.boldHeader}>Date Ordered:</Typography>
-            <Typography> 3675286 </Typography>
+            <Typography> {moment(props.item.order_date).format("ddd MMMM DD YYYY")} </Typography>
+
           </div>
           <div className={classes.textRow}>
             <Typography className={classes.boldHeader}>Delivery Date:</Typography>
-            <Typography>3675286 </Typography>
+            <Typography> {moment(props.item.delivery_date).format("ddd MMMM DD YYYY - h:mA")} </Typography>
           </div>
           <div className={classes.textRow}>
             <Typography className={classes.boldHeader}>Total:  </Typography>
-            <Typography>$75286</Typography>
+            <Typography> ${props.item.order_summary.total} </Typography>
           </div>
           <div className={classes.btnRow}>
             <Button variant="outlined" className={classes.cancelBtn} onClick={handleCancel} size="small">Cancel Order</Button>

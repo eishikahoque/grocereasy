@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Stepper, Step, StepLabel, Typography, Divider, Card, CardContent, Avatar } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
 import { withRouter } from 'react-router-dom'
+import axios from 'axios'
 
 import NavBar from '../layout/NavBar'
 import BottomNavBar from '../layout/BottomNavBar'
@@ -37,6 +38,7 @@ class Confirmation extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      order: JSON.parse(sessionStorage.getItem('recentOrder')) || [],
       steps: ['Order is being processed', 'Your order is out for delivery', 'Your order has been delivered'],
       activeStep: 0,
     }
@@ -44,6 +46,26 @@ class Confirmation extends Component {
   
   handleNavigation = () => {
     this.props.history.push('/chat')
+  }
+
+  onCancel = (props) => {
+    const orderId = this.state.order._id
+    axios.put(`/api/order/${props}`, {
+      status: 'Cancelled'
+    }, {
+      baseURL: 'http://localhost:8000'
+    }).then((response) => {
+      if(response && response.data && response.status === 200){
+        this.setState({
+          orders: this.state.orders,
+          status: 'Cancelled'
+        })
+      }
+    }).catch((err) => console.log(err))
+  }
+
+  onViewDetails = (props) => {
+    this.props.history.push('/orderDetail')
   }
 
   render() {
@@ -54,7 +76,11 @@ class Confirmation extends Component {
         <div className={classes.context}>
           <Typography variant="h4" className={classes.title}>Order Confirmed</Typography>
           <Divider />
-          <OrderHistoryCard />
+          <OrderHistoryCard 
+            item={this.state.order}
+            cancel={this.onCancel}
+            view={this.onViewDetails}
+          />
           <Stepper activeStep={this.state.activeStep} orientation="vertical">
             {this.state.steps.map((label, index) => (
               <Step key={label} className={classes.step}>

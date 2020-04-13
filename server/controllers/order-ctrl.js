@@ -23,6 +23,10 @@ createOrder = (req, res) => {
             return res.status(201).json({
                 success: true,
                 id: order._id,
+                status: order.status,
+                order_date: order.order_date,
+                delivery_date: order.delivery_date,
+                total: order.order_summary.total,
                 user_id: req.params.user_id,
                 message: 'Order created!'
             })

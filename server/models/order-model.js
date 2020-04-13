@@ -59,12 +59,11 @@ const Order = new Schema({
         default: Date.now
     },
     delivery_date: {
-        type: Date,
-        default: Date.now
+        type: Date
     },
     status: {
         type: String,
-        default: 'Order Placed'
+        default: 'Processing'
     },
     user_id: {
         type: Schema.Types.ObjectId,
