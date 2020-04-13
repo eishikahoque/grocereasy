@@ -72,6 +72,7 @@ class Orders extends Component {
   }
 
   onViewDetails = (props, order) => {
+    console.log(props)
     axios.get(`/api/order/${props}`,{
       baseURL: 'http://localhost:8000'
     }).then((response) => {
@@ -79,7 +80,7 @@ class Orders extends Component {
         this.setState({
           orders: this.state.orders
         })
-        this.props.history.push('/orderDetail', order)
+        this.props.history.push('/orderDetail')
       }
     }).catch((err) => console.log(err))
   }
@@ -124,7 +125,8 @@ class Orders extends Component {
                   <OrderHistoryCard
                     order={order}
                     cancel={this.onCancel} 
-                    viewDetails={() => this.onViewDetails(order)}
+                    // viewDetails={() => this.onViewDetails(order)}
+                    viewDetails={this.onViewDetails}
                   />
                 </div>
               ))

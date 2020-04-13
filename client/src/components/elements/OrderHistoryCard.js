@@ -48,9 +48,6 @@ function OrderHistoryCard(props) {
 
   const handleViewDetails = () => {
     props.viewDetails(props.order._id)
-    // this.state({
-    //   order: this.props.history.location.state
-    // })
   }
 
   return (
