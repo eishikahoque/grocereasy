@@ -92,18 +92,7 @@ class Payment extends Component {
         }
       }
     }
-    // this.handleChange = this.handleChange.bind(this)
   }
-
-  // handleChange = prop => event => {
-  //   this.setState({
-  //     [prop]: event.target.value
-  //   })
-  // }; 
-
-  // goBack = () => {
-  //   this.props.history.goBack()
-  // }
 
   getShipping = () => {
     let addressDetail = JSON.parse(sessionStorage.getItem('addressDetail'))
@@ -164,7 +153,6 @@ class Payment extends Component {
     })
   }
 
-
   clearCartProducts = () => {
     axios.put('/api/user/cart/update', {
       user_id: sessionStorage.getItem('userId'),
@@ -183,21 +171,11 @@ class Payment extends Component {
       startDate: date,
       dateSelected: true
     });
+    console.log(this.state.orderDetail.total_price)
   };
-
-  // getProducts = () => {
-    // const user_id = sessionStorage.getItem('userId')
-    // axios.get(`api/cart/${user_id}`, {
-    //   baseURL: 'http://localhost:8000',
-
-    // }).catch((err) => {
-    //   console.log(err)
-    // })
-  //}
   
   componentDidMount(){
     this.getShipping()
-    //this.getProducts() //for getting product info from cart
   }
 
   render() {
@@ -249,7 +227,7 @@ class Payment extends Component {
               { this.state.dateSelected === true &&
                 <PayPalBtn
                 className={classes.paypalBtn}
-                amount = {this.state.orderDetail.total_price}
+                amount = {parseFloat(this.state.orderDetail.total_price)}
                 onSuccess = {this.paymentHandler}
               />
               }
