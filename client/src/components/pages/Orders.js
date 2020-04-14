@@ -1,5 +1,6 @@
-import { Divider, Typography } from '@material-ui/core'
+import { Divider, Typography, Snackbar } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
+import MuiAlert from '@material-ui/lab/Alert'
 import React, { Component } from 'react'
 import axios from 'axios'
 import moment from 'moment'
@@ -34,7 +35,8 @@ class Orders extends Component {
   constructor(props) {
     super(props)
     this.state = {
-       orders: []
+       orders: [],
+       open: false
     }
   }
 
@@ -63,18 +65,39 @@ class Orders extends Component {
       if(response && response.data && response.status === 200){
         this.setState({
           orders: this.state.orders,
-          status: 'Cancelled'
+          open: true
         })
       }
     }).catch((err) => console.log(err))
   }
 
-  onViewDetails = (order) => {
-    this.props.history.push('/orderDetail', order)
+  onViewDetails = (props, order) => {
+    console.log(props)
+    axios.get(`/api/order/${props}`,{
+      baseURL: 'http://localhost:8000'
+    }).then((response) => {
+      if(response && response.data && response.status === 200){
+        this.setState({
+          orders: this.state.orders
+        })
+        this.props.history.push('/orderDetail')
+      }
+    }).catch((err) => console.log(err))
+  }
+
+  handleClose = () => {
+    this.setState({
+      open: false
+    })
   }
 
   render() {
     const {classes} = this.props
+    
+    const Alert = (props) => {
+      return <MuiAlert elevation={6} variant="filled" {...props} />;
+    }
+
     return (
       <div>
         <NavBar />
@@ -100,14 +123,25 @@ class Orders extends Component {
               this.state.orders.map((order, index) => (
                 <div key={index}>
                   <OrderHistoryCard
+                    order={order}
                     cancel={this.onCancel} 
-                    viewDetails={() => this.onViewDetails(order)}
-                    item={order}
+                    // viewDetails={() => this.onViewDetails(order)}
+                    viewDetails={this.onViewDetails}
                   />
                 </div>
               ))
           }
         </div>
+        <Snackbar 
+            open={this.state.open} 
+            onClose={this.handleClose}
+            autoHideDuration={2000}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          >
+          <Alert severity="success" style={{ backgroundColor: '#58C9BE'}} >
+            Order Cancelled!
+          </Alert>
+        </Snackbar>
         <BottomNavBar />
       </div>
     )
