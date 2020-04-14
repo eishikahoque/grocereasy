@@ -95,6 +95,7 @@ class NavBar extends Component {
     } else if(text === 'My Account') {
       this.props.history.push('/account')
     } else if(text === 'Logout') {
+      sessionStorage.clear()
       this.props.history.replace('/')
     }
   }

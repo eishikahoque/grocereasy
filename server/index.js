@@ -12,6 +12,8 @@ const db = require('./db')
 const userRouter = require('./routes/user-router')
 const orderRouter = require('./routes/order-router')
 const listRouter = require('./routes/list-router')
+const cartRouter = require("./routes/cart-router");
+
 
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
@@ -27,6 +29,8 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 app.use('/api', userRouter)
 app.use('/api', orderRouter)
 app.use('/api', listRouter)
+app.use("/api", cartRouter);
+
 
 io.set('origins', '*:*')
 io.on('connection', (socket) => {

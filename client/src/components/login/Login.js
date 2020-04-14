@@ -124,21 +124,32 @@ class Login extends Component {
     event.preventDefault();
   };
 
-  getList = () => {
-    axios.get(`/api/list/${sessionStorage.getItem('userId')}`, {
+  getCart = () => {
+    return axios.get(`/api/cart/${sessionStorage.getItem('userId')}`, {
       baseURL: 'http://localhost:8000'
-    }).then((response) => {
-      if (response && response.data && response.status === 200) {
-        sessionStorage.setItem('productList', JSON.stringify(response.data.products))
+    })
+  }
+
+  getList = () => {
+    return axios.get(`/api/list/${sessionStorage.getItem('userId')}`, {
+      baseURL: 'http://localhost:8000'
+    })
+  }
+
+  getListAndCart = () => {
+    axios.all([this.getList(), this.getCart()])
+    .then(axios.spread((list, cart) => {
+      if (list.status === 200 && cart.status === 200) {
+        sessionStorage.setItem('productList', JSON.stringify(list.data.products))
+        sessionStorage.setItem('cartProductList', JSON.stringify(cart.data.products))
         this.setState({
           changeLoading: false
-        })
-        this.props.history.push('/grocerystores')
+         })
+         this.props.history.push('/grocerystores')
+      } else {
+        this.setState({ changeLoading: false})
       }
-    }).catch((err) => {
-      this.setState({ changeLoading: false, loginError: true })
-      console.log(err)
-    })
+    }))
   }
 
   loginUser = () => {
@@ -160,7 +171,7 @@ class Login extends Component {
         sessionStorage.setItem('addressDetail', JSON.stringify(data.location))
         sessionStorage.setItem('allergies', data.allergies)
         sessionStorage.setItem('userId', data._id)
-        this.getList()
+        this.getListAndCart()
       }
     }).catch((err) => {
       this.setState({ changeLoading: false, loginError: true })

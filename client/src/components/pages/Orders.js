@@ -101,7 +101,7 @@ class Orders extends Component {
                 <div key={index}>
                   <OrderHistoryCard
                     cancel={this.onCancel} 
-                    viewDetails={this.onViewDetails}
+                    viewDetails={() => this.onViewDetails(order)}
                     item={order}
                   />
                 </div>

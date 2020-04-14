@@ -103,7 +103,8 @@ class ShoppingListPage extends Component {
             this.state.products.length > 0 &&
               this.state.products.map((product, index) => (
                 <div key={index}>
-                  <GroupProductItem 
+                  <GroupProductItem
+                    hideQuantity
                     item={product} 
                     onRemove={() => this.handleRemove(product)}
                     productSelected={() => this.handleProductSelected(product)}

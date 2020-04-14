@@ -1,6 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/styles'
-import { Button } from '@material-ui/core'
+import { Button, Typography } from '@material-ui/core'
 
 import ProduceBtn from './ProduceBtn'
 import ItemPrice from './ItemPrice'
@@ -18,6 +18,7 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     textAlign: 'center',
     justifyContent: 'flex-end',
+    margin: 'auto'
   },
   price: {
     margin: 'none',
@@ -49,6 +50,10 @@ function GroupProductItem(props) {
     props.productSelected()
   }
 
+  const onQuantityUpdated = (quantity) => {
+    props.quantityUpdated(quantity)
+  }
+
   return (
     <div className={classes.items}>
       <div className={classes.imageBtn}>
@@ -57,7 +62,11 @@ function GroupProductItem(props) {
       </div>
       <div className={classes.priceQuantity}>
         <ItemPrice className={classes.price} itemName={props.item['name']} itemPrice={props.item['price']} />
-        <QuantityBtn quantity={props.item['quantity']} hideIcon />
+        <Typography>{props.item['customizations']}</Typography>
+        {
+          !props.hideQuantity &&
+          <QuantityBtn quantity={props.item['quantity']} quantityUpdated={onQuantityUpdated} />
+        }
       </div>
     </div>
   

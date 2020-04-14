@@ -172,6 +172,36 @@ class ProduceDetail extends Component {
     }
   }
 
+
+  handleAddToCart = () => {
+    const cartProductList = JSON.parse(sessionStorage.getItem('cartProductList'))
+    const existingItem = cartProductList.find((c) => c.name === this.state.product.name)
+
+    if (existingItem) {
+      existingItem.quantity += this.state.quantity
+    } else {
+      cartProductList.push({...this.state.product, quantity: this.state.quantity, price: this.state.product.price || 4})
+    }
+    sessionStorage.setItem('cartProductList', JSON.stringify(cartProductList))
+
+    this.updateCart()
+  }
+
+  updateCart = () => {
+    axios.put('/api/user/cart/update', {
+      user_id: sessionStorage.getItem('userId'),
+      products: JSON.parse(sessionStorage.getItem('cartProductList'))
+    }, {
+      baseURL: 'http://localhost:8000'
+    }).then((response) => {
+      if (response && response.data && response.status === 200) {
+        this.setState({
+          open: !this.state.open
+        })
+      }
+    }).catch((err) => console.log(err))
+  }
+
   handleAddToList = () => {
     if (this.state.isAddedToList) {
       this.state.productList = this.state.productList
@@ -225,12 +255,6 @@ class ProduceDetail extends Component {
   toggleCustomBtn = () => {
     this.setState({
       isCustomSectionOpened: !this.state.isCustomSectionOpened
-    })
-  }
-
-  handleAddToCart = () => {
-    this.setState({
-      open: true
     })
   }
 

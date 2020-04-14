@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/styles'
 import { Typography } from '@material-ui/core'
-import NumberFormat from 'react-number-format';
+import NumberFormat from 'react-number-format'
 
 
 const useStyles = makeStyles({

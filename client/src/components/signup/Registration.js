@@ -156,23 +156,36 @@ class Registration extends Component {
     }, this.registerUser)
   }
 
-  createList = () => {
-    axios.post('/api/user/list', {
+  createCart = () => {
+    return axios.post('/api/user/cart', {
       user_id: sessionStorage.getItem('userId')
     }, {
       baseURL: 'http://localhost:8000'
-    }).then((response) => {
-      if (response && response.data && response.status === 201) {
-        sessionStorage.setItem('productList', JSON.stringify(response.data.products))
+    })
+  }
+
+  createList = () => {
+    return axios.post('/api/user/list', {
+      user_id: sessionStorage.getItem('userId')
+    }, {
+      baseURL: 'http://localhost:8000'
+    })
+  }
+
+  createListAndCart = () => {
+    axios.all([this.createList(), this.createCart()])
+    .then(axios.spread((list, cart) => {
+      if (list.status === 201 && cart.status === 201) {
+        sessionStorage.setItem('productList', JSON.stringify(list.data.products))
+        sessionStorage.setItem('cartProductList', JSON.stringify(cart.data.products))
         this.setState({
           changeLoading: false
-        })
-        this.props.history.push('/grocerystores', this.state)
+         })
+         this.props.history.push('/grocerystores')
+      } else {
+        this.setState({ changeLoading: false})
       }
-    }).catch((err) => {
-      this.setState({ changeLoading: false })
-      console.log(err)
-    })
+    }))
   }
 
   registerUser = () => {
@@ -198,7 +211,7 @@ class Registration extends Component {
         sessionStorage.setItem('addressDetail', JSON.stringify(this.state.addressDetail))
         sessionStorage.setItem('allergies', this.state.personalization.allergies)
         sessionStorage.setItem('userId', response.data.id)
-        this.createList()
+        this.createListAndCart()
       }
     }).catch((err) => {
       this.setState({ changeLoading: false })
