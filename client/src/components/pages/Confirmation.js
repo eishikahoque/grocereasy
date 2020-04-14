@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Stepper, Step, StepLabel, Typography, Divider, Card, CardContent, Avatar } from '@material-ui/core'
+import { Stepper, Step, StepLabel, Typography, Divider, Card, CardContent, Avatar, Snackbar} from '@material-ui/core'
+import MuiAlert from '@material-ui/lab/Alert'
 import { withStyles } from '@material-ui/styles'
 import { withRouter } from 'react-router-dom'
 import axios from 'axios'
@@ -7,6 +8,10 @@ import axios from 'axios'
 import NavBar from '../layout/NavBar'
 import BottomNavBar from '../layout/BottomNavBar'
 import OrderHistoryCard from '../elements/OrderHistoryCard'
+
+const Alert = (props) => {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const styles = () => ({
   context: {
@@ -38,9 +43,11 @@ class Confirmation extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      order: JSON.parse(sessionStorage.getItem('recentOrder')) || [],
+      order: JSON.parse(sessionStorage.getItem('recentOrder')) || null,
       steps: ['Order is being processed', 'Your order is out for delivery', 'Your order has been delivered'],
       activeStep: 0,
+      open: false,
+      orderStatus: ''
     }
   }
   
@@ -54,17 +61,21 @@ class Confirmation extends Component {
     }, {
       baseURL: 'http://localhost:8000'
     }).then((response) => {
-      if(response && response.data && response.status === 200){
+      if(response && response.data && response.status === 200) {
+        const order = { ...this.state.order, status: response.data.status }
+        sessionStorage.setItem('recentOrder', JSON.stringify(order))
         this.setState({
-          orders: this.state.orders,
-          status: 'Cancelled'
+          order,
+          open: true
         })
       }
     }).catch((err) => console.log(err))
   }
 
-  onViewDetails = (props) => {
-    this.props.history.push('/orderDetail')
+  handleClose = () => {
+    this.setState({
+      open: false
+    })
   }
 
   render() {
@@ -78,7 +89,7 @@ class Confirmation extends Component {
           <OrderHistoryCard 
             order={this.state.order}
             cancel={this.onCancel}
-            view={this.onViewDetails}
+            hideDetails
           />
           <Stepper activeStep={this.state.activeStep} orientation="vertical">
             {this.state.steps.map((label, index) => (
@@ -95,6 +106,16 @@ class Confirmation extends Component {
           </Card>
         </div>
         <BottomNavBar />
+        <Snackbar 
+            open={this.state.open} 
+            onClose={this.handleClose}
+            autoHideDuration={2000}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          >
+          <Alert severity="success" style={{ backgroundColor: '#58C9BE'}} >
+            Order Cancelled!
+          </Alert>
+        </Snackbar>
       </div>
     )
   }

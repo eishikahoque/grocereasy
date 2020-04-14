@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/styles'
 import { Typography, Divider, Button, Backdrop, CircularProgress } from '@material-ui/core'
-import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import axios from 'axios'
 import NumberFormat from 'react-number-format'
 
@@ -137,6 +137,10 @@ class Cart extends Component {
     })
   }
 
+  handleRedirect = () => {
+    this.props.history.push('/checkout', this.state.totalPrice)
+  }
+
 
   render() {
     const { classes } = this.props
@@ -213,9 +217,14 @@ class Cart extends Component {
                       </span> 
                     </Typography>
                   </div>
-                  <Link to='/checkout' style={{ textDecoration: 'none'}}>
-                    <Button variant="contained" color="primary" className={classes.checkoutBtn}>Proceed to Checkout</Button>
-                  </Link>
+                    <Button 
+                      variant="contained" 
+                      color="primary" 
+                      onClick={this.handleRedirect}
+                      className={classes.checkoutBtn}
+                    >
+                      Proceed to Checkout
+                    </Button>
                 </div>
               </div>
             }
@@ -230,4 +239,4 @@ class Cart extends Component {
   }
 }
 
-export default withStyles(styles)(Cart)
+export default withRouter(withStyles(styles)(Cart))

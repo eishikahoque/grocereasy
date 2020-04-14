@@ -19,12 +19,10 @@ const styles = () => ({
     borderRadius: '2.75rem 2.75rem 0 0',
   },
   cardContainer: {
-    display: 'grid',
-    gridTemplateRows: '1fr 1fr 5fr 1fr',
-    height: '90%',
+    textAlign: 'center',
     overflowY: 'scroll',
-    scrollBehavior: 'smooth',
     overflowX: 'hidden',
+    scrollBehavior: 'smooth',
   },
   btn: {
     width: '75%',
@@ -36,8 +34,8 @@ const styles = () => ({
     fontSize: '3rem',
     margin: '2rem auto',
     backgroundColor: '#FFD043',
-    padding: '2rem',
-    paddingBottom: '4rem',
+    padding: '3rem',
+    paddingBottom: '10rem',
     color: '#fff'
   },
   form: {
@@ -47,6 +45,16 @@ const styles = () => ({
   },
   textField: {
     marginTop: '1rem',
+  },
+  datePicker: {
+    padding: '0.75rem 1rem',
+    fontSize: '1.25rem',
+    color: 'white',
+    backgroundColor: '#92C023',
+    fontFamily: 'Raleway'
+  },
+  paypalBtn: {
+    margin: '3rem 0'
   }
 })
 
@@ -100,6 +108,7 @@ class Payment extends Component {
   getShipping = () => {
     let addressDetail = JSON.parse(sessionStorage.getItem('addressDetail'))
     let personalDetail = JSON.parse(sessionStorage.getItem('personalDetail'))
+    let cartProductList = JSON.parse(sessionStorage.getItem('cartProductList'))
 
     this.setState({
       name: personalDetail.name,
@@ -111,6 +120,10 @@ class Payment extends Component {
         province: addressDetail.province,
         country: addressDetail.country,
         postalCode: addressDetail.postalCode,
+      },
+      orderDetail: {
+        products: cartProductList,
+        total_price: this.props.history.location.state
       }
     })
   }
@@ -124,6 +137,10 @@ class Payment extends Component {
     axios.post(`/api/user/${user_id}/order`, {
       baseURL: 'http://localhost:8000',
       payment_id: this.state.payment_id,
+      products: this.state.orderDetail.products,
+      order_summary: {
+        total: this.state.orderDetail.total_price
+      },
       delivery_date: this.state.startDate
     }).then((response) => {
       if (response && response.data && response.status === 201) {
@@ -140,10 +157,25 @@ class Payment extends Component {
         })
         sessionStorage.setItem('recentOrder', JSON.stringify(this.state.recentOrder))
         this.props.history.push('/confirmation', this.state)
+        this.clearCartProducts()
       }
     }).catch((err) => {
       console.log(err)
     })
+  }
+
+
+  clearCartProducts = () => {
+    axios.put('/api/user/cart/update', {
+      user_id: sessionStorage.getItem('userId'),
+      products: []
+    }, {
+      baseURL: 'http://localhost:8000'
+    }).then((response) => {
+      if (response && response.status === 200) {
+        sessionStorage.setItem('cartProductList', JSON.stringify([]))
+      }
+    }).catch((err) => console.log(err))
   }
 
   handleChange = date => {
@@ -188,19 +220,19 @@ class Payment extends Component {
           }
           { this.state.isProcessing === false &&
             <CardContent className={classes.cardContainer}>
-              <Typography>
-                  Your Order Will Be Shipped To
-                  {this.state.name}
-                  <br />
-                  {' ' + shipping.streetNumber} 
-                  {' ' + shipping.streetName} 
-                  { shipping.unitNumber ? ' #' + shipping.unitNumber : '' }
-                  <br />
-                  {shipping.city}, {shipping.province} {' ' + shipping.postalCode} {' ' + shipping.country}
+              <Typography variant="h5" paragraph>
+                Your Order Will Be Shipped To
               </Typography>
-              <Typography> Select a Delivery Date </Typography>
+              <Typography variant="h6">{this.state.name}</Typography>
+              <Typography>{shipping.streetNumber + ' ' + shipping.streetName} </Typography>
+              <Typography>{shipping.unitNumber ? ' #' + shipping.unitNumber : ''} </Typography>
+              <Typography>{shipping.city + ' ' + shipping.province} </Typography>
+              <Typography>{shipping.postalCode} </Typography>
+              <Typography>{shipping.country} </Typography>
+              
+              <Typography variant="h5" paragraph> Select a Delivery Date </Typography>
               <DatePicker
-                className = "DatePicker"
+                className = {classes.datePicker}
                 selected={this.state.startDate}
                 onChange={this.handleChange}
                 showTimeSelect
@@ -216,7 +248,8 @@ class Payment extends Component {
               }
               { this.state.dateSelected === true &&
                 <PayPalBtn
-                amount = {200}
+                className={classes.paypalBtn}
+                amount = {this.state.orderDetail.total_price}
                 onSuccess = {this.paymentHandler}
               />
               }

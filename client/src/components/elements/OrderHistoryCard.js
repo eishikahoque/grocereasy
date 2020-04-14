@@ -11,6 +11,7 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    lineHeight: 0.8
   },
   boldHeader: {
     fontWeight: 500,
@@ -28,7 +29,7 @@ const useStyles = makeStyles({
     borderColor: '#F4626C',
     color: '#F4626C',
     marginRight: 'auto',
-  }
+  },
 })
 
 const statusColorMap = {
@@ -55,7 +56,7 @@ function OrderHistoryCard(props) {
       <Card className={classes.root}>
         <CardContent>
           <div className={classes.heading}>
-            <Typography variant="h6">Order #{props.order._id} </Typography>
+            <Typography variant="h6">Order <span className={classes.orderNumber}>#{props.order._id.substr(0, 4)}</span></Typography>
             <Typography variant="h6"
             style={{color: statusColorMap[props.order.status]}}
             >
@@ -69,7 +70,7 @@ function OrderHistoryCard(props) {
           </div>
           <div className={classes.textRow}>
             <Typography className={classes.boldHeader}>Delivery Date:</Typography>
-            <Typography> {moment(props.order.delivery_date).format("ddd MMMM DD YYYY - h:mA")} </Typography>
+            <Typography> {moment(props.order.delivery_date).format("ddd MMMM DD YYYY-h:mA")} </Typography>
           </div>
           <div className={classes.textRow}>
             <Typography className={classes.boldHeader}>Total:  </Typography>
@@ -82,7 +83,10 @@ function OrderHistoryCard(props) {
             { props.order.status === 'Cancelled' &&
             <Button variant="outlined" className={classes.cancelBtn} onClick={handleCancel} size="small" disabled>Cancelled</Button>
             }
-            <Button variant="contained" color="primary" size="small" onClick={handleViewDetails}>View Details</Button>
+            {
+              !props.hideDetails &&
+                <Button variant="contained" color="primary" size="small" onClick={handleViewDetails}>View Details</Button>
+            }
           </div>
         </CardContent>
       </Card>

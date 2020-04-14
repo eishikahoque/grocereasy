@@ -119,6 +119,7 @@ updateOrder = async (req, res) => {
                 return res.status(200).json({
                     success: true,
                     id: order._id,
+                    status: order.status,
                     message: 'order updated'
                 })
             })

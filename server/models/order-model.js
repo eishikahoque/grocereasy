@@ -3,8 +3,8 @@ const Schema = mongoose.Schema
 
 const Order = new Schema({
     products: [{
-            id: { type: String, required: true },
-            title: { type: String, required: true },
+            id: { type: String },
+            name: { type: String, required: true },
             image: { type: String, required: true },
             price: { type: Number, required: true },
             quantity: { type: Number, required: true },
@@ -21,7 +21,6 @@ const Order = new Schema({
     order_summary: { 
         subtotal: {
             type: Number,
-            required: true,
             default: function(){
                 const pt_sum = this.products.reduce((a, {total_price}) => a + total_price, 0)
                 const to_num = parseFloat(pt_sum)
@@ -31,14 +30,12 @@ const Order = new Schema({
         },
         delivery: {
             type: Number,
-            required: true,
             default: 5
         },
         tax: {
             type: Number,
-            required: true,
             default: function(){
-                const st_tax = this.order_summary.subtotal * 0.10
+                const st_tax = this.order_summary.subtotal * 0.13
                 const tax = st_tax.toFixed(2)
 
                 return(tax)

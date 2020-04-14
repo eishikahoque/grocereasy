@@ -62,7 +62,13 @@ class Orders extends Component {
     }, {
       baseURL: 'http://localhost:8000'
     }).then((response) => {
-      if(response && response.data && response.status === 200){
+      if(response && response.data && response.status === 200) {
+        this.state.orders.map((order) => {
+          if (order._id === response.data.id) {
+            order.status = response.data.status
+          }
+          return order
+        })
         this.setState({
           orders: this.state.orders,
           open: true
@@ -71,18 +77,8 @@ class Orders extends Component {
     }).catch((err) => console.log(err))
   }
 
-  onViewDetails = (props, order) => {
-    console.log(props)
-    axios.get(`/api/order/${props}`,{
-      baseURL: 'http://localhost:8000'
-    }).then((response) => {
-      if(response && response.data && response.status === 200){
-        this.setState({
-          orders: this.state.orders
-        })
-        this.props.history.push('/orderDetail')
-      }
-    }).catch((err) => console.log(err))
+  onViewDetails = (order) => {
+    this.props.history.push('/orderDetail', order)
   }
 
   handleClose = () => {
@@ -125,8 +121,7 @@ class Orders extends Component {
                   <OrderHistoryCard
                     order={order}
                     cancel={this.onCancel} 
-                    // viewDetails={() => this.onViewDetails(order)}
-                    viewDetails={this.onViewDetails}
+                    viewDetails={() => this.onViewDetails(order)}
                   />
                 </div>
               ))
