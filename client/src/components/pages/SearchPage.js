@@ -88,8 +88,8 @@ class SearchPage extends Component {
         params: {
           query,
           metaInformation: true,
-          // intolerances: this.state.intolerances.join(', '),
-          apiKey: '54c611d72e5e443cba5a8aa69c24b1c8'
+          intolerances: this.state.intolerances.join(', '),
+          apiKey: 'YOUR_API_KEY'
         },
       })
       if (response && response.data && response.status === 200) {
